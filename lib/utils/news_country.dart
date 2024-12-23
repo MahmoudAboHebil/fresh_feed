@@ -55,7 +55,10 @@ enum NewsCountry {
   za("South Africa");
 
   final String description;
-  static NewsCountry? stringToNewsLanguage(String countryString) {
+  static NewsCountry? stringToNewsLanguage(String? countryString) {
+    if (countryString == null) {
+      return null;
+    }
     try {
       return NewsCountry.values
           .firstWhere((con) => (con.name == countryString));

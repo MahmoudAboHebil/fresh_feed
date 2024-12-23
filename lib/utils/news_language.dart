@@ -17,7 +17,10 @@ enum NewsLanguage {
   final String description;
   const NewsLanguage(this.description);
 
-  static NewsLanguage? stringToNewsLanguage(String languageString) {
+  static NewsLanguage? stringToNewsLanguage(String? languageString) {
+    if (languageString == null) {
+      return null;
+    }
     try {
       return NewsLanguage.values
           .firstWhere((lan) => (lan.name == languageString));

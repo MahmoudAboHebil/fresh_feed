@@ -29,4 +29,17 @@ class Source {
       language: NewsLanguage.stringToNewsLanguage(json['language']),
     );
   }
+
+  @override
+  String toString() {
+    return '''Source{
+    id: $id,
+    name: $name,
+    description: $description, 
+    url: $url, 
+    category: $category, 
+    language: $language, 
+    country: $country}
+    ''';
+  }
 }

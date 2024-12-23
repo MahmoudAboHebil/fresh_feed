@@ -36,4 +36,18 @@ class Article {
       source: sourceModel,
     );
   }
+
+  @override
+  String toString() {
+    return '''Article{
+    source: ${source.toString()},
+    author: $author,
+    title: $title,
+    description: $description,
+    url: $url, 
+    urlToImage: $urlToImage, 
+    publishedAt: $publishedAt, 
+    content: $content}
+    ''';
+  }
 }

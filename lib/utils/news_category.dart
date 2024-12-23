@@ -7,7 +7,10 @@ enum NewsCategory {
   health,
   entertainment;
 
-  static NewsCategory? stringToNewsCategory(String categoryString) {
+  static NewsCategory? stringToNewsCategory(String? categoryString) {
+    if (categoryString == null) {
+      return null;
+    }
     try {
       return NewsCategory.values
           .firstWhere((cate) => (cate.name == categoryString));

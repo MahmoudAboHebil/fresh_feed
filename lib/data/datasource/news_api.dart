@@ -29,7 +29,7 @@ class NewsDataSource {
       final topHeadBaseUrl = '$baseUrl/top-headlines';
       final Map<String, String> queryParams = {
         'apiKey': apiKey,
-        'country': country?.name ?? NewsCountry.us.name,
+        if (sources == null) 'country': country?.name ?? NewsCountry.us.name,
         'pageSize': pageSize.toString(),
         'page': page.toString(),
         'language': language?.name ?? NewsLanguage.en.name,
@@ -51,6 +51,7 @@ class NewsDataSource {
       }
       final uri =
           Uri.parse(topHeadBaseUrl).replace(queryParameters: queryParams);
+      print(uri.toString());
       final response = await http.get(uri);
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
@@ -58,7 +59,8 @@ class NewsDataSource {
       } else {
         throw Exception("${response.reasonPhrase}");
       }
-    } catch (e) {
+    } catch (e, t) {
+      print(t);
       throw Exception("Failed to fetch articles: ${e.toString()}");
     }
   }

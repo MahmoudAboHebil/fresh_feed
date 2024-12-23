@@ -8,8 +8,8 @@ class ArticleResponse {
   final int totalResults;
   final List<Article> articles;
 
-  factory ArticleResponse.fromJson(dynamic json) {
-    final articlesList = json['articles'] as List<Map<String, dynamic>>;
+  factory ArticleResponse.fromJson(Map<String, dynamic> json) {
+    final articlesList = json['articles'] as List<dynamic>;
     var articlesModels = <Article>[];
     if (articlesList.isNotEmpty) {
       articlesModels =

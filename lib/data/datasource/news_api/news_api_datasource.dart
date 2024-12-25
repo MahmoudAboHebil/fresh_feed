@@ -1,22 +1,22 @@
 import 'dart:convert';
 
-import 'package:fresh_feed/data/models/models.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:http/http.dart' as http;
 
-class NewsDataSource {
-  NewsDataSource._();
-  factory NewsDataSource() {
+//fetch data from NewsApi service
+class NewsApiDataSource {
+  NewsApiDataSource._();
+  factory NewsApiDataSource() {
     return _instance;
   }
-  static final NewsDataSource _instance = NewsDataSource._();
+  static final NewsApiDataSource _instance = NewsApiDataSource._();
 
   ///todo: you need to hide this key
-  final String apiKey = '0938edb43c304fcdbec275313a280302';
-  final String baseUrl = 'https://newsapi.org/v2';
+  final String _apiKey = '0938edb43c304fcdbec275313a280302';
+  final String _baseUrl = 'https://newsapi.org/v2';
 
   // This endpoint provides live top and breaking headlines
-  Future<ArticleResponse> fetchTopHeadlines({
+  Future<Map<String, dynamic>> fetchTopHeadlines({
     NewsCountry? country = NewsCountry.us,
     NewsLanguage? language = NewsLanguage.en,
     NewsCategory? category,
@@ -26,9 +26,9 @@ class NewsDataSource {
     List<String>? sources,
   }) async {
     try {
-      final topHeadBaseUrl = '$baseUrl/top-headlines';
+      final topHeadBaseUrl = '$_baseUrl/top-headlines';
       final Map<String, String> queryParams = {
-        'apiKey': apiKey,
+        'apiKey': _apiKey,
         if (sources == null) 'country': country?.name ?? NewsCountry.us.name,
         'pageSize': pageSize.toString(),
         'page': page.toString(),
@@ -51,22 +51,20 @@ class NewsDataSource {
       }
       final uri =
           Uri.parse(topHeadBaseUrl).replace(queryParameters: queryParams);
-      print(uri.toString());
       final response = await http.get(uri);
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
-        return ArticleResponse.fromJson(data);
+        return data;
       } else {
         throw Exception("${response.reasonPhrase}");
       }
-    } catch (e, t) {
-      print(t);
-      throw Exception("Failed to fetch articles: ${e.toString()}");
+    } catch (e) {
+      rethrow;
     }
   }
 
   //This endpoint suits article discovery and analysis.
-  Future<ArticleResponse> fetchEverything({
+  Future<Map<String, dynamic>> fetchEverything({
     required String query,
     String? from,
     String? to,
@@ -79,9 +77,9 @@ class NewsDataSource {
     List<String>? excludeDomains,
   }) async {
     try {
-      final everythingBaseUrl = '$baseUrl/everything';
+      final everythingBaseUrl = '$_baseUrl/everything';
       final Map<String, String> queryParams = {
-        'apiKey': apiKey,
+        'apiKey': _apiKey,
         'q': query, // Mandatory
         'pageSize': pageSize.toString(),
         'page': page.toString(),
@@ -136,24 +134,24 @@ class NewsDataSource {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
-        return ArticleResponse.fromJson(data);
+        return data;
       } else {
         throw Exception("${response.reasonPhrase}");
       }
     } catch (e) {
-      throw Exception("Failed to fetch articles: ${e.toString()}");
+      rethrow;
     }
   }
 
-  Future<List<Source>> fetchSources({
+  Future<Map<String, dynamic>> fetchSources({
     NewsCategory? category,
     NewsLanguage? language,
     NewsCountry? country,
   }) async {
     try {
-      final sourceBaseUrl = '$baseUrl/sources';
+      final sourceBaseUrl = '$_baseUrl/sources';
       final Map<String, String> queryParams = {
-        'apiKey': apiKey,
+        'apiKey': _apiKey,
       };
       if (category != null) {
         queryParams['category'] = category.name;
@@ -171,14 +169,12 @@ class NewsDataSource {
       final response = await http.get(uri);
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
-        return (data['sources'] as List)
-            .map((item) => Source.fromJson(item))
-            .toList();
+        return data;
       } else {
         throw Exception("${response.reasonPhrase}");
       }
     } catch (e) {
-      throw Exception("Failed to fetch articles: ${e.toString()}");
+      rethrow;
     }
   }
 }

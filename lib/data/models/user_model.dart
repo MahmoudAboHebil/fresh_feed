@@ -1,5 +1,5 @@
-class User {
-  const User({
+class UserModel {
+  const UserModel({
     required this.name,
     required this.isLoggedByPhoneNum,
     this.email,
@@ -12,8 +12,8 @@ class User {
   final String? profileImageUrl;
   final bool isLoggedByPhoneNum;
 
-  factory User.fromJson(Map<String, Object?> data) {
-    return User(
+  factory UserModel.fromJson(Map<String, Object?> data) {
+    return UserModel(
       name: data['name'] as String,
       isLoggedByPhoneNum: data['isLoggedByPhoneNum'] as bool,
       email: data['email'] as String?,

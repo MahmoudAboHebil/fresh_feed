@@ -29,8 +29,11 @@ class NewsApiRepository {
       );
       return ArticleResponse.fromJson(articleResponse);
     } catch (e) {
-      throw const FreshFeedException(
-          message: 'Oops! Something went wrong. Please try again later');
+      throw FreshFeedException(
+        message: 'Oops! Something went wrong. Please try again later',
+        methodInFile: 'fetchTopHeadlines()/NewsApiRepository',
+        details: e.toString(),
+      );
     }
   }
 
@@ -61,8 +64,11 @@ class NewsApiRepository {
       );
       return ArticleResponse.fromJson(articleResponse);
     } catch (e) {
-      throw const FreshFeedException(
-          message: 'Oops! Something went wrong. Please try again later');
+      throw FreshFeedException(
+        message: 'Oops! Something went wrong. Please try again later',
+        methodInFile: 'fetchEverything()/NewsApiRepository',
+        details: e.toString(),
+      );
     }
   }
 
@@ -81,8 +87,11 @@ class NewsApiRepository {
           .map((item) => Source.fromJson(item))
           .toList();
     } catch (e) {
-      throw const FreshFeedException(
-          message: 'Oops! Something went wrong. Please try again later');
+      throw FreshFeedException(
+        message: 'Oops! Something went wrong. Please try again later',
+        methodInFile: 'fetchSources()/NewsApiRepository',
+        details: e.toString(),
+      );
     }
   }
 }

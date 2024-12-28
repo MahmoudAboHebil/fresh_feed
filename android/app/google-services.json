@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "807214650950",
+    "project_id": "fresh-feed-app-fea4f",
+    "storage_bucket": "fresh-feed-app-fea4f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807214650950:android:f16f36e41e5a8480df5c47",
+        "android_client_info": {
+          "package_name": "com.abohebil.fresh_feed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1KDGeTHy69BD2w4hIPISm35ECkoJuaIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

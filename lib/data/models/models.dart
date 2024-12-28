@@ -1,3 +1,2 @@
-export 'news_article.dart';
-export 'news_article_response.dart';
-export 'news_source.dart';
+export 'news_models/news_models.dart';
+export 'user_model.dart';

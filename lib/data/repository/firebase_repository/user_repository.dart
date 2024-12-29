@@ -42,6 +42,7 @@ class UserRepository {
     try {
       await _firestoreDS.updateUser(user, provider);
     } catch (e) {
+      AppAlerts.displaySnackBar('Oops! updating user data is failed', context);
       throw FreshFeedException(
         message: 'Oops! updating user data is failed',
         methodInFile: 'updateUser()/UserRepository',

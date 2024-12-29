@@ -1,5 +1,7 @@
-export 'app_errors.dart';
+export 'app_alerts.dart';
+export 'app_exception.dart';
 export 'auth_provider_type.dart';
+export 'extensions.dart';
 export 'news_category.dart';
 export 'news_country.dart';
 export 'news_language.dart';

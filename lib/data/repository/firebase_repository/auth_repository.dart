@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 
@@ -9,6 +10,7 @@ class AuthRepository {
   const AuthRepository(this._authDataSource, this._userRepository);
 
   Future<User?> signUp({
+    required BuildContext context,
     required String email,
     required String password,
   }) async {
@@ -19,7 +21,11 @@ class AuthRepository {
       }
       await _userRepository.updateUser(user, AuthProviderType.email);
       return user;
+    } on FreshFeedException catch (e) {
+      AppAlerts.displaySnackBar(e.message, context);
+      return null;
     } catch (e) {
+      AppAlerts.displaySnackBar('Oops! Sign Up has failed', context);
       throw FreshFeedException(
         message: 'Oops! Sign Up has failed',
         methodInFile: 'SingUp()/AuthRepository',
@@ -29,6 +35,7 @@ class AuthRepository {
   }
 
   Future<User?> signIn({
+    required BuildContext context,
     required String email,
     required String password,
   }) async {
@@ -40,7 +47,11 @@ class AuthRepository {
       await _userRepository.updateUser(user, AuthProviderType.email);
 
       return user;
+    } on FreshFeedException catch (e) {
+      AppAlerts.displaySnackBar(e.message, context);
+      return null;
     } catch (e) {
+      AppAlerts.displaySnackBar('Oops! Sign In has failed', context);
       throw FreshFeedException(
         message: 'Oops! Sign In has failed',
         methodInFile: 'signIn()/AuthRepository',
@@ -49,7 +60,7 @@ class AuthRepository {
     }
   }
 
-  Future<User?> signInWithGoogle() async {
+  Future<User?> signInWithGoogle(BuildContext context) async {
     try {
       final user = await _authDataSource.signInWithGoogle();
       if (user == null) {
@@ -59,6 +70,8 @@ class AuthRepository {
 
       return user;
     } catch (e) {
+      AppAlerts.displaySnackBar('Oops! Sign In has failed', context);
+
       throw FreshFeedException(
         message: 'Oops! Sign In has failed',
         methodInFile: 'signInWithGoogle()/AuthRepository',
@@ -67,10 +80,11 @@ class AuthRepository {
     }
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut(BuildContext context) async {
     try {
       await _authDataSource.signOut();
     } catch (e) {
+      AppAlerts.displaySnackBar('Oops! Sign Out has failed', context);
       throw FreshFeedException(
         message: 'Oops! Sign Out has failed',
         methodInFile: 'signOut()/AuthRepository',
@@ -79,10 +93,12 @@ class AuthRepository {
     }
   }
 
-  Future<void> resetPassword(String email) async {
+  Future<void> resetPassword(String email, BuildContext context) async {
     try {
       await _authDataSource.resetPassword(email);
     } catch (e) {
+      AppAlerts.displaySnackBar('Oops! Reset Password has failed', context);
+
       throw FreshFeedException(
         message: 'Oops! Reset Password has failed',
         methodInFile: 'resetPassword()/AuthRepository',

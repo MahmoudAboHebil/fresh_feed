@@ -45,4 +45,9 @@ class UserModel {
       'authProvider': authProvider.name,
     };
   }
+
+  @override
+  String toString() {
+    return 'UserModel{\nuid: $uid, name: $name,\nprofileImageUrl: $profileImageUrl, email: $email,\n phoneNumber: $phoneNumber, emailVerified: $emailVerified, \nphoneVerified: $phoneVerified, authProvider: $authProvider\n}';
+  }
 }

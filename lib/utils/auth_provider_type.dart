@@ -1,4 +1,4 @@
-import 'app_errors.dart';
+import 'app_exception.dart';
 
 enum AuthProviderType {
   email,

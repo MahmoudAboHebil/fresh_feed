@@ -1,0 +1,15 @@
+
+User authentication:
+    user login => save firestore => listen to firestore => get current user
+
+    happy scenario /Done
+
+    1. user sign in And sign up
+        1. you need to handle if user does not found /done
+        2. you need to handle if password is wrong   /done
+        3. you need to handle if user sign up with account is already in use/done
+        4. you need to handle if user sign up with email but sign in with google=>
+         the account user provider will switch from email&password to google provider /done
+        5. you need to handle if user sign up with google but sign in with email =>
+         invalid password||email /done
+

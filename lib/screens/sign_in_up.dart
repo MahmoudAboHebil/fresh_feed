@@ -17,7 +17,7 @@ class _SignInUpState extends ConsumerState<SignInUp> {
   final _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final currentUser = ref.watch(userProvider);
+    final currentUser = ref.watch(userProvider(context));
     final auth_repo = ref.watch(authRepositoryProvider);
 
     return Scaffold(

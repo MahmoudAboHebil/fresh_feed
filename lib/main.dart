@@ -12,6 +12,7 @@ import 'firebase_options.dart';
 ///(important because currently i update
 /// the profile whenever user logged in and signed up, so take care)
 ///ToDO: enable user profile within firestore and firebase
+///ToDO: handling the authentication process if network connection is lost
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

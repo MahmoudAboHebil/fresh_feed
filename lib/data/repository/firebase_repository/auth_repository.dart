@@ -14,16 +14,21 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
+    User? userFin;
     try {
       final user = await _authDataSource.signUp(email, password);
       if (user == null) {
         throw Exception('user from signUp method equal null');
       }
-      await _userRepository.updateUser(user, AuthProviderType.email);
-      return user;
+      userFin = user;
+      await _userRepository.updateUser(user, AuthProviderType.email, context);
+      return userFin;
     } on FreshFeedException catch (e) {
-      AppAlerts.displaySnackBar(e.message, context);
-      return null;
+      if (e.methodInFile != 'saveUserData()/UserRepository') {
+        AppAlerts.displaySnackBar(e.message, context);
+        return null;
+      }
+      return userFin;
     } catch (e) {
       AppAlerts.displaySnackBar('Oops! Sign Up has failed', context);
       throw FreshFeedException(
@@ -39,17 +44,21 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
+    User? userFin;
     try {
       final user = await _authDataSource.signIn(email, password);
       if (user == null) {
         throw Exception('user from signIn method equal null');
       }
-      await _userRepository.updateUser(user, AuthProviderType.email);
-
-      return user;
+      userFin = user;
+      await _userRepository.updateUser(user, AuthProviderType.email, context);
+      return userFin;
     } on FreshFeedException catch (e) {
-      AppAlerts.displaySnackBar(e.message, context);
-      return null;
+      if (e.methodInFile != 'saveUserData()/UserRepository') {
+        AppAlerts.displaySnackBar(e.message, context);
+        return null;
+      }
+      return userFin;
     } catch (e) {
       AppAlerts.displaySnackBar('Oops! Sign In has failed', context);
       throw FreshFeedException(
@@ -61,14 +70,21 @@ class AuthRepository {
   }
 
   Future<User?> signInWithGoogle(BuildContext context) async {
+    User? userFin;
     try {
       final user = await _authDataSource.signInWithGoogle();
       if (user == null) {
         throw Exception('user from Sign In method equal null');
       }
-      await _userRepository.updateUser(user, AuthProviderType.google);
-
-      return user;
+      userFin = user;
+      await _userRepository.updateUser(user, AuthProviderType.google, context);
+      return userFin;
+    } on FreshFeedException catch (e) {
+      if (e.methodInFile != 'saveUserData()/UserRepository') {
+        AppAlerts.displaySnackBar(e.message, context);
+        return null;
+      }
+      return userFin;
     } catch (e) {
       AppAlerts.displaySnackBar('Oops! Sign In has failed', context);
 
@@ -83,6 +99,8 @@ class AuthRepository {
   Future<void> signOut(BuildContext context) async {
     try {
       await _authDataSource.signOut();
+    } on FreshFeedException catch (e) {
+      AppAlerts.displaySnackBar(e.message, context);
     } catch (e) {
       AppAlerts.displaySnackBar('Oops! Sign Out has failed', context);
       throw FreshFeedException(
@@ -96,6 +114,8 @@ class AuthRepository {
   Future<void> resetPassword(String email, BuildContext context) async {
     try {
       await _authDataSource.resetPassword(email);
+    } on FreshFeedException catch (e) {
+      AppAlerts.displaySnackBar(e.message, context);
     } catch (e) {
       AppAlerts.displaySnackBar('Oops! Reset Password has failed', context);
 

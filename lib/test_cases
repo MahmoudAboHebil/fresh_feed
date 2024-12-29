@@ -9,7 +9,10 @@ User authentication:
         2. you need to handle if password is wrong   /done
         3. you need to handle if user sign up with account is already in use/done
         4. you need to handle if user sign up with email but sign in with google=>
-         the account user provider will switch from email&password to google provider /done
+           the account user provider will switch from email&password to google provider /done
         5. you need to handle if user sign up with google but sign in with email =>
-         invalid password||email /done
+           invalid password||email /done
+        6. if user is logged in or signed up successfully but the its data not saved
+           on firestore => the user will not continue as usual but a message will be
+           shown about it
 

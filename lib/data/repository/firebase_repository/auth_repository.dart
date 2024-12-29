@@ -24,7 +24,8 @@ class AuthRepository {
       await _userRepository.updateUser(user, AuthProviderType.email, context);
       return userFin;
     } on FreshFeedException catch (e) {
-      if (e.methodInFile != 'saveUserData()/UserRepository') {
+      bool isInUserRepo = e.methodInFile?.contains('UserRepository') ?? false;
+      if (!isInUserRepo) {
         AppAlerts.displaySnackBar(e.message, context);
         return null;
       }
@@ -54,7 +55,8 @@ class AuthRepository {
       await _userRepository.updateUser(user, AuthProviderType.email, context);
       return userFin;
     } on FreshFeedException catch (e) {
-      if (e.methodInFile != 'saveUserData()/UserRepository') {
+      bool isInUserRepo = e.methodInFile?.contains('UserRepository') ?? false;
+      if (!isInUserRepo) {
         AppAlerts.displaySnackBar(e.message, context);
         return null;
       }
@@ -80,7 +82,8 @@ class AuthRepository {
       await _userRepository.updateUser(user, AuthProviderType.google, context);
       return userFin;
     } on FreshFeedException catch (e) {
-      if (e.methodInFile != 'saveUserData()/UserRepository') {
+      bool isInUserRepo = e.methodInFile?.contains('UserRepository') ?? false;
+      if (!isInUserRepo) {
         AppAlerts.displaySnackBar(e.message, context);
         return null;
       }

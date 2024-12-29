@@ -14,4 +14,22 @@ class FirebaseService {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseStorage storage = FirebaseStorage.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  User? getCurrentUser() {
+    return auth.currentUser;
+  }
+
+  // Listen for auth state changes
+  Stream<User?> authStateChanges() {
+    return auth.authStateChanges();
+  }
+
+  // Listen for token changes
+  Stream<User?> idTokenChanges() {
+    return auth.idTokenChanges();
+  }
+
+  // Listen for user profile updates
+  Stream<User?> userChanges() {
+    return auth.userChanges();
+  }
 }

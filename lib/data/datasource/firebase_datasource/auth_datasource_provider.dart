@@ -5,5 +5,5 @@ final authDataSourceProvider = Provider((ref) {
   final authService = FirebaseService();
   final googleService = GoogleSignInService();
   return AuthDataSource(
-      firebaseAuth: authService.auth, googleSignIn: googleService.googleSignIn);
+      googleSignIn: googleService.googleSignIn, firebaseService: authService);
 });

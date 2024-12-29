@@ -1,19 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fresh_feed/data/services/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthDataSource {
-  final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
+  final FirebaseService _firebaseService;
 
   AuthDataSource({
-    FirebaseAuth? firebaseAuth,
     GoogleSignIn? googleSignIn,
-  })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn();
+    FirebaseService? firebaseService,
+  })  : _googleSignIn = googleSignIn ?? GoogleSignIn(),
+        _firebaseService = firebaseService ?? FirebaseService();
 
   Future<User?> signUp(String email, String password) async {
     try {
-      final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+      final userCredential =
+          await _firebaseService.auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -29,7 +31,8 @@ class AuthDataSource {
 
   Future<User?> signIn(String email, String password) async {
     try {
-      final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+      final userCredential =
+          await _firebaseService.auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -65,7 +68,7 @@ class AuthDataSource {
       );
 
       final userCredential =
-          await _firebaseAuth.signInWithCredential(credential);
+          await _firebaseService.auth.signInWithCredential(credential);
 
       return userCredential.user;
     } catch (e) {
@@ -76,7 +79,7 @@ class AuthDataSource {
 
   Future<void> signOut() async {
     try {
-      await _firebaseAuth.signOut();
+      await _firebaseService.auth.signOut();
       await _googleSignIn.signOut();
     } catch (e) {
       print('Sign Out Error: $e');
@@ -86,9 +89,17 @@ class AuthDataSource {
 
   Future<void> resetPassword(String email) async {
     try {
-      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      await _firebaseService.auth.sendPasswordResetEmail(email: email);
     } catch (e) {
       print('Reset Password Error: $e');
+      rethrow;
+    }
+  }
+
+  User? getCurrentUser() {
+    try {
+      return _firebaseService.getCurrentUser();
+    } catch (e) {
       rethrow;
     }
   }

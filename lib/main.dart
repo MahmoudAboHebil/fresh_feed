@@ -10,7 +10,8 @@ import 'firebase_options.dart';
 ///ToDO: enable user sign in with phone with error handling
 
 ///(important because currently i update
-/// the profile whenever user logged in and signed up, so take care)
+/// the profile whenever user logged in and signed up, so take care) => (done now
+///  it is  save)
 ///ToDO: enable user profile within firestore and firebase
 ///ToDO: handling the authentication process if network connection is lost
 

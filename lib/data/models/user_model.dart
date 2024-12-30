@@ -1,7 +1,7 @@
 import 'package:fresh_feed/utils/utlis.dart';
 
 class UserModel {
-  UserModel({
+  const UserModel({
     required this.uid,
     required this.name,
     this.profileImageUrl,
@@ -44,6 +44,28 @@ class UserModel {
       'phoneVerified': phoneVerified,
       'authProvider': authProvider.name,
     };
+  }
+
+  UserModel copyWith({
+    String? uid,
+    String? name,
+    String? profileImageUrl,
+    String? email,
+    String? phoneNumber,
+    bool? emailVerified,
+    bool? phoneVerified,
+    AuthProviderType? authProvider,
+  }) {
+    return UserModel(
+      uid: uid ?? this.uid,
+      name: name ?? this.name,
+      emailVerified: emailVerified ?? this.emailVerified,
+      phoneVerified: phoneVerified ?? this.phoneVerified,
+      authProvider: authProvider ?? this.authProvider,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+      email: email ?? this.email,
+    );
   }
 
   @override

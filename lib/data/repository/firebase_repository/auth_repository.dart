@@ -13,6 +13,7 @@ class AuthRepository {
     required BuildContext context,
     required String email,
     required String password,
+    required String userName,
   }) async {
     User? userFin;
     try {
@@ -21,7 +22,8 @@ class AuthRepository {
         throw Exception('user from signUp method equal null');
       }
       userFin = user;
-      await _userRepository.updateUser(user, AuthProviderType.email, context);
+      await _userRepository.updateUser(user, AuthProviderType.email, context,
+          username: userName);
       return userFin;
     } on FreshFeedException catch (e) {
       bool isInUserRepo = e.methodInFile?.contains('UserRepository') ?? false;
@@ -52,7 +54,13 @@ class AuthRepository {
         throw Exception('user from signIn method equal null');
       }
       userFin = user;
-      await _userRepository.updateUser(user, AuthProviderType.email, context);
+      final storedUserData =
+          await _userRepository.getUserData(user.uid, context);
+      if (storedUserData == null) {
+        // store user info that is failed when sign up
+        await _userRepository.updateUser(
+            user, AuthProviderType.google, context);
+      }
       return userFin;
     } on FreshFeedException catch (e) {
       bool isInUserRepo = e.methodInFile?.contains('UserRepository') ?? false;
@@ -79,7 +87,18 @@ class AuthRepository {
         throw Exception('user from Sign In method equal null');
       }
       userFin = user;
-      await _userRepository.updateUser(user, AuthProviderType.google, context);
+      final storedUserData =
+          await _userRepository.getUserData(user.uid, context);
+      if (storedUserData == null) {
+        // for the first time
+        await _userRepository.updateUser(
+            user, AuthProviderType.google, context);
+      } else if (storedUserData.authProvider != AuthProviderType.google) {
+        // when user switching between auth types
+        await _userRepository.saveUserData(
+            storedUserData.copyWith(authProvider: AuthProviderType.google),
+            context);
+      }
       return userFin;
     } on FreshFeedException catch (e) {
       bool isInUserRepo = e.methodInFile?.contains('UserRepository') ?? false;

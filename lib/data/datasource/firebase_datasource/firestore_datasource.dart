@@ -19,6 +19,19 @@ class FirestoreDatasource {
     }
   }
 
+  Future<UserModel?> getUserData(String uid) async {
+    try {
+      final userDoc =
+          await _firebaseService.firestore.collection('users').doc(uid).get();
+      if (userDoc.exists) {
+        return UserModel.fromJson(userDoc.data()!);
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Stream<UserModel?> getUserStream(String uid) {
     try {
       return _firebaseService.firestore
@@ -37,12 +50,13 @@ class FirestoreDatasource {
   }
 
   // for sign in and sign up
-  Future<void> updateUser(User user, AuthProviderType provider) async {
+  Future<void> updateUser(
+      User user, AuthProviderType provider, String? userName) async {
     final userModel = UserModel(
       uid: user.uid,
       email: user.email,
       phoneNumber: user.phoneNumber,
-      name: user.displayName.toString(),
+      name: userName ?? user.displayName.toString(),
       profileImageUrl: user.photoURL,
       emailVerified: user.emailVerified,
       phoneVerified: user.phoneNumber != null,

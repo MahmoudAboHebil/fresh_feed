@@ -37,10 +37,25 @@ class UserRepository {
     }
   }
 
-  Future<void> updateUser(
-      User user, AuthProviderType provider, BuildContext context) async {
+  Future<UserModel?> getUserData(String uid, BuildContext context) async {
     try {
-      await _firestoreDS.updateUser(user, provider);
+      return await _firestoreDS.getUserData(uid);
+    } catch (e) {
+      AppAlerts.displaySnackBar('Oops! getting user data is failed', context);
+
+      throw FreshFeedException(
+        message: 'Oops! getting user data is  failed',
+        methodInFile: 'getUserData()/UserRepository',
+        details: e.toString(),
+      );
+    }
+  }
+
+  Future<void> updateUser(
+      User user, AuthProviderType provider, BuildContext context,
+      {String? username}) async {
+    try {
+      await _firestoreDS.updateUser(user, provider, username);
     } catch (e) {
       AppAlerts.displaySnackBar('Oops! updating user data is failed', context);
       throw FreshFeedException(

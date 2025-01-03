@@ -13,6 +13,7 @@ class AuthDataSource {
   })  : _googleSignIn = googleSignIn ?? GoogleSignIn(),
         _firebaseService = firebaseService ?? FirebaseService();
 
+  // signUp test done
   Future<User?> signUp(String email, String password) async {
     try {
       final userCredential =
@@ -22,23 +23,8 @@ class AuthDataSource {
       );
 
       await userCredential.user?.sendEmailVerification();
-
       return userCredential.user;
-    } on FirebaseAuthException catch (e) {
-      String message;
-      if (e.code == 'email-already-in-use') {
-        message = 'This account already exists. Please log in.';
-      } else if (e.code == 'invalid-email') {
-        message = 'Invalid email format.';
-      } else {
-        print('${e.code}=========================>');
-        message = 'An error occurred. Please try again.';
-      }
-
-      throw FreshFeedException(
-          message: message, methodInFile: 'signUp()/AuthDataSource');
     } catch (e) {
-      print('Sign Up Error: $e');
       rethrow;
     }
   }

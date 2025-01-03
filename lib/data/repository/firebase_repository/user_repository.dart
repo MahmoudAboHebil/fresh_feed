@@ -58,13 +58,12 @@ class UserRepository {
     }
   }
 
-  Future<void> updateUser(
-      User user, AuthProviderType provider, BuildContext context,
+  // test updateUser done
+  Future<void> updateUser(User user, AuthProviderType provider,
       {String? username}) async {
     try {
       await _firestoreDS.updateUser(user, provider, username);
     } catch (e) {
-      AppAlerts.displaySnackBar('Oops! updating user data is failed', context);
       throw FreshFeedException(
         message: 'Oops! updating user data is failed',
         methodInFile: 'updateUser()/UserRepository',

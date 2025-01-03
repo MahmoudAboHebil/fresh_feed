@@ -5,8 +5,12 @@ class FreshFeedException implements Exception {
   final String? methodInFile;
   final String? details;
 
+  // @override
+  // String toString() {
+  //   return 'FreshFeedException{\nmessage: $message, \nmethodInFile: $methodInFile, \ndetails: $details}';
+  // }
   @override
   String toString() {
-    return 'FreshFeedException{\nmessage: $message, \nmethodInFile: $methodInFile, \ndetails: $details}';
+    return message;
   }
 }

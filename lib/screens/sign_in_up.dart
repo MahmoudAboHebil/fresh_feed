@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
-import 'package:fresh_feed/screens/home_screen.dart';
 
 import '../providers/user_provider.dart';
+import '../utils/app_alerts.dart';
 
 class SignInUp extends ConsumerStatefulWidget {
   const SignInUp({super.key});
@@ -43,7 +43,7 @@ class _SignInUpState extends ConsumerState<SignInUp> {
             children: [
               currentUser.when(
                 data: (user) {
-                  auth_repo.listenToEmailVerification(user, context);
+                  // auth_repo.listenToEmailVerification(user, context);
                   if (user == null) {
                     return const Text('user does not sign yet');
                   }
@@ -109,8 +109,8 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                 color: Colors.yellow,
                 child: const Text('Send Email'),
                 onPressed: () async {
-                  // await auth_repo.sendEmailVerification(context);
-                  auth_repo.cancelTimer();
+                  await auth_repo.sendEmailVerification(context);
+                  // auth_repo.cancelTimer();
                 },
               ),
               const SizedBox(
@@ -123,11 +123,14 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                   if (_emailController.text.trim().isNotEmpty &&
                       _passwordController.text.trim().isNotEmpty &&
                       _nameController.text.trim().isNotEmpty) {
-                    await auth_repo.signUp(
-                        userName: _nameController.text,
-                        context: context,
-                        email: _emailController.text,
-                        password: _passwordController.text);
+                    try {
+                      await auth_repo.signUp(
+                          userName: _nameController.text,
+                          email: _emailController.text,
+                          password: _passwordController.text);
+                    } catch (e) {
+                      AppAlerts.displaySnackBar(e.toString(), context);
+                    }
                   }
                 },
               ),
@@ -164,9 +167,9 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                 color: Colors.red,
                 child: const Text('Log out'),
                 onPressed: () async {
-                  // await auth_repo.signOut(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                  await auth_repo.signOut(context);
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => HomeScreen()));
                 },
               ),
             ],

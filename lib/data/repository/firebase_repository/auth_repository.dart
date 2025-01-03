@@ -12,33 +12,37 @@ class AuthRepository {
 
   AuthRepository(this._authDataSource, this._userRepository);
 
+  // test signUp done
   Future<User?> signUp({
-    required BuildContext context,
     required String email,
     required String password,
     required String userName,
   }) async {
-    User? userFin;
     try {
       final user = await _authDataSource.signUp(email, password);
-      if (user == null) {
-        throw Exception('user from signUp method equal null');
-      }
-      userFin = user;
-      await _userRepository.updateUser(user, AuthProviderType.email, context,
+      await _userRepository.updateUser(user!, AuthProviderType.email,
           username: userName);
-      return userFin;
-    } on FreshFeedException catch (e) {
-      bool isInUserRepo = e.methodInFile?.contains('UserRepository') ?? false;
-      if (!isInUserRepo) {
-        AppAlerts.displaySnackBar(e.message, context);
-        return null;
+      return user;
+    } on FirebaseAuthException catch (e) {
+      String message;
+      if (e.code == 'email-already-in-use') {
+        message = 'This account already exists. Please log in.';
+      } else if (e.code == 'invalid-email') {
+        message = 'Invalid email format.';
+      } else {
+        message = 'An error occurred. Please try again.';
       }
-      return userFin;
-    } catch (e) {
-      AppAlerts.displaySnackBar('Oops! Sign Up has failed', context);
+
       throw FreshFeedException(
-        message: 'Oops! Sign Up has failed',
+          message: message,
+          methodInFile: 'signUp()/AuthDataSource',
+          details: e.toString());
+    } on FreshFeedException catch (e) {
+      // Rethrow custom exceptions from UserRepository
+      rethrow;
+    } catch (e) {
+      throw FreshFeedException(
+        message: 'Oops! An error occurred. Please try again.',
         methodInFile: 'SingUp()/AuthRepository',
         details: e.toString(),
       );
@@ -61,8 +65,7 @@ class AuthRepository {
           await _userRepository.getUserData(user.uid, context);
       if (storedUserData == null) {
         // store user info that is failed when sign up
-        await _userRepository.updateUser(
-            user, AuthProviderType.google, context);
+        await _userRepository.updateUser(user, AuthProviderType.google);
       }
       return userFin;
     } on FreshFeedException catch (e) {
@@ -94,8 +97,7 @@ class AuthRepository {
           await _userRepository.getUserData(user.uid, context);
       if (storedUserData == null) {
         // for the first time
-        await _userRepository.updateUser(
-            user, AuthProviderType.google, context);
+        await _userRepository.updateUser(user, AuthProviderType.google);
       } else if (storedUserData.authProvider != AuthProviderType.google) {
         // when user switching between auth types
         await _userRepository.saveUserData(

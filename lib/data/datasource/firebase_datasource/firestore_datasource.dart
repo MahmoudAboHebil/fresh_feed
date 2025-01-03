@@ -23,6 +23,7 @@ class FirestoreDatasource {
     }
   }
 
+  // test saveUserData is done
   Future<void> saveUserData(UserModel user) async {
     try {
       await _firebaseService.firestore.collection('users').doc(user.uid).set(
@@ -64,6 +65,7 @@ class FirestoreDatasource {
     }
   }
 
+  // test updateUser is done
   // for sign in and sign up
   Future<void> updateUser(
       User user, AuthProviderType provider, String? userName) async {

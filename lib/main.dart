@@ -14,7 +14,8 @@ import 'firebase_options.dart';
 ///  it is  save)
 ///ToDO: enable user profile within firestore and firebase
 ///ToDO: handling the authentication process if network connection is lost
-
+///TODO: you need to handle if user is unlogged to push to signIn page
+///and you need care about guest-app feature
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

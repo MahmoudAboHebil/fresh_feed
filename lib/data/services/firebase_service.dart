@@ -23,11 +23,6 @@ class FirebaseService {
     return auth.authStateChanges();
   }
 
-  // Listen for token changes
-  Stream<User?> idTokenChanges() {
-    return auth.idTokenChanges();
-  }
-
   // Listen for user profile updates
   Stream<User?> userChanges() {
     return auth.userChanges();

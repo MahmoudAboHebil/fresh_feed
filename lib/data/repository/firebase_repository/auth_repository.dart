@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fresh_feed/data/data.dart';
@@ -6,8 +8,9 @@ import 'package:fresh_feed/utils/utlis.dart';
 class AuthRepository {
   final AuthDataSource _authDataSource;
   final UserRepository _userRepository;
+  Timer? _timer;
 
-  const AuthRepository(this._authDataSource, this._userRepository);
+  AuthRepository(this._authDataSource, this._userRepository);
 
   Future<User?> signUp({
     required BuildContext context,
@@ -146,6 +149,69 @@ class AuthRepository {
         methodInFile: 'resetPassword()/AuthRepository',
         details: e.toString(),
       );
+    }
+  }
+
+  Future<bool> isUserEmailVerified() async {
+    try {
+      return await _authDataSource.isUserEmailVerified();
+    } catch (e) {
+      throw FreshFeedException(
+        message: 'Oops! get email states has failed',
+        methodInFile: 'isUserEmailVerified()/AuthRepository',
+        details: e.toString(),
+      );
+    }
+  }
+
+  Future<void> sendEmailVerification(BuildContext context) async {
+    try {
+      await _authDataSource.sendEmailVerification();
+      AppAlerts.displaySnackBar(
+          'A verification email has been sent to your email address. Please verify it to continue.',
+          context);
+    } catch (e) {
+      AppAlerts.displaySnackBar(
+          'An error occurred. Please try again.', context);
+
+      throw FreshFeedException(
+        message: 'An error occurred. Please try again.',
+        methodInFile: 'sendEmailVerification()/AuthRepository',
+        details: e.toString(),
+      );
+    }
+  }
+
+  void cancelTimer() {
+    if (_timer != null && _timer!.isActive) {
+      _timer!.cancel();
+    }
+  }
+
+  Future<void> listenToEmailVerification(
+      UserModel? user, BuildContext context) async {
+    if (user != null && !user.emailVerified) {
+      try {
+        cancelTimer();
+        _timer = Timer.periodic(
+          const Duration(seconds: 3),
+          (timer) async {
+            {
+              final isEmailUserVerified = await isUserEmailVerified();
+              if (isEmailUserVerified) {
+                await _userRepository.saveUserData(
+                    user.copyWith(emailVerified: true), context);
+                AppAlerts.displaySnackBar(
+                    'Email verified successfully. Enjoy using our app!',
+                    context);
+                cancelTimer();
+              }
+            }
+          },
+        );
+      } catch (e) {
+        print('listenToEmailVerification has failed');
+      }
     }
   }
 }

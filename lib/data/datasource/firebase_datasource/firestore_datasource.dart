@@ -8,6 +8,21 @@ class FirestoreDatasource {
   FirestoreDatasource(this._firebaseService);
   final FirebaseService _firebaseService;
 
+  Future<void> updateUserEmailVerification(User user) async {
+    try {
+      if (user.emailVerified) {
+        await _firebaseService.firestore
+            .collection('users')
+            .doc(user.uid)
+            .update({
+          'emailVerified': true,
+        });
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> saveUserData(UserModel user) async {
     try {
       await _firebaseService.firestore.collection('users').doc(user.uid).set(
@@ -32,20 +47,20 @@ class FirestoreDatasource {
     }
   }
 
-  Stream<UserModel?> getUserStream(String uid) {
+  Stream<UserModel?> getUserStream(String uid) async* {
     try {
-      return _firebaseService.firestore
+      await for (final snapshot in _firebaseService.firestore
           .collection('users')
           .doc(uid)
-          .snapshots()
-          .map((snapshot) {
+          .snapshots()) {
         if (snapshot.exists) {
-          return UserModel.fromJson(snapshot.data()!);
+          yield UserModel.fromJson(snapshot.data()!);
+        } else {
+          yield null;
         }
-        return null;
-      });
+      }
     } catch (e) {
-      rethrow;
+      yield null;
     }
   }
 

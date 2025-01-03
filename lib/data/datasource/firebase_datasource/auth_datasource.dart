@@ -79,6 +79,29 @@ class AuthDataSource {
     }
   }
 
+  Future<void> sendEmailVerification() async {
+    try {
+      final currentUser = getCurrentUser();
+      if (currentUser != null) {
+        await currentUser.sendEmailVerification();
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<bool> isUserEmailVerified() async {
+    try {
+      await getCurrentUser()?.reload();
+      if (getCurrentUser()!.emailVerified) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<User?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();

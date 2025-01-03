@@ -4,8 +4,14 @@ import 'package:fresh_feed/data/repository/firebase_repository/user_repository_p
 
 import 'auth_repository.dart';
 
-final authRepositoryProvider = Provider((ref) {
-  final auth_datasource = ref.watch(authDataSourceProvider);
-  final user_repo = ref.watch(userRepositoryProvider);
-  return AuthRepository(auth_datasource, user_repo);
+final authRepositoryProvider = Provider.autoDispose((ref) {
+  final authDatasource = ref.read(authDataSourceProvider);
+  final userRepo = ref.read(userRepositoryProvider);
+  final authRepo = AuthRepository(authDatasource, userRepo);
+
+  ref.onDispose(() {
+    authRepo.cancelTimer();
+  });
+
+  return authRepo;
 });

@@ -21,17 +21,21 @@ class UserModel {
   final AuthProviderType authProvider;
 
   factory UserModel.fromJson(Map<String, Object?> data) {
-    return UserModel(
-      name: data['name'] as String,
-      email: data['email'] as String?,
-      profileImageUrl: data['profileImageUrl'] as String?,
-      authProvider:
-          AuthProviderType.stringToAuthProvider(data['authProvider'] as String),
-      emailVerified: data['emailVerified'] as bool? ?? false,
-      phoneVerified: data['phoneVerified'] as bool? ?? false,
-      phoneNumber: data['phoneNumber'] as String?,
-      uid: data['uid'] as String,
-    );
+    try {
+      return UserModel(
+        name: data['name'] as String,
+        email: data['email'] as String?,
+        profileImageUrl: data['profileImageUrl'] as String?,
+        authProvider: AuthProviderType.stringToAuthProvider(
+            data['authProvider'] as String),
+        emailVerified: data['emailVerified'] as bool? ?? false,
+        phoneVerified: data['phoneVerified'] as bool? ?? false,
+        phoneNumber: data['phoneNumber'] as String?,
+        uid: data['uid'] as String,
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
   Map<String, Object?> toJson() {
     return {

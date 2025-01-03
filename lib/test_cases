@@ -1,4 +1,14 @@
 
+
+notes:
+1. the provider has the same instance across the app  if not dispose
+2. in riverpod, ref.onDispose will called only for provider.autoDispose
+3. the provider.family will be created new instance if parameter list is changed
+4. push replacement will called ref.onDispose
+5. invalidate: Full reset, calls onDispose, cleans up resources, and restarts lazily.
+6. refresh: Quick recompute, does not call onDispose, and keeps resources intact
+
+
 User authentication:
     user login => save firestore => listen to firestore => get current user
 

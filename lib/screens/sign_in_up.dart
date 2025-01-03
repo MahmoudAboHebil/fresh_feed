@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
+import 'package:fresh_feed/screens/home_screen.dart';
 
 import '../providers/user_provider.dart';
 
@@ -13,11 +14,22 @@ class SignInUp extends ConsumerStatefulWidget {
 
 class _SignInUpState extends ConsumerState<SignInUp> {
   final _emailController = TextEditingController();
-  final _codeController = TextEditingController();
+  final _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('dispose is called');
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final currentUser = ref.watch(userProvider(context));
+    final currentUser = ref.watch(userNotifierProvider);
     final auth_repo = ref.watch(authRepositoryProvider);
 
     return Scaffold(
@@ -31,15 +43,20 @@ class _SignInUpState extends ConsumerState<SignInUp> {
             children: [
               currentUser.when(
                 data: (user) {
+                  auth_repo.listenToEmailVerification(user, context);
                   if (user == null) {
                     return const Text('user does not sign yet');
                   }
                   return Text(user.toString());
                 },
-                error: (err, stack) => Text(
-                  err.toString(),
-                  style: const TextStyle(color: Colors.red),
-                ),
+                error: (err, stack) {
+                  print('=======================>');
+                  print(stack);
+                  return Text(
+                    err.toString(),
+                    style: const TextStyle(color: Colors.red),
+                  );
+                },
                 loading: () => const CircularProgressIndicator(),
               ),
               const SizedBox(
@@ -74,16 +91,27 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                     height: 8,
                   ),
                   TextField(
-                    controller: _codeController,
+                    controller: _nameController,
                     onTapOutside: (event) {
                       FocusManager.instance.primaryFocus?.unfocus();
                     },
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      hintText: 'Code',
+                      hintText: 'Name',
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              MaterialButton(
+                color: Colors.yellow,
+                child: const Text('Send Email'),
+                onPressed: () async {
+                  // await auth_repo.sendEmailVerification(context);
+                  auth_repo.cancelTimer();
+                },
               ),
               const SizedBox(
                 height: 20,
@@ -93,8 +121,10 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                 child: const Text('Sign up'),
                 onPressed: () async {
                   if (_emailController.text.trim().isNotEmpty &&
-                      _passwordController.text.trim().isNotEmpty) {
+                      _passwordController.text.trim().isNotEmpty &&
+                      _nameController.text.trim().isNotEmpty) {
                     await auth_repo.signUp(
+                        userName: _nameController.text,
                         context: context,
                         email: _emailController.text,
                         password: _passwordController.text);
@@ -134,7 +164,9 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                 color: Colors.red,
                 child: const Text('Log out'),
                 onPressed: () async {
-                  await auth_repo.signOut(context);
+                  // await auth_repo.signOut(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
                 },
               ),
             ],

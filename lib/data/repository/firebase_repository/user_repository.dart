@@ -1,12 +1,14 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:fresh_feed/data/datasource/datasource.dart';
+import 'package:fresh_feed/data/data.dart';
 
 import '../../../utils/utlis.dart';
-import '../../models/models.dart';
 
 class UserRepository {
   final FirestoreDatasource _firestoreDS;
+
   UserRepository(this._firestoreDS);
 
   Future<void> saveUserData(UserModel user, BuildContext context) async {
@@ -23,11 +25,16 @@ class UserRepository {
     }
   }
 
-  Stream<UserModel?> getUserStream(String uid, BuildContext context) {
+  Stream<UserModel?> getUserStream(
+    String uid,
+  ) {
     try {
-      return _firestoreDS.getUserStream(uid);
+      final userModel = _firestoreDS.getUserStream(uid);
+      return userModel;
     } catch (e) {
-      AppAlerts.displaySnackBar('Oops! getting user data is failed', context);
+      print('getUserStream()/UserRepository');
+
+      // AppAlerts.displaySnackBar('Oops! getting user data is failed', context);
 
       throw FreshFeedException(
         message: 'Oops! getting user data is  failed',

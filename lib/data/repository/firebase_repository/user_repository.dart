@@ -44,12 +44,11 @@ class UserRepository {
     }
   }
 
-  Future<UserModel?> getUserData(String uid, BuildContext context) async {
+  // test getUserData is done
+  Future<UserModel?> getUserData(String uid) async {
     try {
       return await _firestoreDS.getUserData(uid);
     } catch (e) {
-      AppAlerts.displaySnackBar('Oops! getting user data is failed', context);
-
       throw FreshFeedException(
         message: 'Oops! getting user data is  failed',
         methodInFile: 'getUserData()/UserRepository',

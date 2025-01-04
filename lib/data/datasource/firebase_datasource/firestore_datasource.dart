@@ -35,6 +35,7 @@ class FirestoreDatasource {
     }
   }
 
+  // test getUserData is done
   Future<UserModel?> getUserData(String uid) async {
     try {
       final userDoc =
@@ -69,16 +70,20 @@ class FirestoreDatasource {
   // for sign in and sign up
   Future<void> updateUser(
       User user, AuthProviderType provider, String? userName) async {
-    final userModel = UserModel(
-      uid: user.uid,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
-      name: userName ?? user.displayName.toString(),
-      profileImageUrl: user.photoURL,
-      emailVerified: user.emailVerified,
-      phoneVerified: user.phoneNumber != null,
-      authProvider: provider,
-    );
-    await saveUserData(userModel);
+    try {
+      final userModel = UserModel(
+        uid: user.uid,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        name: userName ?? user.displayName.toString(),
+        profileImageUrl: user.photoURL,
+        emailVerified: user.emailVerified,
+        phoneVerified: user.phoneNumber != null,
+        authProvider: provider,
+      );
+      await saveUserData(userModel);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

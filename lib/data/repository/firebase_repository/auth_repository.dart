@@ -32,15 +32,16 @@ class AuthRepository {
       } else {
         message = 'An error occurred. Please try again.';
       }
-
       throw FreshFeedException(
           message: message,
           methodInFile: 'signUp()/AuthDataSource',
           details: e.toString());
     } on FreshFeedException catch (e) {
-      // Rethrow custom exceptions from UserRepository
+      // Rethrow  exceptions from UserRepository
+      await deleteUserAccount();
       rethrow;
     } catch (e) {
+      await deleteUserAccount();
       throw FreshFeedException(
         message: 'Oops! An error occurred. Please try again.',
         methodInFile: 'SingUp()/AuthRepository',
@@ -49,36 +50,44 @@ class AuthRepository {
     }
   }
 
+  // test signIn is done
   Future<User?> signIn({
-    required BuildContext context,
     required String email,
     required String password,
   }) async {
-    User? userFin;
     try {
       final user = await _authDataSource.signIn(email, password);
-      if (user == null) {
-        throw Exception('user from signIn method equal null');
-      }
-      userFin = user;
-      final storedUserData =
-          await _userRepository.getUserData(user.uid, context);
+
+      final storedUserData = await _userRepository.getUserData(user!.uid);
       if (storedUserData == null) {
         // store user info that is failed when sign up
-        await _userRepository.updateUser(user, AuthProviderType.google);
+        await _userRepository.updateUser(user, AuthProviderType.email);
       }
-      return userFin;
-    } on FreshFeedException catch (e) {
-      bool isInUserRepo = e.methodInFile?.contains('UserRepository') ?? false;
-      if (!isInUserRepo) {
-        AppAlerts.displaySnackBar(e.message, context);
-        return null;
+      return user;
+    } on FirebaseAuthException catch (e) {
+      String message;
+      if (e.code == 'invalid-credential') {
+        message = 'Invalid email or password.';
+      } else if (e.code == 'invalid-email') {
+        message = 'Invalid email format.';
+      } else if (e.code == 'user-disabled') {
+        message = 'This account has been disabled.';
+      } else {
+        message = 'An error occurred. Please try again.';
       }
-      return userFin;
-    } catch (e) {
-      AppAlerts.displaySnackBar('Oops! Sign In has failed', context);
       throw FreshFeedException(
-        message: 'Oops! Sign In has failed',
+        message: message,
+        methodInFile: 'signIn()/AuthDataSource',
+        details: e.toString(),
+      );
+    } on FreshFeedException catch (e) {
+      // Rethrow  exceptions from UserRepository
+      await signOut();
+      rethrow;
+    } catch (e) {
+      await signOut();
+      throw FreshFeedException(
+        message: 'Oops! An error occurred. Please try again.',
         methodInFile: 'signIn()/AuthRepository',
         details: e.toString(),
       );
@@ -93,8 +102,7 @@ class AuthRepository {
         throw Exception('user from Sign In method equal null');
       }
       userFin = user;
-      final storedUserData =
-          await _userRepository.getUserData(user.uid, context);
+      final storedUserData = await _userRepository.getUserData(user.uid);
       if (storedUserData == null) {
         // for the first time
         await _userRepository.updateUser(user, AuthProviderType.google);
@@ -123,16 +131,26 @@ class AuthRepository {
     }
   }
 
-  Future<void> signOut(BuildContext context) async {
+  // test signOut is done
+  Future<void> signOut() async {
     try {
       await _authDataSource.signOut();
-    } on FreshFeedException catch (e) {
-      AppAlerts.displaySnackBar(e.message, context);
     } catch (e) {
-      AppAlerts.displaySnackBar('Oops! Sign Out has failed', context);
       throw FreshFeedException(
         message: 'Oops! Sign Out has failed',
         methodInFile: 'signOut()/AuthRepository',
+        details: e.toString(),
+      );
+    }
+  }
+
+  Future<void> deleteUserAccount() async {
+    try {
+      await _authDataSource.deleteUserAccount();
+    } catch (e) {
+      throw FreshFeedException(
+        message: 'Oops! delete user has failed',
+        methodInFile: 'deleteUserAccount()/AuthRepository',
         details: e.toString(),
       );
     }

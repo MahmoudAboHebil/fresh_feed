@@ -143,10 +143,14 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                 onPressed: () async {
                   if (_emailController.text.trim().isNotEmpty &&
                       _passwordController.text.trim().isNotEmpty) {
-                    await auth_repo.signIn(
-                        context: context,
-                        email: _emailController.text,
-                        password: _passwordController.text);
+                    try {
+                      await auth_repo.signIn(
+                          email: _emailController.text,
+                          password: _passwordController.text);
+                    } catch (e) {
+                      print(e.toString());
+                      AppAlerts.displaySnackBar(e.toString(), context);
+                    }
                   }
                 },
               ),
@@ -167,7 +171,7 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                 color: Colors.red,
                 child: const Text('Log out'),
                 onPressed: () async {
-                  await auth_repo.signOut(context);
+                  await auth_repo.signOut();
                   // Navigator.push(context,
                   //     MaterialPageRoute(builder: (context) => HomeScreen()));
                 },

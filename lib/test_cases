@@ -7,7 +7,10 @@ notes:
 4. push replacement will called ref.onDispose
 5. invalidate: Full reset, calls onDispose, cleans up resources, and restarts lazily.
 6. refresh: Quick recompute, does not call onDispose, and keeps resources intact
-
+7. data source file focused only on data fetching and raw error handling without worrying
+   about user-friendly messages.
+8. Repository file for Business logic, domain rules, and mapping
+   errors to user-friendly messages.
 
 User authentication:
     user login => save firestore => listen to firestore => get current user

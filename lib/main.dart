@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app/app.dart';
 import 'firebase_options.dart';
 
-///ToDO: enable user to verified its email with error handling
-///ToDO: enable user to reset its password with error handling
+//enable user to verified its email with error handling /done
+//enable user to reset its password with error handling /done
 ///ToDO: enable user sign in with phone with error handling
 
 ///(important because currently i update

@@ -16,13 +16,14 @@ class UserRepository {
       await _firestoreDS.saveUserData(user);
     } catch (e) {
       throw FreshFeedException(
-        message: 'Oops! saving user data is failed',
+        message: "Unable to save user data. Please try again later.",
         methodInFile: 'saveUserData()/UserRepository',
         details: e.toString(),
       );
     }
   }
 
+  // testing getUserStream is done
   Stream<UserModel?> getUserStream(
     String uid,
   ) {
@@ -30,12 +31,8 @@ class UserRepository {
       final userModel = _firestoreDS.getUserStream(uid);
       return userModel;
     } catch (e) {
-      print('getUserStream()/UserRepository');
-
-      // AppAlerts.displaySnackBar('Oops! getting user data is failed', context);
-
       throw FreshFeedException(
-        message: 'Oops! getting user data is  failed',
+        message: "Unable to fetch user data. Please try again later.",
         methodInFile: 'getUserStream()/UserRepository',
         details: e.toString(),
       );
@@ -48,7 +45,7 @@ class UserRepository {
       return await _firestoreDS.getUserData(uid);
     } catch (e) {
       throw FreshFeedException(
-        message: 'Oops! getting user data is  failed',
+        message: "Unable to fetch user data. Please try again later.",
         methodInFile: 'getUserData()/UserRepository',
         details: e.toString(),
       );
@@ -62,7 +59,7 @@ class UserRepository {
       await _firestoreDS.updateUser(user, provider, username);
     } catch (e) {
       throw FreshFeedException(
-        message: 'Oops! updating user data is failed',
+        message: "Unable to update user data. Please try again.",
         methodInFile: 'updateUser()/UserRepository',
         details: e.toString(),
       );

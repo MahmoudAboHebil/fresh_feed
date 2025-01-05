@@ -128,7 +128,7 @@ class AuthRepository {
     } catch (e) {
       await signOut();
       throw FreshFeedException(
-        message: 'Oops! Sign In has failed',
+        message: 'An error occurred. Please try again.',
         methodInFile: 'signInWithGoogle()/AuthRepository',
         details: e.toString(),
       );
@@ -139,10 +139,9 @@ class AuthRepository {
   Future<void> signOut() async {
     try {
       await _authDataSource.signOut();
-      print('==============> user logged out ');
     } catch (e) {
       throw FreshFeedException(
-        message: 'Oops! Sign Out has failed',
+        message: 'An error occurred. Please try again.',
         methodInFile: 'signOut()/AuthRepository',
         details: e.toString(),
       );
@@ -155,7 +154,7 @@ class AuthRepository {
       await _authDataSource.deleteUserAccount();
     } catch (e) {
       throw FreshFeedException(
-        message: 'Oops! delete user has failed',
+        message: "User deletion failed. Please try again later.",
         methodInFile: 'deleteUserAccount()/AuthRepository',
         details: e.toString(),
       );
@@ -168,7 +167,7 @@ class AuthRepository {
       await _authDataSource.resetPassword(email);
     } catch (e) {
       throw FreshFeedException(
-        message: 'Oops! Reset Password has failed',
+        message: "Password reset failed. Please try again later.",
         methodInFile: 'resetPassword()/AuthRepository',
         details: e.toString(),
       );
@@ -181,7 +180,7 @@ class AuthRepository {
       return await _authDataSource.isUserEmailVerified();
     } catch (e) {
       throw FreshFeedException(
-        message: 'Oops! get email states has failed',
+        message: "Failed to retrieve email status. Please try again.",
         methodInFile: 'isUserEmailVerified()/AuthRepository',
         details: e.toString(),
       );

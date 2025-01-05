@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 
@@ -13,14 +13,17 @@ class AuthRepository {
   AuthRepository(this._authDataSource, this._userRepository);
 
   // test signUp done
-  Future<User?> signUp({
+  Future<User> signUp({
     required String email,
     required String password,
     required String userName,
   }) async {
     try {
       final user = await _authDataSource.signUp(email, password);
-      await _userRepository.updateUser(user!, AuthProviderType.email,
+      if (user == null) {
+        throw Exception('user from Sign Up method equal null');
+      }
+      await _userRepository.updateUser(user, AuthProviderType.email,
           username: userName);
       return user;
     } on FirebaseAuthException catch (e) {
@@ -51,17 +54,24 @@ class AuthRepository {
   }
 
   // test signIn is done
-  Future<User?> signIn({
+  Future<User> signIn({
     required String email,
     required String password,
   }) async {
     try {
       final user = await _authDataSource.signIn(email, password);
-
-      final storedUserData = await _userRepository.getUserData(user!.uid);
+      if (user == null) {
+        throw Exception('user from Sign In method equal null');
+      }
+      final storedUserData = await _userRepository.getUserData(user.uid);
       if (storedUserData == null) {
-        // store user info that is failed when sign up
+        // for the first time
         await _userRepository.updateUser(user, AuthProviderType.email);
+      } else if (storedUserData.authProvider != AuthProviderType.email) {
+        // when user switching between auth types
+        await _userRepository.saveUserData(
+          storedUserData.copyWith(authProvider: AuthProviderType.email),
+        );
       }
       return user;
     } on FirebaseAuthException catch (e) {
@@ -94,14 +104,13 @@ class AuthRepository {
     }
   }
 
-  Future<User?> signInWithGoogle(BuildContext context) async {
-    User? userFin;
+  // testing signInWithGoogle is done
+  Future<User> signInWithGoogle() async {
     try {
       final user = await _authDataSource.signInWithGoogle();
       if (user == null) {
         throw Exception('user from Sign In method equal null');
       }
-      userFin = user;
       final storedUserData = await _userRepository.getUserData(user.uid);
       if (storedUserData == null) {
         // for the first time
@@ -109,20 +118,15 @@ class AuthRepository {
       } else if (storedUserData.authProvider != AuthProviderType.google) {
         // when user switching between auth types
         await _userRepository.saveUserData(
-            storedUserData.copyWith(authProvider: AuthProviderType.google),
-            context);
+          storedUserData.copyWith(authProvider: AuthProviderType.google),
+        );
       }
-      return userFin;
+      return user;
     } on FreshFeedException catch (e) {
-      bool isInUserRepo = e.methodInFile?.contains('UserRepository') ?? false;
-      if (!isInUserRepo) {
-        AppAlerts.displaySnackBar(e.message, context);
-        return null;
-      }
-      return userFin;
+      await signOut();
+      rethrow;
     } catch (e) {
-      AppAlerts.displaySnackBar('Oops! Sign In has failed', context);
-
+      await signOut();
       throw FreshFeedException(
         message: 'Oops! Sign In has failed',
         methodInFile: 'signInWithGoogle()/AuthRepository',
@@ -135,6 +139,7 @@ class AuthRepository {
   Future<void> signOut() async {
     try {
       await _authDataSource.signOut();
+      print('==============> user logged out ');
     } catch (e) {
       throw FreshFeedException(
         message: 'Oops! Sign Out has failed',
@@ -144,6 +149,7 @@ class AuthRepository {
     }
   }
 
+  // testing deleteUserAccount is done
   Future<void> deleteUserAccount() async {
     try {
       await _authDataSource.deleteUserAccount();
@@ -156,14 +162,11 @@ class AuthRepository {
     }
   }
 
-  Future<void> resetPassword(String email, BuildContext context) async {
+  // test resetPassword is done
+  Future<void> resetPassword(String email) async {
     try {
       await _authDataSource.resetPassword(email);
-    } on FreshFeedException catch (e) {
-      AppAlerts.displaySnackBar(e.message, context);
     } catch (e) {
-      AppAlerts.displaySnackBar('Oops! Reset Password has failed', context);
-
       throw FreshFeedException(
         message: 'Oops! Reset Password has failed',
         methodInFile: 'resetPassword()/AuthRepository',
@@ -172,6 +175,7 @@ class AuthRepository {
     }
   }
 
+  // testing isUserEmailVerified is done
   Future<bool> isUserEmailVerified() async {
     try {
       return await _authDataSource.isUserEmailVerified();
@@ -184,16 +188,11 @@ class AuthRepository {
     }
   }
 
-  Future<void> sendEmailVerification(BuildContext context) async {
+  // testing sendEmailVerification is done
+  Future<void> sendEmailVerification() async {
     try {
       await _authDataSource.sendEmailVerification();
-      AppAlerts.displaySnackBar(
-          'A verification email has been sent to your email address. Please verify it to continue.',
-          context);
     } catch (e) {
-      AppAlerts.displaySnackBar(
-          'An error occurred. Please try again.', context);
-
       throw FreshFeedException(
         message: 'An error occurred. Please try again.',
         methodInFile: 'sendEmailVerification()/AuthRepository',
@@ -208,29 +207,27 @@ class AuthRepository {
     }
   }
 
+  // testing listenToEmailVerification is done
   Future<void> listenToEmailVerification(
-      UserModel? user, BuildContext context) async {
+      UserModel? user, VoidCallback successUpdateAlert) async {
     if (user != null && !user.emailVerified) {
       try {
         cancelTimer();
         _timer = Timer.periodic(
           const Duration(seconds: 3),
           (timer) async {
-            {
-              final isEmailUserVerified = await isUserEmailVerified();
-              if (isEmailUserVerified) {
-                await _userRepository.saveUserData(
-                    user.copyWith(emailVerified: true), context);
-                AppAlerts.displaySnackBar(
-                    'Email verified successfully. Enjoy using our app!',
-                    context);
-                cancelTimer();
-              }
+            final isEmailUserVerified = await isUserEmailVerified();
+            if (isEmailUserVerified) {
+              await _userRepository
+                  .saveUserData(user.copyWith(emailVerified: true));
+              successUpdateAlert();
+              cancelTimer();
             }
           },
         );
       } catch (e) {
-        print('listenToEmailVerification has failed');
+        cancelTimer();
+        return;
       }
     }
   }

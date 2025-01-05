@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:fresh_feed/data/data.dart';
 
 import '../../../utils/utlis.dart';
@@ -11,12 +10,11 @@ class UserRepository {
 
   UserRepository(this._firestoreDS);
 
-  Future<void> saveUserData(UserModel user, BuildContext context) async {
+  // testing saveUserData is done
+  Future<void> saveUserData(UserModel user) async {
     try {
       await _firestoreDS.saveUserData(user);
     } catch (e) {
-      AppAlerts.displaySnackBar('Oops! saving user data is failed', context);
-
       throw FreshFeedException(
         message: 'Oops! saving user data is failed',
         methodInFile: 'saveUserData()/UserRepository',

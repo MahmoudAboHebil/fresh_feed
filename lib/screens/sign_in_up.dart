@@ -42,13 +42,6 @@ class _SignInUpState extends ConsumerState<SignInUp> {
           child: Column(
             children: [
               currentUser.when(
-                data: (user) {
-                  // auth_repo.listenToEmailVerification(user, context);
-                  if (user == null) {
-                    return const Text('user does not sign yet');
-                  }
-                  return Text(user.toString());
-                },
                 error: (err, stack) {
                   print('=======================>');
                   print(stack);
@@ -58,122 +51,173 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                   );
                 },
                 loading: () => const CircularProgressIndicator(),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Column(
-                children: [
-                  TextField(
-                    controller: _emailController,
-                    onTapOutside: (event) {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                    },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Email',
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  TextField(
-                    controller: _passwordController,
-                    onTapOutside: (event) {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                    },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Password',
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  TextField(
-                    controller: _nameController,
-                    onTapOutside: (event) {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                    },
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Name',
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              MaterialButton(
-                color: Colors.yellow,
-                child: const Text('Send Email'),
-                onPressed: () async {
-                  await auth_repo.sendEmailVerification(context);
-                  // auth_repo.cancelTimer();
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              MaterialButton(
-                color: Colors.blue,
-                child: const Text('Sign up'),
-                onPressed: () async {
-                  if (_emailController.text.trim().isNotEmpty &&
-                      _passwordController.text.trim().isNotEmpty &&
-                      _nameController.text.trim().isNotEmpty) {
-                    try {
-                      await auth_repo.signUp(
-                          userName: _nameController.text,
-                          email: _emailController.text,
-                          password: _passwordController.text);
-                    } catch (e) {
-                      AppAlerts.displaySnackBar(e.toString(), context);
-                    }
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              MaterialButton(
-                color: Colors.purple,
-                child: const Text('Sign in'),
-                onPressed: () async {
-                  if (_emailController.text.trim().isNotEmpty &&
-                      _passwordController.text.trim().isNotEmpty) {
-                    try {
-                      await auth_repo.signIn(
-                          email: _emailController.text,
-                          password: _passwordController.text);
-                    } catch (e) {
-                      print(e.toString());
-                      AppAlerts.displaySnackBar(e.toString(), context);
-                    }
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              MaterialButton(
-                color: Colors.green,
-                child: const Text('Google'),
-                onPressed: () async {
-                  await auth_repo.signInWithGoogle(context);
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              MaterialButton(
-                color: Colors.red,
-                child: const Text('Log out'),
-                onPressed: () async {
-                  await auth_repo.signOut();
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => HomeScreen()));
+                data: (user) {
+                  // auth_repo.listenToEmailVerification(user, context);
+
+                  return Column(
+                    children: [
+                      user == null
+                          ? const Text('user does not sign yet')
+                          : Text(user.toString()),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Column(
+                        children: [
+                          TextField(
+                            controller: _emailController,
+                            onTapOutside: (event) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Email',
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          TextField(
+                            controller: _passwordController,
+                            onTapOutside: (event) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Password',
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          TextField(
+                            controller: _nameController,
+                            onTapOutside: (event) {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            },
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Name',
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          MaterialButton(
+                            color: Colors.yellow,
+                            child: const Text('Send Email'),
+                            onPressed: () async {
+                              try {
+                                await auth_repo.sendEmailVerification();
+                                await auth_repo.listenToEmailVerification(user,
+                                    () {
+                                  AppAlerts.displaySnackBar(
+                                      'success updated', context);
+                                });
+                                // auth_repo.cancelTimer();
+                                final v = await auth_repo.isUserEmailVerified();
+                                print('================> $v');
+                              } catch (e) {
+                                print(e);
+                                AppAlerts.displaySnackBar(
+                                    e.toString(), context);
+                              }
+                            },
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          MaterialButton(
+                            color: Colors.orange,
+                            child: const Text('reset password'),
+                            onPressed: () async {
+                              try {
+                                await auth_repo.resetPassword(user!.email!);
+                              } catch (e) {
+                                print(e.toString());
+                                AppAlerts.displaySnackBar(
+                                    e.toString(), context);
+                              }
+                              // auth_repo.cancelTimer();
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      MaterialButton(
+                        color: Colors.blue,
+                        child: const Text('Sign up'),
+                        onPressed: () async {
+                          if (_emailController.text.trim().isNotEmpty &&
+                              _passwordController.text.trim().isNotEmpty &&
+                              _nameController.text.trim().isNotEmpty) {
+                            try {
+                              await auth_repo.signUp(
+                                  userName: _nameController.text,
+                                  email: _emailController.text,
+                                  password: _passwordController.text);
+                            } catch (e) {
+                              AppAlerts.displaySnackBar(e.toString(), context);
+                            }
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      MaterialButton(
+                        color: Colors.purple,
+                        child: const Text('Sign in'),
+                        onPressed: () async {
+                          if (_emailController.text.trim().isNotEmpty &&
+                              _passwordController.text.trim().isNotEmpty) {
+                            try {
+                              await auth_repo.signIn(
+                                  email: _emailController.text,
+                                  password: _passwordController.text);
+                            } catch (e) {
+                              print(e.toString());
+                              AppAlerts.displaySnackBar(e.toString(), context);
+                            }
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      MaterialButton(
+                        color: Colors.green,
+                        child: const Text('Google'),
+                        onPressed: () async {
+                          try {
+                            await auth_repo.signInWithGoogle();
+                          } catch (e) {
+                            print(e.toString());
+                            AppAlerts.displaySnackBar(e.toString(), context);
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      MaterialButton(
+                        color: Colors.red,
+                        child: const Text('Log out'),
+                        onPressed: () async {
+                          await auth_repo.signOut();
+                          // Navigator.push(context,
+                          //     MaterialPageRoute(builder: (context) => HomeScreen()));
+                        },
+                      ),
+                    ],
+                  );
                 },
               ),
             ],

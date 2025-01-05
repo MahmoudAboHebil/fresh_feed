@@ -21,13 +21,14 @@ class AuthDataSource {
         password: password,
       );
 
-      await userCredential.user?.sendEmailVerification();
+      // await userCredential.user?.sendEmailVerification();
       return userCredential.user;
     } catch (e) {
       rethrow;
     }
   }
 
+  // test signIn is done
   Future<User?> signIn(String email, String password) async {
     try {
       final userCredential =
@@ -41,6 +42,7 @@ class AuthDataSource {
     }
   }
 
+  // test sendEmailVerification is done
   Future<void> sendEmailVerification() async {
     try {
       final currentUser = getCurrentUser();
@@ -52,6 +54,7 @@ class AuthDataSource {
     }
   }
 
+  // testing isUserEmailVerified is done
   Future<bool> isUserEmailVerified() async {
     try {
       await getCurrentUser()?.reload();
@@ -64,6 +67,7 @@ class AuthDataSource {
     }
   }
 
+  // testing signInWithGoogle  is done
   Future<User?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
@@ -85,7 +89,6 @@ class AuthDataSource {
 
       return userCredential.user;
     } catch (e) {
-      print('Google Sign In Error: $e');
       rethrow;
     }
   }
@@ -100,15 +103,16 @@ class AuthDataSource {
     }
   }
 
+  // testing resetPassword is done
   Future<void> resetPassword(String email) async {
     try {
       await _firebaseService.auth.sendPasswordResetEmail(email: email);
     } catch (e) {
-      print('Reset Password Error: $e');
       rethrow;
     }
   }
 
+  // testing getCurrentUser is done
   User? getCurrentUser() {
     try {
       return _firebaseService.getCurrentUser();
@@ -117,9 +121,10 @@ class AuthDataSource {
     }
   }
 
+  // testing deleteUserAccount is done
   Future<void> deleteUserAccount() async {
     try {
-      User? user = FirebaseAuth.instance.currentUser;
+      User? user = _firebaseService.getCurrentUser();
 
       if (user != null) {
         await user.delete();

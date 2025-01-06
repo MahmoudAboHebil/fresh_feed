@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/datasource/datasource.dart';
 
-import 'news_api_repo.dart';
+import 'news_api_repository.dart';
 
 final newsApiRepoProvider = Provider<NewsApiRepository>((ref) {
   final datasource = ref.watch(newsApiDataSourceProvider);

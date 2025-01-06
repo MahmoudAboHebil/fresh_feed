@@ -1,2 +1,3 @@
-export '../repository/firebase_repository/firebase_repository.dart';
-export 'news_api/news_api.dart';
+export 'firebase_repo/firebase_repo.dart';
+export 'network_info_repo/network_info_repo.dart';
+export 'news_api_repo/news_api_repo.dart';

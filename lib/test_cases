@@ -14,7 +14,6 @@ notes:
 
 User authentication:
     user login => save firestore => listen to firestore => get current user
-
     happy scenario /Done
 
     1. user sign in And sign up
@@ -31,4 +30,11 @@ User authentication:
         6. if user is logged in or signed up successfully but the its data not saved
            on firestore => the user will not continue as usual but a message will be
            shown about it
+
+guest-app feature Logic:
+    1. the user can be a guest only if he press the skip button at
+    authentication page
+    2. when he as a guest whenever he startups the app he always get
+    the authentication page
+
 

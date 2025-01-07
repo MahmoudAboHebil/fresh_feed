@@ -8,6 +8,7 @@ class NetworkInfoDataSource {
   StreamSubscription? _subscription;
 
   NetworkInfoDataSource(this._connectivity) {
+    print('=============================> newDataSource stream');
     _subscription = _connectivity.connectivity.onConnectivityChanged
         .listen(_onConnectivityChanged);
   }
@@ -27,5 +28,6 @@ class NetworkInfoDataSource {
   void dispose() {
     _subscription?.cancel();
     _networkController.close();
+    print('=============================> DataSource stream close');
   }
 }

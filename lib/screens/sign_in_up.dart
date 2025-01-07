@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
+import 'package:fresh_feed/providers/network_inf_provider.dart';
 
 import '../providers/user_provider.dart';
 import '../utils/app_alerts.dart';
+import 'home_screen.dart';
 
 class SignInUp extends ConsumerStatefulWidget {
   const SignInUp({super.key});
@@ -31,6 +33,7 @@ class _SignInUpState extends ConsumerState<SignInUp> {
   Widget build(BuildContext context) {
     final currentUser = ref.watch(userNotifierProvider);
     final auth_repo = ref.watch(authRepositoryProvider);
+    final network_steam = ref.watch(networkInfoStreamNotifierProv);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,6 +62,21 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                       user == null
                           ? const Text('user does not sign yet')
                           : Text(user.toString()),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      network_steam.when(
+                        data: (data) => Text(
+                          data.toString(),
+                          style:
+                              const TextStyle(fontSize: 28, color: Colors.blue),
+                        ),
+                        loading: () => const CircularProgressIndicator(),
+                        error: (error, stackTrace) => Text(
+                          error.toString(),
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      ),
                       const SizedBox(
                         height: 20,
                       ),
@@ -211,9 +229,11 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                         color: Colors.red,
                         child: const Text('Log out'),
                         onPressed: () async {
-                          await auth_repo.signOut();
-                          // Navigator.push(context,
-                          //     MaterialPageRoute(builder: (context) => HomeScreen()));
+                          // await auth_repo.signOut();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen()));
                         },
                       ),
                     ],

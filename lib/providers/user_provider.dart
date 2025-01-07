@@ -2,22 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 
-//user login => save firestore => listen to firestore => get current user
-
-// final authStateProvider = StreamProvider<User?>((ref) {
-//   return FirebaseService().authStateChanges();
-// });
-//
-// final userProvider = StreamProvider<UserModel?>((ref) {
-//   final authState = ref.watch(authStateProvider);
-//   if (authState.value == null) {
-//     return Stream.value(null);
-//   }
-//   final userRepoProv = ref.read(userRepositoryProvider);
-//   final userStream = userRepoProv.getUserStream(authState.value!.uid);
-//
-//   return userStream;
-// });
+/*
+ the reason why i did not user auto dispose in StreamNotifierProvider because
+ the streams will restart and old streams will be closed whenever a new stream
+ is created, and this behavior happens due to how Riverpod's StreamNotifierProvider works
+ */
 
 class AuthStateNotifier extends StreamNotifier<User?> {
   @override

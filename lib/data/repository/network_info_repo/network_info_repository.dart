@@ -6,8 +6,4 @@ class NetworkInfoRepository {
 
   Stream<bool> get isConnectedStream =>
       _networkInfoDataSource.isConnectedStream;
-
-  void dispose() {
-    _networkInfoDataSource.dispose();
-  }
 }

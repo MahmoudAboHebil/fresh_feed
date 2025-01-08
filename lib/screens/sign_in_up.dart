@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/network_inf_provider.dart';
+import 'package:fresh_feed/utils/permission_handler_service.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../providers/user_provider.dart';
 import '../utils/app_alerts.dart';
@@ -15,9 +17,10 @@ class SignInUp extends ConsumerStatefulWidget {
 }
 
 class _SignInUpState extends ConsumerState<SignInUp> {
-  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _nameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _otpController = TextEditingController();
+  String? verificationId;
   @override
   void initState() {
     super.initState();
@@ -83,26 +86,26 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                       Column(
                         children: [
                           TextField(
-                            controller: _emailController,
+                            controller: _phoneController,
                             onTapOutside: (event) {
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: 'Email',
+                              hintText: 'Phone number',
                             ),
                           ),
                           const SizedBox(
                             height: 8,
                           ),
                           TextField(
-                            controller: _passwordController,
+                            controller: _otpController,
                             onTapOutside: (event) {
                               FocusManager.instance.primaryFocus?.unfocus();
                             },
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: 'Password',
+                              hintText: 'OTP code',
                             ),
                           ),
                           const SizedBox(
@@ -173,14 +176,14 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                         color: Colors.blue,
                         child: const Text('Sign up'),
                         onPressed: () async {
-                          if (_emailController.text.trim().isNotEmpty &&
-                              _passwordController.text.trim().isNotEmpty &&
+                          if (_phoneController.text.trim().isNotEmpty &&
+                              _otpController.text.trim().isNotEmpty &&
                               _nameController.text.trim().isNotEmpty) {
                             try {
                               await auth_repo.signUp(
                                   userName: _nameController.text,
-                                  email: _emailController.text,
-                                  password: _passwordController.text);
+                                  email: _phoneController.text,
+                                  password: _otpController.text);
                             } catch (e) {
                               AppAlerts.displaySnackBar(e.toString(), context);
                             }
@@ -192,18 +195,22 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                       ),
                       MaterialButton(
                         color: Colors.purple,
-                        child: const Text('Sign in'),
+                        child: const Text('Send otp'),
                         onPressed: () async {
-                          if (_emailController.text.trim().isNotEmpty &&
-                              _passwordController.text.trim().isNotEmpty) {
-                            try {
-                              await auth_repo.signIn(
-                                  email: _emailController.text,
-                                  password: _passwordController.text);
-                            } catch (e) {
-                              print(e.toString());
-                              AppAlerts.displaySnackBar(e.toString(), context);
+                          try {
+                            if (_phoneController.text.trim().isNotEmpty) {
+                              final isPermissionOk =
+                                  await PermissionHandlerService
+                                      .checkPermissionStatus(
+                                          Permission.sms, "SMS", context);
+                              if (isPermissionOk) {
+                                await auth_repo.sendOtp(_phoneController.text,
+                                    (id) => verificationId = id);
+                              }
                             }
+                          } catch (e) {
+                            print(e.toString());
+                            AppAlerts.displaySnackBar(e.toString(), context);
                           }
                         },
                       ),
@@ -212,10 +219,14 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                       ),
                       MaterialButton(
                         color: Colors.green,
-                        child: const Text('Google'),
+                        child: const Text('sign with phone'),
                         onPressed: () async {
                           try {
-                            await auth_repo.signInWithGoogle();
+                            if (verificationId != null &&
+                                _otpController.text.trim().isNotEmpty) {
+                              await auth_repo.verifyOtpAndSignIn(
+                                  verificationId!, _otpController.text);
+                            }
                           } catch (e) {
                             print(e.toString());
                             AppAlerts.displaySnackBar(e.toString(), context);

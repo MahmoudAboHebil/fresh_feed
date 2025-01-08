@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fresh_feed/data/services/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -22,6 +24,61 @@ class AuthDataSource {
       );
 
       // await userCredential.user?.sendEmailVerification();
+      return userCredential.user;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<User?> sendOtp(String phoneNumber, Function(String) codeSent) async {
+    User? user;
+    final Completer<User?> completer = Completer<User?>();
+
+    try {
+      await _firebaseService.auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          try {
+            UserCredential userCredential =
+                await _firebaseService.auth.signInWithCredential(credential);
+            user = userCredential.user;
+            completer.complete(user);
+          } on FirebaseAuthException catch (e) {
+            completer.completeError(e);
+          } catch (e) {
+            completer.completeError(FirebaseAuthException(
+                code: 'credential-signin-failed',
+                message: "Error signing in with credential: $e"));
+          }
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          completer.completeError(e);
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          codeSent(verificationId);
+          completer.complete(null);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          print("Code auto-retrieval timeout: $verificationId");
+        },
+      );
+
+      return await completer.future;
+    } catch (e) {
+      print('========================> sendOtp failed: $e');
+      rethrow;
+    }
+  }
+
+  Future<User?> verifyOtpAndSignIn(
+      String verificationId, String smsCode) async {
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: smsCode,
+      );
+      UserCredential userCredential =
+          await _firebaseService.auth.signInWithCredential(credential);
       return userCredential.user;
     } catch (e) {
       rethrow;

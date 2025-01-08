@@ -104,6 +104,116 @@ class AuthRepository {
     }
   }
 
+  Future<User?> sendOtp(String phoneNumber, Function(String) codeSent) async {
+    try {
+      final user = await _authDataSource.sendOtp(phoneNumber, codeSent);
+      if (user != null) {
+        final storedUserData = await _userRepository.getUserData(user.uid);
+        if (storedUserData == null) {
+          // for the first time
+          await _userRepository.updateUser(user, AuthProviderType.phone);
+        } else if (storedUserData.authProvider != AuthProviderType.phone) {
+          // when user switching between auth types
+          await _userRepository.saveUserData(
+            storedUserData.copyWith(authProvider: AuthProviderType.phone),
+          );
+        }
+      }
+      return user;
+    } on FirebaseAuthException catch (e) {
+      String message;
+      if (e.code == 'invalid-phone-number') {
+        message = 'The provided phone number is not valid.';
+      } else if (e.code == 'quota-exceeded') {
+        message = 'Quota exceeded. Try again later.';
+      } else if (e.code == 'network-request-failed') {
+        message = 'Network error. Check your connection.';
+      } else if (e.code == 'too-many-requests') {
+        message = 'Too many attempts. Try again later.';
+      } else if (e.code == 'invalid-verification-code') {
+        message = 'Invalid verification code. Please try again.';
+      } else if (e.code == 'invalid-verification-id') {
+        message = 'Invalid verification ID. Please request a new code.';
+      } else if (e.code == 'session-expired') {
+        message = 'Session expired. Please request a new OTP.';
+      } else {
+        message = 'An error occurred. Please try again.';
+      }
+
+      throw FreshFeedException(
+        message: message,
+        methodInFile: 'sendOtp()/AuthDataSource',
+        details: e.toString(),
+      );
+    } on FreshFeedException catch (e) {
+      await signOut();
+      rethrow;
+    } catch (e) {
+      await signOut();
+      throw FreshFeedException(
+        message: 'Oops! An error occurred. Please try again.',
+        methodInFile: 'sendOtp()/AuthRepository',
+        details: e.toString(),
+      );
+    }
+  }
+
+  Future<User?> verifyOtpAndSignIn(
+      String verificationId, String smsCode) async {
+    try {
+      final user =
+          await _authDataSource.verifyOtpAndSignIn(verificationId, smsCode);
+      if (user != null) {
+        final storedUserData = await _userRepository.getUserData(user.uid);
+        if (storedUserData == null) {
+          // for the first time
+          await _userRepository.updateUser(user, AuthProviderType.phone);
+        } else if (storedUserData.authProvider != AuthProviderType.phone) {
+          // when user switching between auth types
+          await _userRepository.saveUserData(
+            storedUserData.copyWith(authProvider: AuthProviderType.phone),
+          );
+        }
+      }
+      return user;
+    } on FirebaseAuthException catch (e) {
+      String message;
+      if (e.code == 'invalid-phone-number') {
+        message = 'The provided phone number is not valid.';
+      } else if (e.code == 'quota-exceeded') {
+        message = 'Quota exceeded. Try again later.';
+      } else if (e.code == 'network-request-failed') {
+        message = 'Network error. Check your connection.';
+      } else if (e.code == 'too-many-requests') {
+        message = 'Too many attempts. Try again later.';
+      } else if (e.code == 'invalid-verification-code') {
+        message = 'Invalid verification code. Please try again.';
+      } else if (e.code == 'invalid-verification-id') {
+        message = 'Invalid verification ID. Please request a new code.';
+      } else if (e.code == 'session-expired') {
+        message = 'Session expired. Please request a new OTP.';
+      } else {
+        message = 'An error occurred. Please try again.';
+      }
+
+      throw FreshFeedException(
+        message: message,
+        methodInFile: 'verifyOtpAndSignIn()/AuthDataSource',
+        details: e.toString(),
+      );
+    } on FreshFeedException catch (e) {
+      await signOut();
+      rethrow;
+    } catch (e) {
+      await signOut();
+      throw FreshFeedException(
+        message: 'Oops! An error occurred. Please try again.',
+        methodInFile: 'verifyOtpAndSignIn()/AuthRepository',
+        details: e.toString(),
+      );
+    }
+  }
+
   // testing signInWithGoogle is done
   Future<User> signInWithGoogle() async {
     try {

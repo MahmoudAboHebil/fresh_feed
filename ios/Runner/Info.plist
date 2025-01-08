@@ -45,5 +45,38 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<!-- Add Permissions Here -->
+
+	<!-- Permission for Camera Access (e.g., QR Code scanning) -->
+	<key>NSCameraUsageDescription</key>
+	<string>Camera access is required to scan QR codes.</string>
+
+	<!-- Permission for Microphone Access -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone access is required for voice communication.</string>
+
+	<!-- Permission for SMS Reading -->
+	<key>NSSupportsAutomaticTextInputPanel</key>
+	<true/>
+
+	<!-- Permission for Receiving Notifications -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+
+	<!-- Network Access -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+
+	<!-- Permission for Photo Library Access -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo library access is required to upload profile pictures.</string>
+
 </dict>
 </plist>

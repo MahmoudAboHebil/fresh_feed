@@ -5,16 +5,65 @@ import 'extensions.dart';
 class AppAlerts {
   AppAlerts._();
 
-  static void displaySnackBar(String error, BuildContext context) {
+  static void displaySnackBar(String message, BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          error,
+          message,
           style: context.textTheme.bodyLarge
               ?.copyWith(color: context.colorScheme.surface),
         ),
         backgroundColor: context.colorScheme.primary,
       ),
     );
+  }
+
+  static void displayDialog(Function callBack, String okTextString,
+      String title, String content, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            child: Text(okTextString),
+            onPressed: () async {
+              await callBack();
+              Navigator.pop(context);
+            },
+          ),
+          TextButton(
+            child: const Text("Cancel"),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static Future<bool> displayPermissionDialog(Future<bool> Function() callBack,
+      String okTextString, String content, BuildContext context) async {
+    bool? result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Permission Required"),
+        content: Text(content),
+        actions: [
+          TextButton(
+            child: Text(okTextString),
+            onPressed: () async {
+              bool callbackResult = await callBack();
+              Navigator.pop(context, callbackResult);
+            },
+          ),
+          TextButton(
+            child: const Text("Cancel"),
+            onPressed: () => Navigator.pop(context, false), // Return false
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
   }
 }

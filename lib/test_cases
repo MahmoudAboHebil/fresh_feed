@@ -37,4 +37,5 @@ guest-app feature Logic:
     2. when he as a guest whenever he startups the app he always get
     the authentication page
 
-
+article views feature:
+    1. when single user opens the article, we increase the number of views by one

@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 
-class UserModel {
+class UserModel extends Equatable {
   const UserModel({
     required this.uid,
     required this.name,
@@ -76,4 +77,17 @@ class UserModel {
   String toString() {
     return 'UserModel{\nuid: $uid, name: $name,\nprofileImageUrl: $profileImageUrl, email: $email,\n phoneNumber: $phoneNumber, emailVerified: $emailVerified, \nphoneVerified: $phoneVerified, authProvider: $authProvider\n}';
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        uid,
+        name,
+        profileImageUrl,
+        email,
+        phoneNumber,
+        emailVerified,
+        phoneVerified,
+        authProvider,
+      ];
 }

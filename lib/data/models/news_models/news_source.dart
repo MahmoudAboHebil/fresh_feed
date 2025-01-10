@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 
-class Source {
+class Source extends Equatable {
   const Source({
     this.id,
     this.name,
@@ -42,4 +43,16 @@ class Source {
     country: $country}
     ''';
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        url,
+        category,
+        language,
+        country,
+      ];
 }

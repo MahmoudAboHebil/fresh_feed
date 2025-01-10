@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 import 'news_article.dart';
 
-class ArticleResponse {
+class ArticleResponse extends Equatable {
   const ArticleResponse({
     this.totalResults = 0,
     required this.articles,
@@ -30,4 +32,8 @@ class ArticleResponse {
       articles: articles ?? this.articles,
     );
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [totalResults, articles];
 }

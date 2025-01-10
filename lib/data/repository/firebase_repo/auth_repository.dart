@@ -142,7 +142,7 @@ class AuthRepository {
 
       throw FreshFeedException(
         message: message,
-        methodInFile: 'sendOtp()/AuthDataSource',
+        methodInFile: 'sendOtp()/AuthRepository',
         details: e.toString(),
       );
     } on FreshFeedException catch (e) {
@@ -198,7 +198,7 @@ class AuthRepository {
 
       throw FreshFeedException(
         message: message,
-        methodInFile: 'verifyOtpAndSignIn()/AuthDataSource',
+        methodInFile: 'verifyOtpAndSignIn()/AuthRepository',
         details: e.toString(),
       );
     } on FreshFeedException catch (e) {

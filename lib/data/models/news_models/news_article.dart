@@ -1,7 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:fresh_feed/data/data.dart';
 
-class Article {
+class Article extends Equatable {
   const Article({
+    required this.id,
     this.title,
     this.description,
     this.url,
@@ -11,6 +13,7 @@ class Article {
     this.source,
     this.author,
   });
+  final String id;
   final Source? source;
   final String? author;
   final String? title;
@@ -21,11 +24,16 @@ class Article {
   final String? content;
 
   factory Article.fromJson(Map<String, dynamic> json) {
-    var sourceModel;
+    Source? sourceModel;
     if (json['source'] != null) {
       sourceModel = Source.fromJson(json['source']);
     }
+    final String sourceName = sourceModel?.name ?? '';
+    final String title = (json['title'] as String?)?.substring(0, 20) ?? '';
+    final String publishAt = (json['publishedAt'] as String?) ?? '';
+    final String articleID = "$sourceName-$publishAt-$title";
     return Article(
+      id: articleID,
       title: json['title'] as String?,
       content: json['content'] as String?,
       url: json['url'] as String?,
@@ -50,4 +58,18 @@ class Article {
     content: $content}
     ''';
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        id,
+        source,
+        author,
+        title,
+        description,
+        url,
+        urlToImage,
+        publishedAt,
+        content
+      ];
 }

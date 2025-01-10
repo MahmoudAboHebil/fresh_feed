@@ -45,6 +45,20 @@ class Article extends Equatable {
     );
   }
 
+  Map<String, Object?> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'content': content,
+      'url': url,
+      'publishedAt': publishedAt,
+      'urlToImage': urlToImage,
+      'description': description,
+      'author': author,
+      'source': source?.toJson(),
+    };
+  }
+
   @override
   String toString() {
     return '''Article{

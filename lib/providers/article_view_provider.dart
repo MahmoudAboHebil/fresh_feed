@@ -1,23 +1,45 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 
-class ArticleViewNotifier extends Notifier<List<ViewModel>> {
+// i didn't use the state as future to manipulate the state date
+// to minimize network cost of "get" data
+class ArticleViewNotifier extends Notifier<List<ViewModel>?> {
   @override
-  List<ViewModel> build() {
-    return [];
+  List<ViewModel>? build() {
+    return null;
   }
 
-  // this function will be used in the dispose of any article page
-  Future<void> addArticleView(String articleID, String userId) async {
+  // this function will be called at the initSate of any article page
+  Future<void> addArticleViewToDataBase(String articleID, String userId) async {
     try {
-      if (state.isEmpty) {
-        await _refreshData();
-      }
+      await loadDataIfStateIsNull();
 
       bool isArticleViewExist;
       final articles = state;
 
-      isArticleViewExist = articles.any(
+      isArticleViewExist = articles!.any(
+        (art) => art.articleId == articleID && art.usersId.contains(userId),
+      );
+
+      if (!isArticleViewExist) {
+        await ref
+            .read(articleViewRepoProvider)
+            .addArticleView(articleID, userId);
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // this function will be called when leaving the article page
+  void addArticleViewToState(String articleID, String userId) {
+    try {
+      if (state == null) return;
+
+      bool isArticleViewExist;
+      final articles = state;
+
+      isArticleViewExist = articles!.any(
         (art) => art.articleId == articleID && art.usersId.contains(userId),
       );
 
@@ -43,22 +65,35 @@ class ArticleViewNotifier extends Notifier<List<ViewModel>> {
           ];
           state = newArticleView;
         }
-
-        await ref
-            .read(articleViewRepoProvider)
-            .addArticleView(articleID, userId);
       }
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<void> _refreshData() async {
-    state = await ref.read(articleViewRepoProvider).getArticlesViews();
+  Future<void> refreshData() async {
+    try {
+      state = await ref.read(articleViewRepoProvider).getArticlesViews();
+    } catch (e) {
+      state = null;
+      rethrow;
+    }
+  }
+
+  // you need call this function at the top level of articles
+  Future<void> loadDataIfStateIsNull() async {
+    try {
+      if (state == null) {
+        refreshData();
+      }
+    } catch (e) {
+      state = null;
+      rethrow;
+    }
   }
 }
 
 final articleViewNotifierProvider =
-    NotifierProvider<ArticleViewNotifier, List<ViewModel>>(() {
+    NotifierProvider<ArticleViewNotifier, List<ViewModel>?>(() {
   return ArticleViewNotifier();
 });

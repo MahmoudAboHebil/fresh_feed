@@ -1,11 +1,12 @@
 
 progress dataLayer==================================================>
 1. ToDo: enable user sign in with phone with error handling
-   (i don't have usd payment cart to enable this feature)
+   (i don't have usd payment cart to enable sign in with phone feature)
+
 2. ToDo: Add the app theme & language data (chose small local database)
 3. ToDo: Add Follow Channels  (firebase)
-4. ToDo: Add Bookmarks Data   (firebase)
-5. ToDo: Add article views feature  (firebase)
+4. ToDo: Add Bookmarks Data   (firebase) done_need Test
+5. ToDo: Add article views feature  (firebase) done_need Test
 6. ToDo: Add article comments feature (firebase)
 7. ToDo: Add article Pagination  (riverpod)
 

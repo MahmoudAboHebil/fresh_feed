@@ -67,10 +67,48 @@ class FirestoreDatasource {
     }
   }
 
+  Future<List<Article>> getUserBookmarksArticles(String userUid) async {
+    try {
+      final querySnap = await _firebaseService.firestore
+          .collection('bookmarks')
+          .doc(userUid)
+          .collection('articles')
+          .get();
+      return querySnap.docs
+          .map((doc) => Article.fromJson(doc.data() as Map<String, Object?>))
+          .toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> toggleBookmarkArticle(Article article, String userUid) async {
+    try {
+      final docRef = _firebaseService.firestore
+          .collection('bookmarks')
+          .doc(userUid)
+          .collection('articles')
+          .doc(article.id);
+
+      // i use runTransaction to perform atomic and consistent
+      // read-write operations on one
+      await _firebaseService.firestore.runTransaction((transaction) async {
+        final snapshot = await transaction.get(docRef);
+        if (snapshot.exists) {
+          transaction.delete(docRef);
+        } else {
+          transaction.set(docRef, article.toJson());
+        }
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Stream<List<ViewModel>> getArticlesViewsStream() async* {
     try {
       await for (final snapshot
-          in _firebaseService.firestore.collection('Views').snapshots()) {
+          in _firebaseService.firestore.collection('views').snapshots()) {
         final views =
             snapshot.docs.map((doc) => ViewModel.fromJson(doc.data())).toList();
         yield views;
@@ -83,7 +121,7 @@ class FirestoreDatasource {
   Future<List<ViewModel>> getArticlesViews() async {
     try {
       final querySnap =
-          await _firebaseService.firestore.collection('Views').get();
+          await _firebaseService.firestore.collection('views').get();
       return querySnap.docs
           .map((doc) => ViewModel.fromJson(doc.data() as Map<String, Object?>))
           .toList();
@@ -94,7 +132,7 @@ class FirestoreDatasource {
 
   Future<void> addArticleView(String articleID, String userId) async {
     try {
-      await _firebaseService.firestore.collection('Views').doc(articleID).set(
+      await _firebaseService.firestore.collection('views').doc(articleID).set(
         {
           'articleId': articleID,
           'usersId': FieldValue.arrayUnion([userId]),

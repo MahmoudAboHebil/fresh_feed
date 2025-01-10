@@ -31,6 +31,18 @@ class Source extends Equatable {
     );
   }
 
+  Map<String, Object?> toJson() {
+    return {
+      'name': name,
+      'country': country?.name,
+      'url': url,
+      'category': category?.name,
+      'description': description,
+      'id': id,
+      'language': language?.name,
+    };
+  }
+
   @override
   String toString() {
     return '''Source{

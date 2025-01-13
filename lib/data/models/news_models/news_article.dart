@@ -29,7 +29,12 @@ class Article extends Equatable {
       sourceModel = Source.fromJson(json['source']);
     }
     final String sourceName = sourceModel?.name ?? '';
-    final String title = (json['title'] as String?)?.substring(0, 20) ?? '';
+    String title;
+    try {
+      title = (json['title'] as String?)?.substring(0, 20) ?? '';
+    } catch (e) {
+      title = (json['title'] as String?) ?? '';
+    }
     final String publishAt = (json['publishedAt'] as String?) ?? '';
     final String articleID = "$sourceName-$publishAt-$title";
     return Article(
@@ -62,6 +67,7 @@ class Article extends Equatable {
   @override
   String toString() {
     return '''Article{
+    'id': $id,
     source: ${source.toString()},
     author: $author,
     title: $title,

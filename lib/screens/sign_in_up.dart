@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/network_inf_provider.dart';
-import 'package:fresh_feed/utils/permission_handler_service.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:fresh_feed/screens/article_page.dart';
 
 import '../providers/user_provider.dart';
 import '../utils/app_alerts.dart';
-import 'home_screen.dart';
 
 class SignInUp extends ConsumerStatefulWidget {
   const SignInUp({super.key});
@@ -21,6 +19,7 @@ class _SignInUpState extends ConsumerState<SignInUp> {
   final _nameController = TextEditingController();
   final _otpController = TextEditingController();
   String? verificationId;
+  String? articleID;
   @override
   void initState() {
     super.initState();
@@ -37,6 +36,7 @@ class _SignInUpState extends ConsumerState<SignInUp> {
     final currentUser = ref.watch(userNotifierProvider);
     final auth_repo = ref.watch(authRepositoryProvider);
     final network_steam = ref.watch(networkInfoStreamNotifierProv);
+    final newsRepo = ref.read(newsApiRepoProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -174,19 +174,16 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                       ),
                       MaterialButton(
                         color: Colors.blue,
-                        child: const Text('Sign up'),
+                        child: const Text('Get Articles'),
                         onPressed: () async {
-                          if (_phoneController.text.trim().isNotEmpty &&
-                              _otpController.text.trim().isNotEmpty &&
-                              _nameController.text.trim().isNotEmpty) {
-                            try {
-                              await auth_repo.signUp(
-                                  userName: _nameController.text,
-                                  email: _phoneController.text,
-                                  password: _otpController.text);
-                            } catch (e) {
-                              AppAlerts.displaySnackBar(e.toString(), context);
-                            }
+                          try {
+                            final articles = await newsRepo.fetchTopHeadlines();
+                            print(articles.articles.length.toString());
+                            articleID = articles.articles[3].id;
+                            print('$articleID ==============================>');
+                          } catch (e) {
+                            print(e.toString());
+                            AppAlerts.displaySnackBar(e.toString(), context);
                           }
                         },
                       ),
@@ -195,18 +192,21 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                       ),
                       MaterialButton(
                         color: Colors.purple,
-                        child: const Text('Send otp'),
+                        child: const Text('Go to article Page'),
                         onPressed: () async {
                           try {
-                            if (_phoneController.text.trim().isNotEmpty) {
-                              final isPermissionOk =
-                                  await PermissionHandlerService
-                                      .checkPermissionStatus(
-                                          Permission.sms, "SMS", context);
-                              if (isPermissionOk) {
-                                await auth_repo.sendOtp(_phoneController.text,
-                                    (id) => verificationId = id);
-                              }
+                            if (articleID == null || user?.uid == null) {
+                              print("articleID : $articleID");
+                              print('uid : ${user?.uid}');
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ArticlePage(
+                                      articleID: articleID ?? '',
+                                      userId: user?.uid ?? ''),
+                                ),
+                              );
                             }
                           } catch (e) {
                             print(e.toString());
@@ -219,14 +219,10 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                       ),
                       MaterialButton(
                         color: Colors.green,
-                        child: const Text('sign with phone'),
+                        child: const Text('sign with Google'),
                         onPressed: () async {
                           try {
-                            if (verificationId != null &&
-                                _otpController.text.trim().isNotEmpty) {
-                              await auth_repo.verifyOtpAndSignIn(
-                                  verificationId!, _otpController.text);
-                            }
+                            await auth_repo.signInWithGoogle();
                           } catch (e) {
                             print(e.toString());
                             AppAlerts.displaySnackBar(e.toString(), context);
@@ -240,11 +236,7 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                         color: Colors.red,
                         child: const Text('Log out'),
                         onPressed: () async {
-                          // await auth_repo.signOut();
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomeScreen()));
+                          await auth_repo.signOut();
                         },
                       ),
                     ],

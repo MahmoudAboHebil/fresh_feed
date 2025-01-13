@@ -29,9 +29,9 @@ class NewsApiDataSource {
       final topHeadBaseUrl = '$_baseUrl/top-headlines';
       final Map<String, String> queryParams = {
         'apiKey': _apiKey,
-        if (sources == null) 'country': country?.name ?? NewsCountry.us.name,
         'pageSize': pageSize.toString(),
         'page': page.toString(),
+        'country': country?.name ?? NewsCountry.us.name,
         'language': language?.name ?? NewsLanguage.en.name,
       };
       if (category != null) {
@@ -53,7 +53,10 @@ class NewsApiDataSource {
           Uri.parse(topHeadBaseUrl).replace(queryParameters: queryParams);
       final response = await http.get(uri);
       if (response.statusCode == 200) {
+        print('ok=================================> ');
+
         final Map<String, dynamic> data = json.decode(response.body);
+
         return data;
       } else {
         throw Exception("${response.reasonPhrase}");
@@ -86,7 +89,6 @@ class NewsApiDataSource {
         'language': language?.name ?? NewsLanguage.en.name,
         'sortBy': sortBy?.name ?? NewsSortBy.publishedAt.name,
       };
-
       if (from != null && from.isNotEmpty) {
         queryParams['from'] = from;
       }

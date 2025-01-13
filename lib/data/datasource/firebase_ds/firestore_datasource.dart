@@ -118,6 +118,7 @@ class FirestoreDatasource {
     }
   }
 
+  // testing getArticlesViews is done
   Future<List<ViewModel>> getArticlesViews() async {
     try {
       final querySnap =
@@ -130,6 +131,7 @@ class FirestoreDatasource {
     }
   }
 
+  // testing addArticleView() is done
   Future<void> addArticleView(String articleID, String userId) async {
     try {
       await _firebaseService.firestore.collection('views').doc(articleID).set(

@@ -3,6 +3,20 @@ import 'package:fresh_feed/data/data.dart';
 
 // i didn't use the state as future to manipulate the state date
 // to minimize network cost of "get" data
+
+/*
+  Errors scenarios:
+  1. Error in addArticleViewToDataBase() if the error happen because of
+      i. loadDataIfStateIsNull() => the state will be null and the article
+         will not added into database nor the state
+     ii. addArticleView() => the article will not added to database but it may
+         be added to state
+  2. Error in addArticleViewToState() that happen if there is a problem with
+     handling the state data
+      i. the article will not added to the state at this point when calling
+         addArticleViewToDataBase()with the same article that saved early on database,
+         there are no changes will happen at the database
+ */
 class ArticleViewNotifier extends Notifier<List<ViewModel>?> {
   @override
   List<ViewModel>? build() {
@@ -10,6 +24,7 @@ class ArticleViewNotifier extends Notifier<List<ViewModel>?> {
   }
 
   // this function will be called at the initSate of any article page
+  // testing addArticleViewToDataBase is done
   Future<void> addArticleViewToDataBase(String articleID, String userId) async {
     try {
       await loadDataIfStateIsNull();
@@ -26,12 +41,15 @@ class ArticleViewNotifier extends Notifier<List<ViewModel>?> {
             .read(articleViewRepoProvider)
             .addArticleView(articleID, userId);
       }
+      print('addArticleViewToDataBase ===========================> success');
     } catch (e) {
       rethrow;
     }
   }
 
   // this function will be called when leaving the article page
+  // (ensure that you called, there is problem with PushReplacement()
+  // testing addArticleViewToState() is done
   void addArticleViewToState(String articleID, String userId) {
     try {
       if (state == null) return;
@@ -66,11 +84,14 @@ class ArticleViewNotifier extends Notifier<List<ViewModel>?> {
           state = newArticleView;
         }
       }
+      print('Adding Article To the State');
+      print('State $state ======================>');
     } catch (e) {
       rethrow;
     }
   }
 
+  // testing refreshData() is done
   Future<void> refreshData() async {
     try {
       state = await ref.read(articleViewRepoProvider).getArticlesViews();
@@ -81,10 +102,11 @@ class ArticleViewNotifier extends Notifier<List<ViewModel>?> {
   }
 
   // you need call this function at the top level of articles
+  // testing loadDataIfStateIsNull() is done
   Future<void> loadDataIfStateIsNull() async {
     try {
       if (state == null) {
-        refreshData();
+        await refreshData();
       }
     } catch (e) {
       state = null;

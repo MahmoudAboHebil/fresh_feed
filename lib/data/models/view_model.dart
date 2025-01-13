@@ -3,12 +3,12 @@ import 'package:equatable/equatable.dart';
 class ViewModel extends Equatable {
   const ViewModel({required this.articleId, required this.usersId});
   final String articleId;
-  final List<String> usersId;
+  final List<dynamic> usersId;
 
   factory ViewModel.fromJson(Map<String, Object?> json) {
     return ViewModel(
       articleId: json['articleId'] as String,
-      usersId: (json['usersId'] as List<String>?) ?? <String>[],
+      usersId: (json['usersId'] as List?) ?? <String>[],
     );
   }
 
@@ -29,4 +29,9 @@ class ViewModel extends Equatable {
   @override
   // TODO: implement props
   List<Object> get props => [usersId, articleId];
+
+  @override
+  String toString() {
+    return 'userId: $usersId, articleId: $articleId';
+  }
 }

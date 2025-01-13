@@ -7,6 +7,7 @@ class ArticleViewRepository {
 
   const ArticleViewRepository(this._firestoreDS);
 
+  // testing addArticleView() is done
   Future<void> addArticleView(String articleID, String userId) async {
     try {
       await _firestoreDS.addArticleView(articleID, userId);
@@ -19,6 +20,7 @@ class ArticleViewRepository {
     }
   }
 
+  // testing getArticlesViews() is done
   Future<List<ViewModel>> getArticlesViews() async {
     try {
       return await _firestoreDS.getArticlesViews();

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fresh_feed/providers/article_view_provider.dart';
 import 'package:fresh_feed/screens/sign_in_up.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -14,14 +13,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((v) async {
-      try {
-        final viewProv = ref.read(articleViewNotifierProvider.notifier);
-        await viewProv.loadDataIfStateIsNull();
-      } catch (e) {
-        print(e);
-      }
-    });
   }
 
   @override
@@ -31,7 +22,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: MaterialButton(
           child: Text('go Sign'),
           onPressed: () {
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => SignInUp(),

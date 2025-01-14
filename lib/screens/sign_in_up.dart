@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
-import 'package:fresh_feed/providers/network_inf_provider.dart';
+import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/screens/article_page.dart';
 
-import '../providers/user_provider.dart';
 import '../utils/app_alerts.dart';
 
 class SignInUp extends ConsumerStatefulWidget {
@@ -18,12 +17,11 @@ class _SignInUpState extends ConsumerState<SignInUp> {
   final _phoneController = TextEditingController();
   final _nameController = TextEditingController();
   final _otpController = TextEditingController();
+  late Stream<UserModel?> userStream;
   String? verificationId;
   String? articleID;
-  @override
-  void initState() {
-    super.initState();
-  }
+  Article? myArticle;
+  bool? isExists;
 
   @override
   void dispose() {
@@ -32,12 +30,27 @@ class _SignInUpState extends ConsumerState<SignInUp> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> test() async {}
+  @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(userNotifierProvider);
     final auth_repo = ref.watch(authRepositoryProvider);
     final network_steam = ref.watch(networkInfoStreamNotifierProv);
     final newsRepo = ref.read(newsApiRepoProvider);
+    final userBookmarksProv = ref.read(userBookmarksNotifierProvider.notifier);
 
+    ref.listen(userListenerProvider, (prev, now) async {
+      print('dddddddddddddddddddddddddddddddddd');
+      try {
+        await userBookmarksProv.loadDataIfStateIsNull(now?.uid);
+      } catch (e) {
+        print(e);
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text('Test Sign UP&IN'),
@@ -59,7 +72,6 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                 loading: () => const CircularProgressIndicator(),
                 data: (user) {
                   // auth_repo.listenToEmailVerification(user, context);
-
                   return Column(
                     children: [
                       user == null
@@ -173,14 +185,16 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                         height: 20,
                       ),
                       MaterialButton(
-                        color: Colors.blue,
-                        child: const Text('Get Articles'),
+                        color: Colors.pink,
+                        child: const Text('get Article'),
                         onPressed: () async {
                           try {
                             final articles = await newsRepo.fetchTopHeadlines();
-                            print(articles.articles.length.toString());
-                            articleID = articles.articles[3].id;
-                            print('$articleID ==============================>');
+                            setState(() {
+                              myArticle = articles.articles[0];
+                              articleID = articles.articles[0].id;
+                            });
+                            print(myArticle.toString());
                           } catch (e) {
                             print(e.toString());
                             AppAlerts.displaySnackBar(e.toString(), context);
@@ -190,20 +204,23 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                       const SizedBox(
                         height: 20,
                       ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       MaterialButton(
                         color: Colors.purple,
                         child: const Text('Go to article Page'),
                         onPressed: () async {
                           try {
-                            if (articleID == null || user?.uid == null) {
-                              print("articleID : $articleID");
+                            if (myArticle == null || user?.uid == null) {
+                              print("articleID : $myArticle");
                               print('uid : ${user?.uid}');
                             } else {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ArticlePage(
-                                      articleID: articleID ?? '',
+                                      article: myArticle!,
                                       userId: user?.uid ?? ''),
                                 ),
                               );

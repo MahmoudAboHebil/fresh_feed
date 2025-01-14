@@ -7,6 +7,7 @@ class UserBookmarksRepository {
 
   const UserBookmarksRepository(this._firestoreDS);
 
+  // testing toggleBookmarkArticle() is done
   Future<void> toggleBookmarkArticle(Article article, String userUid) async {
     try {
       await _firestoreDS.toggleBookmarkArticle(article, userUid);
@@ -19,6 +20,7 @@ class UserBookmarksRepository {
     }
   }
 
+  // testing getUserBookmarksArticles is done
   Future<List<Article>> getUserBookmarksArticles(String userUid) async {
     try {
       return await _firestoreDS.getUserBookmarksArticles(userUid);

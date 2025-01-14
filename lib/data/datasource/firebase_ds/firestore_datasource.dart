@@ -67,6 +67,7 @@ class FirestoreDatasource {
     }
   }
 
+  // testing getUserBookmarksArticles is done
   Future<List<Article>> getUserBookmarksArticles(String userUid) async {
     try {
       final querySnap = await _firebaseService.firestore
@@ -82,6 +83,7 @@ class FirestoreDatasource {
     }
   }
 
+  // testing toggleBookmarkArticle() is done
   Future<void> toggleBookmarkArticle(Article article, String userUid) async {
     try {
       final docRef = _firebaseService.firestore

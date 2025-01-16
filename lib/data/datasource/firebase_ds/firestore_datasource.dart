@@ -3,6 +3,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fresh_feed/data/models/models.dart';
 import 'package:fresh_feed/data/services/services.dart';
 import 'package:fresh_feed/utils/utlis.dart';
+/*
+With transactions, Firestore ensures:
+Atomicity:
+All operations in the transaction succeed or fail together. If one part fails, the entire transaction is rolled back.
+
+Consistency:
+The data you read at the start of the transaction remains consistent throughout the transaction. If another process modifies the data, your transaction retries with the latest version of the data.
+
+Automatic Conflict Resolution:
+If Firestore detects a conflict (e.g., another process modifies the data you’re reading), the transaction automatically retries up to 5 times.
+
+No Race Conditions:
+Transactions lock the document while they are running, preventing other processes from modifying the same document until the transaction completes.
+*/
 
 class FirestoreDatasource {
   FirestoreDatasource(this._firebaseService);
@@ -100,6 +114,66 @@ class FirestoreDatasource {
           transaction.delete(docRef);
         } else {
           transaction.set(docRef, article.toJson());
+        }
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<String>> getUserFollowingChannels(String userUid) async {
+    try {
+      final querySnap = await _firebaseService.firestore
+          .collection('channels')
+          .doc(userUid)
+          .get();
+
+      if (!querySnap.exists) {
+        return <String>[];
+      }
+
+      final data = querySnap.data();
+      if (data == null || data['sources'] == null) {
+        return <String>[];
+      }
+
+      final sources = List<String>.from(data['sources'] as List);
+      return sources;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> toggleUserChannel(String sourceId, String userUid) async {
+    try {
+      final docRef =
+          _firebaseService.firestore.collection('channels').doc(userUid);
+
+      await _firebaseService.firestore.runTransaction((trans) async {
+        final snap = await trans.get(docRef);
+
+        final List<dynamic>? sources =
+            snap.exists ? (snap.data()?['sources']) : null;
+
+        final bool isChannelExists =
+            sources != null && sources.cast<String>().contains(sourceId);
+
+        if (isChannelExists) {
+          trans.set(
+            docRef,
+            {
+              'sources': FieldValue.arrayRemove([sourceId]),
+            },
+            SetOptions(merge: true),
+          );
+        } else {
+          trans.set(
+            docRef,
+            {
+              'sources': FieldValue.arrayUnion([sourceId]),
+            },
+            SetOptions(merge: true),
+          );
         }
       });
     } catch (e) {

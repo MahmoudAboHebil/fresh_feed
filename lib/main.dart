@@ -15,3 +15,33 @@ void main() async {
 
   runApp(const ProviderScope(child: FreshFeedApp()));
 }
+
+final x = [
+  "abc-news",
+  "abc-news-au",
+  "aftenposten",
+  "al-jazeera-english",
+  "ansa",
+  "argaam",
+  "ars-technica",
+  "ary-news",
+  "associated-press",
+  "australian-financial-review",
+  "axios",
+  "bbc-news",
+  "bbc-sport",
+  "bild",
+  "blasting-news-br",
+  "bleacher-report",
+  "bloomberg",
+  "breitbart-news",
+  "business-insider",
+  "buzzfeed",
+  "cbc-news",
+  "cbs-news",
+  "cnn",
+  "cnn-es",
+  "crypto-coins-news",
+  "der-tagesspiegel",
+  "die-zeit",
+];

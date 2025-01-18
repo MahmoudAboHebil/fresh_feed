@@ -7,7 +7,7 @@ import 'package:fresh_feed/utils/utlis.dart';
 
 //ToDo: flashing image when toggle
 //ToDo: validate the source images
-//ToDo: testing on failure cases
+//ToDo: testing on failure cases (done)
 //ToDo: reTesting articlesView && userBookmarks
 
 class FollowedChannelsPage extends ConsumerStatefulWidget {
@@ -61,7 +61,7 @@ class _FollowedChannelsPageState extends ConsumerState<FollowedChannelsPage> {
       return sourceMap.containsKey('logo') ? sourceMap['logo'] : null;
     }
 
-    void updateTheStateBeforeLeaving() async {
+    void updateTheStateBeforeLeaving() {
       for (int i = 0; i < modifiedStateList.length; i++) {
         final itemMap = modifiedStateList[i];
         final sourceId = itemMap['sourceId'] as String?;
@@ -77,12 +77,14 @@ class _FollowedChannelsPageState extends ConsumerState<FollowedChannelsPage> {
 
     return PopScope(
       canPop: true,
-      onPopInvokedWithResult: (wasPopped, result) {
+      onPopInvokedWithResult: (wasPopped, result) async {
         try {
           print('Leaving...............');
           updateTheStateBeforeLeaving();
         } catch (e) {
-          print(e);
+          AppAlerts.displaySnackBar(e.toString(), context);
+          await userFollowedChannelsProv
+              .refreshUserFollowedChannels(widget.userUid);
         }
       },
       child: Scaffold(
@@ -101,7 +103,7 @@ class _FollowedChannelsPageState extends ConsumerState<FollowedChannelsPage> {
                   child: const Text('Add Sources'),
                   onPressed: () async {
                     try {
-                      for (int i = 0; i < 20; i++) {
+                      for (int i = 0; i < 3; i++) {
                         await userFollowedChannelsProv
                             .toggleUserFollowedChannelsFromDataBase(
                           sourceLogos[i]['id'],
@@ -209,6 +211,10 @@ class _FollowedChannelsPageState extends ConsumerState<FollowedChannelsPage> {
                                   }
                                 });
                                 print(modifiedStateList.toString());
+                                // await userFollowedChannelsProv
+                                //     .toggleUserFollowedChannelsFromState(
+                                //         sourceId, widget.userUid, isExists);
+
                                 await userFollowedChannelsProv
                                     .toggleUserFollowedChannelsFromDataBase(
                                   sourceId,

@@ -121,6 +121,7 @@ class FirestoreDatasource {
     }
   }
 
+  // testing getUserFollowingChannels is done
   Future<List<String>> getUserFollowingChannels(String userUid) async {
     try {
       final querySnap = await _firebaseService.firestore
@@ -144,6 +145,7 @@ class FirestoreDatasource {
     }
   }
 
+  // testing toggleUserChannel() is done
   Future<Map<String, Object>> toggleUserChannel(
       String sourceId, String userUid) async {
     try {

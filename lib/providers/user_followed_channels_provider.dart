@@ -7,6 +7,19 @@ class UserFollowedChannelsNotifier extends Notifier<List<String>?> {
     return null;
   }
 
+  /*
+   Errors seniors:
+   1. Error in refreshUserFollowedChannels()
+      1. the state will be null
+      2. the toggleUserFollowedChannelsFromDataBase() it will throw an Error
+      3. the toggleUserFollowedChannelsFromState() it will do no thing
+   2. Error in toggleUserFollowedChannelsFromDataBase() or toggleUserFollowedChannelsFromState()
+      1. it will throw an error
+      2. at user channel Page && the source page  we will make a logic that it will refresh the state if
+         this error happen to get the correct data from database
+   */
+
+  // testing refreshUserFollowedChannels() is done
   Future<void> refreshUserFollowedChannels(String userUid) async {
     try {
       final followedRepo = ref.read(userFollowedChannelsRepoProvider);
@@ -19,6 +32,7 @@ class UserFollowedChannelsNotifier extends Notifier<List<String>?> {
     }
   }
 
+  // testing toggleUserFollowedChannelsFromDataBase() is done
   Future<Map<String, Object>> toggleUserFollowedChannelsFromDataBase(
       String sourceId, String userUid) async {
     try {
@@ -33,8 +47,9 @@ class UserFollowedChannelsNotifier extends Notifier<List<String>?> {
     }
   }
 
-  Future<void> toggleUserFollowedChannelsFromState(
-      String sourceId, String userUid, bool add) async {
+  // testing  toggleUserFollowedChannelsFromState() is done
+  void toggleUserFollowedChannelsFromState(
+      String sourceId, String userUid, bool add) {
     try {
       if (state == null) return;
       if (!add) {
@@ -50,15 +65,11 @@ class UserFollowedChannelsNotifier extends Notifier<List<String>?> {
       print('toggleUser $sourceId State success====================>');
       print(state);
     } catch (e) {
-      try {
-        await refreshUserFollowedChannels(userUid);
-      } catch (e) {
-        rethrow;
-      }
       rethrow;
     }
   }
 
+  // testing loadDataIfStateIsNull() is done
   Future<void> loadDataIfStateIsNull(String? userUid) async {
     try {
       if (userUid != null) {

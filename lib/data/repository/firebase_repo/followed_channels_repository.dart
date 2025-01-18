@@ -6,6 +6,7 @@ class UserFollowedChannelsRepository {
 
   const UserFollowedChannelsRepository(this._firestoreDS);
 
+  // testing toggleUserChannel() is done
   Future<Map<String, Object>> toggleUserChannel(
       String sourceId, String userUid) async {
     try {
@@ -19,6 +20,7 @@ class UserFollowedChannelsRepository {
     }
   }
 
+  // testing getUserFollowingChannels() is done
   Future<List<String>> getUserFollowingChannels(String userUid) async {
     try {
       return await _firestoreDS.getUserFollowingChannels(userUid);

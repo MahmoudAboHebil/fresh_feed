@@ -5,25 +5,34 @@ import 'package:fresh_feed/providers/providers.dart';
 
 import '../utils/app_alerts.dart';
 
-class ArticlePage extends ConsumerStatefulWidget {
+class BookmarksPage extends ConsumerStatefulWidget {
   final Article article;
   final String userId;
 
-  const ArticlePage({
+  const BookmarksPage({
     required this.article,
     required this.userId,
     super.key,
   });
 
   @override
-  ConsumerState<ArticlePage> createState() => _ArticlePageState();
+  ConsumerState<BookmarksPage> createState() => _ArticlePageState();
 }
 
-class _ArticlePageState extends ConsumerState<ArticlePage> {
+class _ArticlePageState extends ConsumerState<BookmarksPage> {
   bool? isExists;
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      try {
+        await ref
+            .read(userBookmarksNotifierProvider.notifier)
+            .loadDataIfStateIsNull(widget.userId);
+      } catch (e) {
+        print(e);
+      }
+    });
   }
 
   bool isArtBookmarksExists(Article article, dynamic state) {
@@ -37,8 +46,10 @@ class _ArticlePageState extends ConsumerState<ArticlePage> {
     final userBookmarksProv = ref.read(userBookmarksNotifierProvider.notifier);
 
     ref.listen(userListenerProvider, (prev, now) async {
-      print('dddddddddddddddddddddddddddddddddd');
       try {
+        print(
+            'userListenerProvider (BookmarksPage) about user Bookmarks-Article=====>');
+
         await userBookmarksProv.loadDataIfStateIsNull(now?.uid);
       } catch (e) {
         print(e);

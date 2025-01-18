@@ -144,8 +144,10 @@ class FirestoreDatasource {
     }
   }
 
-  Future<void> toggleUserChannel(String sourceId, String userUid) async {
+  Future<Map<String, Object>> toggleUserChannel(
+      String sourceId, String userUid) async {
     try {
+      bool? isAdded;
       final docRef =
           _firebaseService.firestore.collection('channels').doc(userUid);
 
@@ -166,6 +168,7 @@ class FirestoreDatasource {
             },
             SetOptions(merge: true),
           );
+          isAdded = false;
         } else {
           trans.set(
             docRef,
@@ -174,8 +177,13 @@ class FirestoreDatasource {
             },
             SetOptions(merge: true),
           );
+          isAdded = true;
         }
       });
+      return {
+        'sourceId': sourceId,
+        'isAdded': isAdded!,
+      };
     } catch (e) {
       rethrow;
     }

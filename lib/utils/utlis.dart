@@ -6,5 +6,6 @@ export 'news_category.dart';
 export 'news_country.dart';
 export 'news_language.dart';
 export 'news_sort_by.dart';
+export 'news_source_logos.dart';
 export 'permission_handler_service.dart';
 export 'sql_conversion.dart';

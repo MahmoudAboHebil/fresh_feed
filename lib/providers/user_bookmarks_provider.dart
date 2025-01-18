@@ -23,6 +23,8 @@ class UserBookmarksNotifier extends Notifier<List<Article>?> {
   Future<void> toggleBookmarkFromDataBase(
       Article article, String userUid) async {
     try {
+      await loadDataIfStateIsNull(userUid);
+
       final bookmarksRepo = ref.read(userBookmarksRepoProvider);
       await bookmarksRepo.toggleBookmarkArticle(article, userUid);
       print('toggleBookmarkFromDataBase success====================>');
@@ -63,7 +65,7 @@ class UserBookmarksNotifier extends Notifier<List<Article>?> {
       } else {
         state = null;
       }
-      print(state);
+      print('UserBookmarks state: $state');
     } catch (e) {
       state = null;
       rethrow;

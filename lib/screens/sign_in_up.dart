@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
-import 'package:fresh_feed/screens/article_page.dart';
+import 'package:fresh_feed/screens/followed_channels_page.dart';
 
 import '../utils/app_alerts.dart';
 
@@ -24,14 +24,19 @@ class _SignInUpState extends ConsumerState<SignInUp> {
   bool? isExists;
 
   @override
-  void dispose() {
-    super.dispose();
-    print('dispose is called');
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref
+          .read(articleViewNotifierProvider.notifier)
+          .loadDataIfStateIsNull();
+    });
   }
 
   @override
-  void initState() {
-    super.initState();
+  void dispose() {
+    super.dispose();
+    print('dispose is called');
   }
 
   Future<void> test() async {}
@@ -42,15 +47,29 @@ class _SignInUpState extends ConsumerState<SignInUp> {
     final network_steam = ref.watch(networkInfoStreamNotifierProv);
     final newsRepo = ref.read(newsApiRepoProvider);
     final userBookmarksProv = ref.read(userBookmarksNotifierProvider.notifier);
+    final userFollowedChannelsProv =
+        ref.read(userFollowedChannelsNotifierProvider.notifier);
 
     ref.listen(userListenerProvider, (prev, now) async {
-      print('dddddddddddddddddddddddddddddddddd');
+      print(
+          'userListenerProvider (SignInUp) about user Bookmarks-article=====>');
       try {
         await userBookmarksProv.loadDataIfStateIsNull(now?.uid);
       } catch (e) {
         print(e);
       }
     });
+
+    ref.listen(userListenerProvider, (prev, now) async {
+      print(
+          'userListenerProvider (SignInUp) about user followed-channels=====>');
+      try {
+        await userFollowedChannelsProv.loadDataIfStateIsNull(now?.uid);
+      } catch (e) {
+        print(e);
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Test Sign UP&IN'),
@@ -212,16 +231,12 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                         child: const Text('Go to article Page'),
                         onPressed: () async {
                           try {
-                            if (myArticle == null || user?.uid == null) {
-                              print("articleID : $myArticle");
-                              print('uid : ${user?.uid}');
-                            } else {
+                            if (user != null) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ArticlePage(
-                                      article: myArticle!,
-                                      userId: user?.uid ?? ''),
+                                  builder: (context) =>
+                                      FollowedChannelsPage(userUid: user.uid),
                                 ),
                               );
                             }

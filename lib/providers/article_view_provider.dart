@@ -13,11 +13,10 @@ import 'package:fresh_feed/data/data.dart';
 
   2. Error in addArticleViewToDataBase()
       i. throw an error
-     ii. addArticleViewToState() => will add to the state successfully
+     ii. addArticleViewToState() => will not be called
 
   3. Error in addArticleViewToState()
-      i. we will refresh the state
-     ii. we will throw an error
+      i. we will just refresh the state
  */
 class ArticleViewNotifier extends Notifier<List<ViewModel>?> {
   @override

@@ -19,6 +19,7 @@ class ArticlesViewPage extends ConsumerStatefulWidget {
 }
 
 class _ArticlePageState extends ConsumerState<ArticlesViewPage> {
+  bool isAdded = false;
   @override
   void initState() {
     super.initState();
@@ -29,6 +30,9 @@ class _ArticlePageState extends ConsumerState<ArticlesViewPage> {
         if (widget.userId != null) {
           await viewProv.addArticleViewToDataBase(
               widget.articleID, widget.userId!);
+          setState(() {
+            isAdded = true;
+          });
         }
       } catch (e) {
         AppAlerts.displaySnackBar(e.toString(), context);
@@ -45,18 +49,19 @@ class _ArticlePageState extends ConsumerState<ArticlesViewPage> {
       onPopInvokedWithResult: (wasPopped, result) async {
         if (widget.userId != null) {
           try {
-            final articleViewProvider =
-                ref.read(articleViewNotifierProvider.notifier);
-            articleViewProvider.addArticleViewToState(
-                widget.articleID, widget.userId!);
+            if (isAdded) {
+              final articleViewProvider =
+                  ref.read(articleViewNotifierProvider.notifier);
+              articleViewProvider.addArticleViewToState(
+                  widget.articleID, widget.userId!);
+            }
           } catch (e) {
-            AppAlerts.displaySnackBar(e.toString(), context);
             try {
               await ref
                   .read(articleViewNotifierProvider.notifier)
                   .refreshData();
             } catch (e) {
-              print(e);
+              AppAlerts.displaySnackBar(e.toString(), context);
             }
             print(e);
           }

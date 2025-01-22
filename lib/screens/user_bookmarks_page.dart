@@ -4,23 +4,41 @@ import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
 
 import '../utils/app_alerts.dart';
+import 'followed_channels_page.dart';
 
 class BookmarksPage extends ConsumerStatefulWidget {
-  final Article article;
   final String userId;
 
   const BookmarksPage({
-    required this.article,
     required this.userId,
     super.key,
   });
-
   @override
   ConsumerState<BookmarksPage> createState() => _ArticlePageState();
 }
 
 class _ArticlePageState extends ConsumerState<BookmarksPage> {
   bool? isExists;
+  List<Map<String, Object>> modifiedStateList = [];
+  void updateTheStateBeforeLeaving() {
+    for (int i = 0; i < modifiedStateList.length; i++) {
+      final itemMap = modifiedStateList[i];
+      final sourceId = itemMap['id'] as String?;
+      final isAdded = itemMap['isAdded'] as bool?;
+      final articleMap = itemMap['article'] as Map<String, dynamic>?;
+      print('ddddddddd $sourceId  :  $isAdded');
+
+      if (sourceId != null && isAdded != null && articleMap != null) {
+        ref
+            .read(userBookmarksNotifierProvider.notifier)
+            .toggleBookmarksFromState(
+              Article.fromJson(articleMap),
+              isAdded,
+            );
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -57,19 +75,16 @@ class _ArticlePageState extends ConsumerState<BookmarksPage> {
     });
     return PopScope(
       canPop: true,
-      onPopInvokedWithResult: (wasPopped, result) {
+      onPopInvokedWithResult: (wasPopped, result) async {
         try {
-          final userBookmarksNotifier =
-              ref.read(userBookmarksNotifierProvider.notifier);
-
-          print(
-              'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh===================================');
-          if (isExists != null) {
-            userBookmarksNotifier.toggleBookmarksFromState(
-                widget.article, isExists!);
-          }
+          print('Leaving...............');
+          updateTheStateBeforeLeaving();
         } catch (e) {
-          print(e);
+          try {
+            await userBookmarksProv.refreshUserBookmarksArticles(widget.userId);
+          } catch (e) {
+            AppAlerts.displaySnackBar(e.toString(), context);
+          }
         }
       },
       child: Scaffold(
@@ -84,38 +99,83 @@ class _ArticlePageState extends ConsumerState<BookmarksPage> {
               const SizedBox(
                 height: 10,
               ),
-              Text(userBookmarksState.toString()),
+              Text(userBookmarksState!.length.toString()),
               const SizedBox(
                 height: 30,
               ),
-              IconButton(
-                color: Colors.blue,
-                icon: isExists ??
-                        isArtBookmarksExists(widget.article, userBookmarksState)
-                    ? const Icon(
-                        Icons.check,
-                        color: Colors.green,
-                      )
-                    : const Icon(
-                        Icons.close,
-                        color: Colors.red,
-                      ),
-                onPressed: () async {
-                  try {
-                    final userBookmarksNotifier =
-                        ref.read(userBookmarksNotifierProvider.notifier);
-                    setState(() {
-                      isExists = !(isExists ??
-                          isArtBookmarksExists(
-                              widget.article, userBookmarksState));
-                    });
-                    await userBookmarksNotifier.toggleBookmarkFromDataBase(
-                        widget.article, widget.userId);
-                  } catch (e) {
-                    print(e.toString());
-                    AppAlerts.displaySnackBar(e.toString(), context);
+              ListView.separated(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final article = userBookmarksState?[index];
+                  if (article != null) {
+                    return Column(
+                      key: ValueKey(article.id),
+                      children: [
+                        Text(article.id),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ToggleButton(
+                          callback: (isExists) async {
+                            try {
+                              var item;
+                              var indexInModified;
+
+                              for (int i = 0;
+                                  i < modifiedStateList.length;
+                                  i++) {
+                                if (modifiedStateList[i]['id'] == article.id) {
+                                  item = modifiedStateList[i];
+                                  indexInModified = i;
+                                  break;
+                                }
+                              }
+
+                              setState(() {
+                                if (item == null) {
+                                  modifiedStateList.add({
+                                    'id': article.id,
+                                    'isAdded': isExists,
+                                    'article': article.toJson()
+                                  });
+                                } else {
+                                  modifiedStateList[indexInModified] = {
+                                    'id': article.id,
+                                    'isAdded': isExists,
+                                    'article': article.toJson()
+                                  };
+                                }
+                              });
+
+                              await userBookmarksProv
+                                  .toggleBookmarkFromDataBase(
+                                      article, widget.userId);
+                              print(modifiedStateList);
+                            } catch (e) {
+                              setState(() {
+                                modifiedStateList.clear();
+                              });
+                              rethrow;
+                            }
+                          },
+                          onFailure: () async {
+                            await userBookmarksProv
+                                .refreshUserBookmarksArticles(widget.userId);
+                          },
+                        ),
+                      ],
+                    );
                   }
+
+                  return const SizedBox();
                 },
+                separatorBuilder: (context, index) => Container(
+                  margin: const EdgeInsets.all(15),
+                  height: 2,
+                  color: Colors.grey,
+                ),
+                itemCount: userBookmarksState?.length ?? 0,
               ),
               const SizedBox(
                 height: 30,

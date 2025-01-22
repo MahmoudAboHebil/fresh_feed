@@ -8,7 +8,8 @@ import 'package:fresh_feed/utils/utlis.dart';
 //ToDo: flashing image when toggle
 //ToDo: validate the source images
 //ToDo: testing on failure cases (done)
-//ToDo: reTesting articlesView && userBookmarks
+//ToDo: reTesting articlesView  (done)
+//ToDo: reTesting userBookmarks (done)
 
 class FollowedChannelsPage extends ConsumerStatefulWidget {
   const FollowedChannelsPage({required this.userUid, super.key});
@@ -82,9 +83,12 @@ class _FollowedChannelsPageState extends ConsumerState<FollowedChannelsPage> {
           print('Leaving...............');
           updateTheStateBeforeLeaving();
         } catch (e) {
-          AppAlerts.displaySnackBar(e.toString(), context);
-          await userFollowedChannelsProv
-              .refreshUserFollowedChannels(widget.userUid);
+          try {
+            await userFollowedChannelsProv
+                .refreshUserFollowedChannels(widget.userUid);
+          } catch (e) {
+            AppAlerts.displaySnackBar(e.toString(), context);
+          }
         }
       },
       child: Scaffold(

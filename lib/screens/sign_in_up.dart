@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
-import 'package:fresh_feed/screens/followed_channels_page.dart';
+import 'package:fresh_feed/screens/user_bookmarks_page.dart';
 
 import '../utils/app_alerts.dart';
 
@@ -27,9 +27,13 @@ class _SignInUpState extends ConsumerState<SignInUp> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref
-          .read(articleViewNotifierProvider.notifier)
-          .loadDataIfStateIsNull();
+      try {
+        await ref
+            .read(articleViewNotifierProvider.notifier)
+            .loadDataIfStateIsNull();
+      } catch (e) {
+        AppAlerts.displaySnackBar(e.toString(), context);
+      }
     });
   }
 
@@ -213,7 +217,13 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                               myArticle = articles.articles[0];
                               articleID = articles.articles[0].id;
                             });
-                            print(myArticle.toString());
+                            for (int i = 0; i < 5; i++) {
+                              await userBookmarksProv
+                                  .toggleBookmarkFromDataBase(
+                                      articles.articles[i], user!.uid);
+                              userBookmarksProv.toggleBookmarksFromState(
+                                  articles.articles[i], true);
+                            }
                           } catch (e) {
                             print(e.toString());
                             AppAlerts.displaySnackBar(e.toString(), context);
@@ -236,7 +246,7 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      FollowedChannelsPage(userUid: user.uid),
+                                      BookmarksPage(userId: user.uid),
                                 ),
                               );
                             }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/providers/article_view_provider.dart';
 
+import '../utils/app_alerts.dart';
+
 class ArticlesViewPage extends ConsumerStatefulWidget {
   final String articleID;
   final String? userId;
@@ -29,6 +31,7 @@ class _ArticlePageState extends ConsumerState<ArticlesViewPage> {
               widget.articleID, widget.userId!);
         }
       } catch (e) {
+        AppAlerts.displaySnackBar(e.toString(), context);
         print(e);
       }
     });
@@ -39,7 +42,7 @@ class _ArticlePageState extends ConsumerState<ArticlesViewPage> {
     final articleViewProvider = ref.watch(articleViewNotifierProvider);
     return PopScope(
       canPop: true,
-      onPopInvokedWithResult: (wasPopped, result) {
+      onPopInvokedWithResult: (wasPopped, result) async {
         if (widget.userId != null) {
           try {
             final articleViewProvider =
@@ -47,6 +50,14 @@ class _ArticlePageState extends ConsumerState<ArticlesViewPage> {
             articleViewProvider.addArticleViewToState(
                 widget.articleID, widget.userId!);
           } catch (e) {
+            AppAlerts.displaySnackBar(e.toString(), context);
+            try {
+              await ref
+                  .read(articleViewNotifierProvider.notifier)
+                  .refreshData();
+            } catch (e) {
+              print(e);
+            }
             print(e);
           }
         }

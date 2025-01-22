@@ -9,14 +9,22 @@ class UserFollowedChannelsNotifier extends Notifier<List<String>?> {
 
   /*
    Errors seniors:
-   1. Error in refreshUserFollowedChannels()
+   1. Error in refreshUserFollowedChannels() or loadDataIfStateIsNull()
       1. the state will be null
       2. the toggleUserFollowedChannelsFromDataBase() it will throw an Error
       3. the toggleUserFollowedChannelsFromState() it will do no thing
-   2. Error in toggleUserFollowedChannelsFromDataBase() or toggleUserFollowedChannelsFromState()
+  2. Error toggleUserFollowedChannelsFromState()
+      1. when leaving the channel page we refresh the state without
+         showing the error because the update date will get from the DB
+      2. at the source page we refresh the state and showing the error
+         because we the old data will get from the DB and nothing will change
+         due that the toggleUserFollowedChannelsFromDataBase() will not be called
+
+
+   3. Error in toggleUserFollowedChannelsFromDataBase()
       1. it will throw an error
-      2. at user channel Page && the source page  we will make a logic that it will refresh the state if
-         this error happen to get the correct data from database
+      2. at user channel Page && the source page  we will make a logic that
+         it will refresh the state if this error happen to get the correct data from database
    */
 
   // testing refreshUserFollowedChannels() is done

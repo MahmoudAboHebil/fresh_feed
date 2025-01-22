@@ -6,16 +6,18 @@ import 'package:fresh_feed/data/data.dart';
 
 /*
   Errors scenarios:
-  1. Error in addArticleViewToDataBase() if the error happen because of
-      i. loadDataIfStateIsNull() => the state will be null and the article
-         will not added into database nor the state
-     ii. addArticleView() => the article will not added to database but it may
-         be added to state
-  2. Error in addArticleViewToState() that happen if there is a problem with
-     handling the state data
-      i. the article will not added to the state at this point when calling
-         addArticleViewToDataBase()with the same article that saved early on database,
-         there are no changes will happen at the database
+  1. Error in loadDataIfStateIsNull() or refreshData()
+     i. the state will be null and throw an error
+    ii. addArticleViewToDataBase() => it will throw an error
+   iii. addArticleViewToState () => no thing happen
+
+  2. Error in addArticleViewToDataBase()
+      i. throw an error
+     ii. addArticleViewToState() => will add to the state successfully
+
+  3. Error in addArticleViewToState()
+      i. we will refresh the state
+     ii. we will throw an error
  */
 class ArticleViewNotifier extends Notifier<List<ViewModel>?> {
   @override

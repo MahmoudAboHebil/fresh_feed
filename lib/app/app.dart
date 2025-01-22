@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fresh_feed/screens/home_screen.dart';
+import 'package:fresh_feed/screens/screens.dart';
 
 class FreshFeedApp extends StatelessWidget {
   const FreshFeedApp({super.key});
@@ -7,7 +7,7 @@ class FreshFeedApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomeScreen(),
+      home: TestImage(),
     );
   }
 }

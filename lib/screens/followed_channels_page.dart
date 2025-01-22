@@ -6,7 +6,7 @@ import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 
 //ToDo: flashing image when toggle
-//ToDo: validate the source images
+//ToDo: validate the source images (done)
 //ToDo: testing on failure cases (done)
 //ToDo: reTesting articlesView  (done)
 //ToDo: reTesting userBookmarks (done)

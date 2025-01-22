@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 
-//ToDo: flashing image when toggle
+//ToDo: flashing image when toggle (done)
 //ToDo: validate the source images (done)
 //ToDo: testing on failure cases (done)
 //ToDo: reTesting articlesView  (done)
@@ -38,6 +38,7 @@ class _FollowedChannelsPageState extends ConsumerState<FollowedChannelsPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('==================================================================');
     final userFollowedChannelsProv =
         ref.read(userFollowedChannelsNotifierProvider.notifier);
     final userFollowedChannelsState =
@@ -201,19 +202,17 @@ class _FollowedChannelsPageState extends ConsumerState<FollowedChannelsPage> {
                                   }
                                 }
 
-                                setState(() {
-                                  if (item == null) {
-                                    modifiedStateList.add({
-                                      'sourceId': sourceId,
-                                      'isAdded': isExists,
-                                    });
-                                  } else {
-                                    modifiedStateList[indexInModified] = {
-                                      'sourceId': sourceId,
-                                      'isAdded': isExists,
-                                    };
-                                  }
-                                });
+                                if (item == null) {
+                                  modifiedStateList.add({
+                                    'sourceId': sourceId,
+                                    'isAdded': isExists,
+                                  });
+                                } else {
+                                  modifiedStateList[indexInModified] = {
+                                    'sourceId': sourceId,
+                                    'isAdded': isExists,
+                                  };
+                                }
                                 print(modifiedStateList.toString());
                                 // await userFollowedChannelsProv
                                 //     .toggleUserFollowedChannelsFromState(

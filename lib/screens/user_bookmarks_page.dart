@@ -62,7 +62,7 @@ class _ArticlePageState extends ConsumerState<BookmarksPage> {
   Widget build(BuildContext context) {
     final userBookmarksState = ref.watch(userBookmarksNotifierProvider);
     final userBookmarksProv = ref.read(userBookmarksNotifierProvider.notifier);
-
+    print('=================================================================');
     ref.listen(userListenerProvider, (prev, now) async {
       try {
         print(
@@ -132,21 +132,19 @@ class _ArticlePageState extends ConsumerState<BookmarksPage> {
                                 }
                               }
 
-                              setState(() {
-                                if (item == null) {
-                                  modifiedStateList.add({
-                                    'id': article.id,
-                                    'isAdded': isExists,
-                                    'article': article.toJson()
-                                  });
-                                } else {
-                                  modifiedStateList[indexInModified] = {
-                                    'id': article.id,
-                                    'isAdded': isExists,
-                                    'article': article.toJson()
-                                  };
-                                }
-                              });
+                              if (item == null) {
+                                modifiedStateList.add({
+                                  'id': article.id,
+                                  'isAdded': isExists,
+                                  'article': article.toJson()
+                                });
+                              } else {
+                                modifiedStateList[indexInModified] = {
+                                  'id': article.id,
+                                  'isAdded': isExists,
+                                  'article': article.toJson()
+                                };
+                              }
 
                               await userBookmarksProv
                                   .toggleBookmarkFromDataBase(

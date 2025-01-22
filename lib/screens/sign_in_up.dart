@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
-import 'package:fresh_feed/screens/user_bookmarks_page.dart';
+import 'package:fresh_feed/screens/screens.dart';
 
 import '../utils/app_alerts.dart';
 
@@ -246,7 +246,7 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      BookmarksPage(userId: user.uid),
+                                      FollowedChannelsPage(userUid: user.uid),
                                 ),
                               );
                             }

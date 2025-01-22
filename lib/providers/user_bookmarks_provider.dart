@@ -41,7 +41,6 @@ class UserBookmarksNotifier extends Notifier<List<Article>?> {
   //    toggleBookmarkFromDataBase() will be called at the toggle button
   //testing toggleBookmarksFromState() is done
   void toggleBookmarksFromState(Article article, bool add) {
-    throw Exception();
     if (state == null) return;
     if (!add) {
       //remove

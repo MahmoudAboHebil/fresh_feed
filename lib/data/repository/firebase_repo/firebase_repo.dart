@@ -1,3 +1,5 @@
+export 'article_comment_repo.dart';
+export 'article_comment_repo_provider.dart';
 export 'article_view_repo_provider.dart';
 export 'article_view_repository.dart';
 export 'auth_repository.dart';

@@ -232,6 +232,71 @@ class FirestoreDatasource {
     }
   }
 
+  Future<List<CommentModel>> getArticleComments(String articleId) async {
+    try {
+      final snap = await _firebaseService.firestore
+          .collection('artComments')
+          .doc(articleId)
+          .get();
+
+      List<dynamic>? list = snap.exists ? (snap.data()?['comments']) : null;
+      if (list != null) {
+        return list
+            .cast<String>()
+            .map((String letter) => CommentModel.fromJson(letter, articleId))
+            .toList();
+      } else {
+        return <CommentModel>[];
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> addArticleComment(CommentModel model) async {
+    String letter = model.toJson(model);
+    try {
+      await _firebaseService.firestore
+          .collection('artComments')
+          .doc(model.articleId)
+          .set(
+        {
+          'comments': FieldValue.arrayUnion([letter])
+        },
+        SetOptions(merge: true),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> deleteArtComment(CommentModel model) async {
+    String letter = model.toJson(model);
+    try {
+      await _firebaseService.firestore
+          .collection('artComments')
+          .doc(model.articleId)
+          .set(
+        {
+          'comments': FieldValue.arrayRemove([letter])
+        },
+        SetOptions(merge: true),
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateArtComment(
+      CommentModel oldModel, CommentModel newModel) async {
+    try {
+      await deleteArtComment(oldModel);
+      await addArticleComment(newModel);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   // test updateUser is done
   // for sign in and sign up
   Future<void> updateUser(

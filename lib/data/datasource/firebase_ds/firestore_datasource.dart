@@ -204,14 +204,47 @@ class FirestoreDatasource {
     }
   }
 
-  // testing getArticlesViews is done
-  Future<List<ViewModel>> getArticlesViews() async {
-    try {
-      final querySnap =
-          await _firebaseService.firestore.collection('views').get();
-      return querySnap.docs
-          .map((doc) => ViewModel.fromJson(doc.data() as Map<String, Object?>))
+  Future<List<ViewModel>> getViewModelWhereInByIds(List<String> ids) async {
+    List<ViewModel> allDocuments = [];
+
+    // Split IDs into chunks of 10
+    for (int i = 0; i < ids.length; i += 10) {
+      final batchIds =
+          ids.sublist(i, i + 10 > ids.length ? ids.length : i + 10);
+
+      QuerySnapshot querySnapshot = await _firebaseService.firestore
+          .collection('views')
+          .where(FieldPath.documentId, whereIn: batchIds)
+          .get();
+
+      List<ViewModel> list = querySnapshot.docs
+          .map((doc) {
+            if (doc.exists && doc.data() != null) {
+              return ViewModel.fromJson(doc.data() as Map<String, dynamic>);
+            }
+            return null;
+          })
+          .whereType<ViewModel>() // Filter out null values directly
           .toList();
+
+      allDocuments.addAll(list);
+      allDocuments = allDocuments.toSet().toList();
+    }
+    return allDocuments;
+  }
+
+  // testing getArticlesViews is done
+  Future<ViewModel?> getArticleViews(String articleId) async {
+    try {
+      final snap = await _firebaseService.firestore
+          .collection('views')
+          .doc(articleId)
+          .get();
+      if (snap.exists && snap.data() != null) {
+        return ViewModel.fromJson(snap.data() as Map<String, Object?>);
+      } else {
+        return null;
+      }
     } catch (e) {
       rethrow;
     }

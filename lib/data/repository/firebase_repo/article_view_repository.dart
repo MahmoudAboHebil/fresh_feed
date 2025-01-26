@@ -10,6 +10,8 @@ class ArticleViewRepository {
   // testing addArticleView() is done
   Future<void> addArticleView(String articleID, String userId) async {
     try {
+      print('Add Article View From DB');
+
       await _firestoreDS.addArticleView(articleID, userId);
     } catch (e) {
       throw FreshFeedException(
@@ -21,13 +23,29 @@ class ArticleViewRepository {
   }
 
   // testing getArticlesViews() is done
-  Future<List<ViewModel>> getArticlesViews() async {
+  Future<ViewModel?> getArticlesViews(String articleId) async {
     try {
-      return await _firestoreDS.getArticlesViews();
+      print('Get Article View From DB');
+
+      return await _firestoreDS.getArticleViews(articleId);
     } catch (e) {
       throw FreshFeedException(
         message: 'Oops! failed to get article views ',
         methodInFile: 'getArticlesViews()/ArticleViewRepository',
+        details: e.toString(),
+      );
+    }
+  }
+
+  Future<List<ViewModel>> getViewModelWhereInByIds(List<String> ids) async {
+    try {
+      print('Get View model using where');
+
+      return await _firestoreDS.getViewModelWhereInByIds(ids);
+    } catch (e) {
+      throw FreshFeedException(
+        message: 'Oops! failed to get article views ',
+        methodInFile: 'getViewModelWhereInByIds()/ArticleViewRepository',
         details: e.toString(),
       );
     }

@@ -39,3 +39,6 @@ guest-app feature Logic:
 
 article views feature:
     1. when single user opens the article, we increase the number of views by one
+ note: Is not best practicing  to load all the article that a lot  of them that user
+       will not use so it can be lead to overloading data .so, i will get each article
+       view that user visited it and cashed on this ArticleViewNotifier provider

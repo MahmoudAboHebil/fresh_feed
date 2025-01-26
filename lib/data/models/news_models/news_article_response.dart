@@ -35,5 +35,5 @@ class ArticleResponse extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object> get props => [totalResults, articles];
+  List<Object> get props => [totalResults, Set.from(articles)];
 }

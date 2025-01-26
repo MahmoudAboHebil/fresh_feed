@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
-import 'package:fresh_feed/screens/screens.dart';
+import 'package:fresh_feed/screens/articles_view_page.dart';
 
 import '../utils/app_alerts.dart';
 
@@ -21,20 +21,12 @@ class _SignInUpState extends ConsumerState<SignInUp> {
   String? verificationId;
   String? articleID;
   Article? myArticle;
+  List<Article> myArticles = [];
   bool? isExists;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      try {
-        await ref
-            .read(articleViewNotifierProvider.notifier)
-            .loadDataIfStateIsNull();
-      } catch (e) {
-        AppAlerts.displaySnackBar(e.toString(), context);
-      }
-    });
   }
 
   @override
@@ -217,12 +209,8 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                               myArticle = articles.articles[0];
                               articleID = articles.articles[0].id;
                             });
-                            for (int i = 0; i < 5; i++) {
-                              await userBookmarksProv
-                                  .toggleBookmarkFromDataBase(
-                                      articles.articles[i], user!.uid);
-                              userBookmarksProv.toggleBookmarksFromState(
-                                  articles.articles[i], true);
+                            for (int i = 0; i < articles.articles.length; i++) {
+                              myArticles.add(articles.articles[i]);
                             }
                           } catch (e) {
                             print(e.toString());
@@ -241,12 +229,15 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                         child: const Text('Go to article Page'),
                         onPressed: () async {
                           try {
-                            if (user != null) {
+                            if (articleID != null) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      FollowedChannelsPage(userUid: user.uid),
+                                  builder: (context) => ArticlesViewPage(
+                                    articles: myArticles,
+                                    articleID: articleID!,
+                                    userId: user?.uid,
+                                  ),
                                 ),
                               );
                             }

@@ -205,32 +205,36 @@ class FirestoreDatasource {
   }
 
   Future<List<ViewModel>> getViewModelWhereInByIds(List<String> ids) async {
-    List<ViewModel> allDocuments = [];
+    try {
+      List<ViewModel> allDocuments = [];
+      // Split IDs into chunks of 10
+      for (int i = 0; i < ids.length; i += 10) {
+        final batchIds =
+            ids.sublist(i, i + 10 > ids.length ? ids.length : i + 10);
 
-    // Split IDs into chunks of 10
-    for (int i = 0; i < ids.length; i += 10) {
-      final batchIds =
-          ids.sublist(i, i + 10 > ids.length ? ids.length : i + 10);
+        QuerySnapshot querySnapshot = await _firebaseService.firestore
+            .collection('views')
+            .where(FieldPath.documentId, whereIn: batchIds)
+            .get();
 
-      QuerySnapshot querySnapshot = await _firebaseService.firestore
-          .collection('views')
-          .where(FieldPath.documentId, whereIn: batchIds)
-          .get();
+        List<ViewModel> list = querySnapshot.docs
+            .map((doc) {
+              if (doc.exists && doc.data() != null) {
+                return ViewModel.fromJson(doc.data() as Map<String, dynamic>);
+              }
+              return null;
+            })
+            .whereType<ViewModel>() // Filter out null values directly
+            .toList();
 
-      List<ViewModel> list = querySnapshot.docs
-          .map((doc) {
-            if (doc.exists && doc.data() != null) {
-              return ViewModel.fromJson(doc.data() as Map<String, dynamic>);
-            }
-            return null;
-          })
-          .whereType<ViewModel>() // Filter out null values directly
-          .toList();
-
-      allDocuments.addAll(list);
+        allDocuments.addAll(list);
+      }
       allDocuments = allDocuments.toSet().toList();
+
+      return allDocuments;
+    } catch (e) {
+      rethrow;
     }
-    return allDocuments;
   }
 
   // testing getArticlesViews is done
@@ -260,6 +264,66 @@ class FirestoreDatasource {
         },
         SetOptions(merge: true),
       );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<Map<String, Object>>> getArticlesCommentsWhereInByIds(
+      List<String> articlesIds) async {
+    try {
+      List<Map<String, Object>> allDocuments = [];
+
+      for (int i = 0; i < articlesIds.length; i += 10) {
+        List<String> articlesBatch = articlesIds.sublist(
+            i, i + 10 > articlesIds.length ? articlesIds.length : i + 10);
+
+        QuerySnapshot querySnapshot = await _firebaseService.firestore
+            .collection('artComments')
+            .where(FieldPath.documentId, whereIn: articlesBatch)
+            .get();
+
+        List<Map<String, Object>> batchData = querySnapshot.docs
+            .map(
+              (snap) {
+                final data = snap.data() as Map<String, dynamic>?;
+
+                List<dynamic>? articleComments =
+                    snap.exists ? (data?['comments']) : null;
+
+                if (articleComments != null) {
+                  final listOfCommentsModel = articleComments
+                      .cast<String>()
+                      .map((String letter) =>
+                          CommentModel.fromJson(letter, snap.id))
+                      .toList();
+                  // ascending order
+                  listOfCommentsModel
+                      .sort((a, b) => a.dateTime.compareTo(b.dateTime));
+
+                  return {
+                    'articleId': snap.id,
+                    'comments': listOfCommentsModel
+                  };
+                }
+                return null;
+              },
+            )
+            .whereType<Map<String, Object>>()
+            .toList();
+        allDocuments.addAll(batchData);
+      }
+      List<Map<String, Object>> uniqueDocuments = [];
+      Set<String> seenArticleIDs = {};
+
+      for (var article in allDocuments) {
+        if (!seenArticleIDs.contains(article['articleId'])) {
+          seenArticleIDs.add(article['articleId'] as String);
+          uniqueDocuments.add(article);
+        }
+      }
+
+      return uniqueDocuments;
     } catch (e) {
       rethrow;
     }

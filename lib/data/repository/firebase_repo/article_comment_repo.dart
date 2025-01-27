@@ -14,8 +14,24 @@ class ArticleCommentRepository {
       return comments;
     } catch (e) {
       throw FreshFeedException(
-        message: 'Oops! failed to adding article comment ',
+        message: 'Oops! failed to getting article comment ',
         methodInFile: 'getArticleComments()/ArticleCommentRepository',
+        details: e.toString(),
+      );
+    }
+  }
+
+  Future<List<Map<String, Object>>> getArticlesCommentsWhereInByIds(
+      List<String> articlesIds) async {
+    try {
+      final articlesComments =
+          await _firestoreDS.getArticlesCommentsWhereInByIds(articlesIds);
+      return articlesComments;
+    } catch (e) {
+      throw FreshFeedException(
+        message: 'Oops! failed to adding article comment ',
+        methodInFile:
+            'getArticlesCommentsWhereInByIds()/ArticleCommentRepository',
         details: e.toString(),
       );
     }

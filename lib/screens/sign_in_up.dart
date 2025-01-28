@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
-import 'package:fresh_feed/screens/articles_view_page.dart';
+import 'package:fresh_feed/screens/articles_comment_page.dart';
 
 import '../utils/app_alerts.dart';
 
@@ -209,7 +209,7 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                               myArticle = articles.articles[0];
                               articleID = articles.articles[0].id;
                             });
-                            for (int i = 0; i < articles.articles.length; i++) {
+                            for (int i = 0; i < 5; i++) {
                               myArticles.add(articles.articles[i]);
                             }
                           } catch (e) {
@@ -230,12 +230,11 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                         onPressed: () async {
                           try {
                             if (articleID != null) {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ArticlesViewPage(
+                                  builder: (context) => ArticlesCommentPage(
                                     articles: myArticles,
-                                    articleID: articleID!,
                                     userId: user?.uid,
                                   ),
                                 ),

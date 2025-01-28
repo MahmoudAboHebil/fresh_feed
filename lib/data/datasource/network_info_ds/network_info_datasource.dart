@@ -16,6 +16,8 @@ class NetworkInfoDataSource {
   final StreamController<bool> _networkController =
       StreamController<bool>.broadcast();
 
+  // i am using StreamController instead of just pass Stream<List<ConnectivityResult>>
+  // because i want to get a boolean value
   Stream<bool> get isConnectedStream => _networkController.stream;
 
   void _onConnectivityChanged(List<ConnectivityResult> results) {

@@ -29,7 +29,7 @@ class ArticleCommentRepository {
       return articlesComments;
     } catch (e) {
       throw FreshFeedException(
-        message: 'Oops! failed to adding article comment ',
+        message: 'Oops! failed to get articles comments ',
         methodInFile:
             'getArticlesCommentsWhereInByIds()/ArticleCommentRepository',
         details: e.toString(),
@@ -38,9 +38,9 @@ class ArticleCommentRepository {
   }
 
   Future<void> updateArtComment(
-      CommentModel oldModel, CommentModel newModel) async {
+      String newMessage, CommentModel oldModel) async {
     try {
-      await _firestoreDS.updateArtComment(oldModel, newModel);
+      await _firestoreDS.updateArtComment(newMessage, oldModel);
     } catch (e) {
       throw FreshFeedException(
         message: 'Oops! failed to update article comment ',

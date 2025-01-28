@@ -385,10 +385,10 @@ class FirestoreDatasource {
   }
 
   Future<void> updateArtComment(
-      CommentModel oldModel, CommentModel newModel) async {
+      String newMessage, CommentModel oldModel) async {
     try {
       await deleteArtComment(oldModel);
-      await addArticleComment(newModel);
+      await addArticleComment(oldModel.copyWith(comment: newMessage));
     } catch (e) {
       rethrow;
     }

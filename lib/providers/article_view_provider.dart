@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 
+/// note : i will use Stream instead of using this provider state
+
 /// is not best practicing  to load all the article that a lot  of them that user
 /// will not use so it can be lead to overloading data .so, i will get each article
 /// view that user visited it and cashed on this ArticleViewNotifier provider

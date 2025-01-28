@@ -38,7 +38,7 @@ class NewsApiRepository {
   }
 
   Future<ArticleResponse> fetchEverything({
-    required String query,
+    String? query,
     String? from,
     String? to,
     NewsLanguage? language = NewsLanguage.en,

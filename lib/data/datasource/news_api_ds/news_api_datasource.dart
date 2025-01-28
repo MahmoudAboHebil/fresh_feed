@@ -26,6 +26,10 @@ class NewsApiDataSource {
     List<String>? sources,
   }) async {
     try {
+      if (sources != null) {
+        category = null;
+        country = null;
+      }
       final topHeadBaseUrl = '$_baseUrl/top-headlines';
       final Map<String, String> queryParams = {
         'apiKey': _apiKey,
@@ -68,7 +72,7 @@ class NewsApiDataSource {
 
   //This endpoint suits article discovery and analysis.
   Future<Map<String, dynamic>> fetchEverything({
-    required String query,
+    String? query,
     String? from,
     String? to,
     NewsLanguage? language = NewsLanguage.en,
@@ -83,7 +87,6 @@ class NewsApiDataSource {
       final everythingBaseUrl = '$_baseUrl/everything';
       final Map<String, String> queryParams = {
         'apiKey': _apiKey,
-        'q': query, // Mandatory
         'pageSize': pageSize.toString(),
         'page': page.toString(),
         'language': language?.name ?? NewsLanguage.en.name,
@@ -96,7 +99,9 @@ class NewsApiDataSource {
       if (to != null && to.isNotEmpty) {
         queryParams['to'] = to;
       }
-
+      if (query != null && query.isNotEmpty) {
+        queryParams['q'] = query;
+      }
       if (sources != null && sources.isNotEmpty) {
         final nonEmptyString =
             sources.where((item) => item.isNotEmpty).toSet().toList();

@@ -3,9 +3,9 @@ progress dataLayer==================================================>
 1. ToDo: enable user sign in with phone with error handling
    (i don't have usd payment cart to enable sign in with phone feature)
 
-2. ToDo: Add the app theme & language data (chose small local database)
-3. ToDo: Add article Pagination  (riverpod)
-
+2. ToDo: Add the app theme & language data (chose small local database)_ pending until building the Presentation Layer
+3. ToDo: Add article Pagination  (riverpod) _done but need testing
+4. ToDo: refactoring article view feature to be realtime _ pending until building the Presentation Layer
 
 Done dataLayer==================================================>
 Add article comments feature (firebase) /done
@@ -16,6 +16,8 @@ Enable user to verified its email with error handling /done
 Enable user to reset its password with error handling /done
 Enable user profile within firestore and firebase /done
 Add network connection stream /done
+
+progress presentationLayer ==================================================>
 
 
 

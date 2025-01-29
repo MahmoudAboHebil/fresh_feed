@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
-import 'package:fresh_feed/screens/articles_comment_page.dart';
 
 import '../utils/app_alerts.dart';
+import 'articles_comment_page.dart';
 
 class SignInUp extends ConsumerStatefulWidget {
   const SignInUp({super.key});

@@ -18,7 +18,7 @@ class NewsApiDataSource {
   // This endpoint provides live top and breaking headlines
   Future<Map<String, dynamic>> fetchTopHeadlines({
     NewsCountry? country = NewsCountry.us,
-    NewsLanguage? language = NewsLanguage.en,
+    Language? language = Language.en,
     NewsCategory? category,
     String? query,
     int pageSize = 20,
@@ -36,7 +36,7 @@ class NewsApiDataSource {
         'pageSize': pageSize.toString(),
         'page': page.toString(),
         'country': country?.name ?? NewsCountry.us.name,
-        'language': language?.name ?? NewsLanguage.en.name,
+        'language': language?.name ?? Language.en.name,
       };
       if (category != null) {
         queryParams['category'] = category.name;
@@ -75,7 +75,7 @@ class NewsApiDataSource {
     String? query,
     String? from,
     String? to,
-    NewsLanguage? language = NewsLanguage.en,
+    Language? language = Language.en,
     NewsSortBy? sortBy = NewsSortBy.publishedAt,
     int pageSize = 20,
     int page = 1,
@@ -89,7 +89,7 @@ class NewsApiDataSource {
         'apiKey': _apiKey,
         'pageSize': pageSize.toString(),
         'page': page.toString(),
-        'language': language?.name ?? NewsLanguage.en.name,
+        'language': language?.name ?? Language.en.name,
         'sortBy': sortBy?.name ?? NewsSortBy.publishedAt.name,
       };
       if (from != null && from.isNotEmpty) {
@@ -152,7 +152,7 @@ class NewsApiDataSource {
 
   Future<Map<String, dynamic>> fetchSources({
     NewsCategory? category,
-    NewsLanguage? language,
+    Language? language,
     NewsCountry? country,
   }) async {
     try {

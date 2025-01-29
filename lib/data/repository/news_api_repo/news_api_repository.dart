@@ -10,7 +10,7 @@ class NewsApiRepository {
 
   Future<ArticleResponse> fetchTopHeadlines({
     NewsCountry? country = NewsCountry.us,
-    NewsLanguage? language = NewsLanguage.en,
+    Language? language = Language.en,
     NewsCategory? category,
     String? query,
     int pageSize = 20,
@@ -41,7 +41,7 @@ class NewsApiRepository {
     String? query,
     String? from,
     String? to,
-    NewsLanguage? language = NewsLanguage.en,
+    Language? language = Language.en,
     NewsSortBy? sortBy = NewsSortBy.publishedAt,
     int pageSize = 20,
     int page = 1,
@@ -74,7 +74,7 @@ class NewsApiRepository {
 
   Future<List<Source>> fetchSources({
     NewsCategory? category,
-    NewsLanguage? language,
+    Language? language,
     NewsCountry? country,
   }) async {
     try {

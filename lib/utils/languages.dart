@@ -1,4 +1,4 @@
-enum NewsLanguage {
+enum Language {
   ar("Arabic"),
   de("German"),
   en("English"),
@@ -15,15 +15,14 @@ enum NewsLanguage {
   zh("Chinese");
 
   final String description;
-  const NewsLanguage(this.description);
+  const Language(this.description);
 
-  static NewsLanguage? stringToNewsLanguage(String? languageString) {
+  static Language? stringToLanguage(String? languageString) {
     if (languageString == null) {
       return null;
     }
     try {
-      return NewsLanguage.values
-          .firstWhere((lan) => (lan.name == languageString));
+      return Language.values.firstWhere((lan) => (lan.name == languageString));
     } catch (e) {
       return null;
     }

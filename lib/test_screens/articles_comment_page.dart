@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fresh_feed/screens/screens.dart';
+import 'package:fresh_feed/test_screens/sign_in_up.dart';
 
 import '../data/models/comment_model.dart';
 import '../data/models/news_models/news_article.dart';

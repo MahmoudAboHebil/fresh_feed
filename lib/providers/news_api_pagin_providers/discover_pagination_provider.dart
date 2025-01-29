@@ -3,7 +3,7 @@ import 'package:fresh_feed/data/models/news_models/news_article.dart';
 import 'package:fresh_feed/providers/news_api_pagin_providers/news_api_pagin_providers.dart';
 
 import '../../data/repository/news_api_repo/news_api_repo_provider.dart';
-import '../../utils/news_language.dart';
+import '../../utils/languages.dart';
 import '../../utils/news_sort_by.dart';
 
 class DiscoverPaginationNotifier
@@ -16,7 +16,7 @@ class DiscoverPaginationNotifier
   Future<void> fetchEverything({
     String? from,
     String? to,
-    NewsLanguage? language = NewsLanguage.en,
+    Language? language = Language.en,
     NewsSortBy? sortBy = NewsSortBy.publishedAt,
     int pageSize = 10,
     List<String>? sources,

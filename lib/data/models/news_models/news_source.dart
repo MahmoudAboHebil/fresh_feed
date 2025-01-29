@@ -16,7 +16,7 @@ class Source extends Equatable {
   final String? description;
   final String? url;
   final NewsCategory? category;
-  final NewsLanguage? language;
+  final Language? language;
   final NewsCountry? country;
 
   factory Source.fromJson(Map<String, dynamic> json) {
@@ -27,7 +27,7 @@ class Source extends Equatable {
       category: NewsCategory.stringToNewsCategory(json['category']),
       description: json['description'] as String?,
       id: json['id'] as String?,
-      language: NewsLanguage.stringToNewsLanguage(json['language']),
+      language: Language.stringToLanguage(json['language']),
     );
   }
 

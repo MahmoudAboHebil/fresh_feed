@@ -77,6 +77,16 @@
 	<!-- Permission for Photo Library Access -->
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo library access is required to upload profile pictures.</string>
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>en</string>
+        <string>ar</string>  <!-- Arabic (RTL) -->
+        <string>es</string>
+    </array>
+    <key>UIViewUserInterfaceLayoutDirection</key>
+    <string>$(UIUserInterfaceLayoutDirection)</string>
 
+    <key>LSHasLocalizedDisplayName</key>
+    <true/>
 </dict>
 </plist>

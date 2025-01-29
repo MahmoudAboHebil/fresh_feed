@@ -13,7 +13,11 @@ void main() async {
   );
   await PermissionHandlerService.requestPermissions();
 
-  runApp(const ProviderScope(child: FreshFeedApp()));
+  runApp(
+    const ProviderScope(
+      child: FreshFeedApp(),
+    ),
+  );
 }
 
 final x = [

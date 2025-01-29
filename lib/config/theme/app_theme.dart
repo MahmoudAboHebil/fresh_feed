@@ -1,0 +1,51 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+@immutable
+class AppTheme {
+  const AppTheme._();
+  static final ThemeData lightTheme = FlexThemeData.light(
+    colors: const FlexSchemeColor(
+      primary: Colors.redAccent, // Primary color
+      secondary: Colors.blueGrey, // Secondary color
+      appBarColor: Color(0xFFF8F8F8), // Light app bar
+      error: Colors.red, // Error color
+    ),
+    surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold, // Smooth design
+    blendLevel: 10, // Soft blending
+    appBarOpacity: 0.98,
+    subThemesData: const FlexSubThemesData(
+      blendOnLevel: 10,
+      elevatedButtonSchemeColor: SchemeColor.primary,
+      useMaterial3Typography: true,
+      useM2StyleDividerInM3: true,
+      bottomNavigationBarElevation: 0,
+    ),
+    typography: Typography.material2021(),
+    useMaterial3: true, // Enable Material 3 styles
+    textTheme: GoogleFonts.poppinsTextTheme(), // Apply Google Font
+  );
+
+  static final ThemeData darkTheme = FlexThemeData.dark(
+    colors: const FlexSchemeColor(
+      primary: Colors.redAccent,
+      secondary: Colors.blueGrey,
+      appBarColor: Color(0xFF1E1E1E),
+      error: Colors.red,
+    ),
+    surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold,
+    blendLevel: 20,
+    appBarOpacity: 0.95,
+    subThemesData: const FlexSubThemesData(
+      blendOnLevel: 20,
+      elevatedButtonSchemeColor: SchemeColor.primary,
+      useM2StyleDividerInM3: true,
+      useMaterial3Typography: true,
+      bottomNavigationBarElevation: 0,
+    ),
+    typography: Typography.material2021(),
+    useMaterial3: true,
+    textTheme: GoogleFonts.poppinsTextTheme(),
+  );
+}

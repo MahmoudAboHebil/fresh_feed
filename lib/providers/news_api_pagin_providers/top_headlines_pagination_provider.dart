@@ -3,9 +3,9 @@ import 'package:fresh_feed/data/models/news_models/news_article.dart';
 import 'package:fresh_feed/providers/news_api_pagin_providers/news_api_pagin_providers.dart';
 
 import '../../data/repository/news_api_repo/news_api_repo_provider.dart';
+import '../../utils/languages.dart';
 import '../../utils/news_category.dart';
 import '../../utils/news_country.dart';
-import '../../utils/news_language.dart';
 
 class TopHeadingPaginationNotifier
     extends Notifier<Map<String, NewsApiPaginationState<Article>>> {
@@ -16,7 +16,7 @@ class TopHeadingPaginationNotifier
 
   Future<void> fetchTopHeadlines({
     NewsCountry? country = NewsCountry.us,
-    NewsLanguage? language = NewsLanguage.en,
+    Language? language = Language.en,
     NewsCategory? category,
     int pageSize = 10,
     List<String>? sources,

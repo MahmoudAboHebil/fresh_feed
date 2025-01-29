@@ -47,6 +47,12 @@ dependencies:
   connectivity_plus: ^6.1.1
   permission_handler: ^11.3.1
   equatable: ^2.0.7
+  shared_preferences: ^2.4.0
+  google_fonts: ^6.2.1
+  flex_color_scheme: ^8.0.2
+  flutter_localizations:
+    sdk: flutter
+
 
 dev_dependencies:
   flutter_test:
@@ -100,3 +106,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_intl:
+  enabled: true

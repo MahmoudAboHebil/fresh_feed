@@ -29,14 +29,8 @@ class FreshFeedApp extends ConsumerWidget {
         ),
       );
     } else {
-      Brightness brightnessSystem =
-          MediaQuery.of(context).platformBrightness == Brightness.dark
-              ? Brightness.light
-              : Brightness.dark;
-      Brightness brightnessTheme =
-          Theme.of(context).brightness == Brightness.dark
-              ? Brightness.light
-              : Brightness.dark;
+      Brightness brightnessSystem = MediaQuery.of(context).platformBrightness;
+      Brightness brightnessTheme = Theme.of(context).brightness;
 
       return SizeProvider(
         baseSize: const Size(411.4, 869.3),
@@ -59,10 +53,14 @@ class FreshFeedApp extends ConsumerWidget {
             value: SystemUiOverlayStyle(
               statusBarColor: Colors.transparent,
               statusBarIconBrightness: themeState.value == ThemeMode.system
-                  ? brightnessSystem
-                  : brightnessTheme,
+                  ? (brightnessSystem == Brightness.dark
+                      ? Brightness.light
+                      : Brightness.dark)
+                  : (brightnessTheme == Brightness.dark
+                      ? Brightness.light
+                      : Brightness.dark),
             ),
-            child: SignScreen(),
+            child: const SignScreen(),
           ),
         ),
       );

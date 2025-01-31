@@ -3,6 +3,7 @@ export 'article_view_provider.dart';
 export 'language_provider.dart';
 export 'network_inf_provider.dart';
 export 'news_api_pagin_providers/news_api_pagin_providers.dart';
+export 'size_provider.dart';
 export 'theme_provider.dart';
 export 'user_bookmarks_provider.dart';
 export 'user_followed_channels_provider.dart';

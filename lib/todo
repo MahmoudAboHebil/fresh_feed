@@ -18,16 +18,16 @@ Enable user profile within firestore and firebase /done
 Add network connection stream /done
 
 progress presentationLayer==================================================>
-2. ToDo: learn how  to  sizing the app (responsive) with a better way
-4. ToDo: creating the splash screen
-5. ToDo: the app widgets
-6. ToDo: the app pages
-7. ToDo: the app routing
-8. ToDo: the app network
-9. ToDo: handling the app for user login&logout state
-10. ToDo: handling the app for login guest feature
+1. ToDo: the app widgets
+2. ToDo: creating the splash screen
+3. ToDo: the app pages
+4. ToDo: the app routing
+5. ToDo: the app network
+6. ToDo: handling the app for user login&logout state
+7. ToDo: handling the app for login guest feature
 
 Done presentationLayer==================================================>
+learn how  to  sizing the app (responsive) with a better way /done
 Start implementing App theme /done
 start implementing the app language /done
 

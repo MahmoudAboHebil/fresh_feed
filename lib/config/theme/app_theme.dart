@@ -13,7 +13,7 @@ class AppTheme {
       error: Colors.red, // Error color
     ),
     surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold, // Smooth design
-    blendLevel: 10, // Soft blending
+    blendLevel: 5, // Soft blending
     appBarOpacity: 0.98,
     subThemesData: const FlexSubThemesData(
       blendOnLevel: 10,
@@ -31,10 +31,11 @@ class AppTheme {
     colors: const FlexSchemeColor(
       primary: Colors.redAccent,
       secondary: Colors.blueGrey,
-      appBarColor: Color(0xFF1E1E1E),
+      appBarColor: Color(0xff212121),
       error: Colors.red,
     ),
     surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold,
+    scaffoldBackground: const Color(0xff212121),
     blendLevel: 20,
     appBarOpacity: 0.95,
     subThemesData: const FlexSubThemesData(

@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -63,6 +60,18 @@ class DefaultFirebaseOptions {
     messagingSenderId: '807214650950',
     projectId: 'fresh-feed-app-fea4f',
     storageBucket: 'fresh-feed-app-fea4f.firebasestorage.app',
+    androidClientId: '807214650950-9nd2k16fd1fnn9iame69p74f2a4dokjm.apps.googleusercontent.com',
+    iosClientId: '807214650950-uf9pi2otfhs8mh9jjr74v8ojv46oihgt.apps.googleusercontent.com',
     iosBundleId: 'com.abohebil.freshFeed',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAVNDSirfXFWlnWAlEnaXtBuJzjyS8sZV8',
+    appId: '1:807214650950:web:78bf0c590a58f993df5c47',
+    messagingSenderId: '807214650950',
+    projectId: 'fresh-feed-app-fea4f',
+    authDomain: 'fresh-feed-app-fea4f.firebaseapp.com',
+    storageBucket: 'fresh-feed-app-fea4f.firebasestorage.app',
+  );
+
 }

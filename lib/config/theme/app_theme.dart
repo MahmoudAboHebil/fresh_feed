@@ -7,7 +7,7 @@ class AppTheme {
   const AppTheme._();
   static final ThemeData lightTheme = FlexThemeData.light(
     colors: const FlexSchemeColor(
-      primary: Colors.redAccent, // Primary color
+      primary: Color(0xfff44236), // Primary color
       secondary: Colors.blueGrey, // Secondary color
       appBarColor: Color(0xFFF8F8F8), // Light app bar
       error: Colors.red, // Error color
@@ -29,7 +29,7 @@ class AppTheme {
 
   static final ThemeData darkTheme = FlexThemeData.dark(
     colors: const FlexSchemeColor(
-      primary: Colors.redAccent,
+      primary: Color(0xfff44236),
       secondary: Colors.blueGrey,
       appBarColor: Color(0xff212121),
       error: Colors.red,

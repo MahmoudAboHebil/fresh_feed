@@ -41,4 +41,19 @@ extension BuildContextExtensions on BuildContext {
   double setMinSize(num size) {
     return size * min(scaleWidth, scaleHeight);
   }
+  /* a responsive case
+
+        base (360 | 690 )
+        screen (1280 | 1880 )
+        scale ( 3.55 | 2.72 )
+         14* 3.55
+
+
+        base (200 | 200 )
+        screen ( setMinSize(200)= 544 | setMinSize(200)= 544 )
+        scale ( 2.72 | 2.72 )
+        setHeight() == setWidth() == setMinSize() == setSp()
+         14*2.72
+
+   */
 }

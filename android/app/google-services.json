@@ -12,7 +12,20 @@
           "package_name": "com.abohebil.fresh_feed"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "807214650950-9nd2k16fd1fnn9iame69p74f2a4dokjm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abohebil.fresh_feed",
+            "certificate_hash": "9e1171041dcce1be8d09862f4fe80c9eade9767e"
+          }
+        },
+        {
+          "client_id": "807214650950-hu275gt14m3el71sfli95783f4b8n9al.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD1KDGeTHy69BD2w4hIPISm35ECkoJuaIs"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807214650950-hu275gt14m3el71sfli95783f4b8n9al.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "807214650950-uf9pi2otfhs8mh9jjr74v8ojv46oihgt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.abohebil.freshFeed"
+              }
+            }
+          ]
         }
       }
     }

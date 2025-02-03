@@ -52,6 +52,7 @@ dependencies:
   flex_color_scheme: ^8.0.2
   flutter_localizations:
     sdk: flutter
+  device_preview: ^1.2.0
 
 
 dev_dependencies:
@@ -70,6 +71,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:
+    - assets/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

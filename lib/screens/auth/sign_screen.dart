@@ -4,7 +4,7 @@ import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 
-//ToDo:1. build the page UI take care about thieme,localization, responsive && orientation
+//ToDo:1. build the page UI take care about theme, responsive, orientation && localization
 //ToDo:2. inject the dateLayer
 class SignScreen extends StatefulWidget {
   const SignScreen({super.key});
@@ -14,6 +14,46 @@ class SignScreen extends StatefulWidget {
 }
 
 class _SignScreenState extends State<SignScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool hasError = false;
+
+  String? _emailValidator(value) {
+    if (value == null || value.isEmpty) {
+      return 'Email is required';
+    } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+      return 'البريد الإلكتروني غير صالح';
+    }
+    return null;
+  }
+
+  String? _passwordValidator(value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    } else if (value.length < 6) {
+      return 'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
+    }
+    return null;
+  }
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        hasError = false;
+      });
+      _passwordController.clear();
+      _emailController.clear();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('تم تسجيل الدخول بنجاح!')),
+      );
+    } else {
+      setState(() {
+        hasError = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     print(context.setWidth(1));
@@ -53,7 +93,7 @@ class _SignScreenState extends State<SignScreen> {
                   ),
                 ),
                 // logo
-                Gap(context.setHeightScreenBase(0.1)),
+                Gap(context.setHeightScreenBase(0.08)),
                 Container(
                   width: context.setWidth(230),
                   height: context.setWidth(160),
@@ -67,7 +107,7 @@ class _SignScreenState extends State<SignScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Gap(context.setHeightScreenBase(0.02)),
+                Gap(context.setHeightScreenBase(0.015)),
                 LoginButton(
                   icon: Image.asset(
                     "assets/google_icon.png",
@@ -99,7 +139,60 @@ class _SignScreenState extends State<SignScreen> {
                   callBack: () async {
                     await Future.delayed(Duration(seconds: 3));
                   },
-                )
+                ),
+                Gap(context.setHeightScreenBase(0.03)),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        thickness: 1,
+                        color: context.colorScheme.tertiary,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Text(
+                        'or',
+                        style: TextStyle(
+                          color: context.colorScheme.tertiary,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: context.colorScheme.tertiary,
+                        thickness: 1,
+                      ),
+                    ),
+                  ],
+                ),
+                Gap(context.setHeightScreenBase(0.03)),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      LoginTextFormField(
+                        controller: _emailController,
+                        hasError: hasError,
+                        label: 'Email',
+                        validator: _emailValidator,
+                      ),
+                      Gap(context.setHeightScreenBase(0.02)),
+                      LoginTextFormField(
+                        controller: _passwordController,
+                        hasError: hasError,
+                        label: 'Password',
+                        isPassword: true,
+                        validator: _passwordValidator,
+                      ),
+                      Gap(context.setHeightScreenBase(0.02)),
+                      ElevatedButton(
+                        onPressed: _submitForm,
+                        child: Text('تسجيل الدخول'),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

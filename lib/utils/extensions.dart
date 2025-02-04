@@ -14,17 +14,50 @@ extension BuildContextExtensions on BuildContext {
       MediaQuery.of(this).orientation == Orientation.landscape;
 
   double get screenHeight => isLandScape
-      ? MediaQuery.of(this).size.width
+      ? min(MediaQuery.of(this).size.width, MediaQuery.of(this).size.height)
       : MediaQuery.of(this).size.height;
 
   double get screenWidth => isLandScape
-      ? MediaQuery.of(this).size.height
+      ? max(MediaQuery.of(this).size.width, MediaQuery.of(this).size.height)
       : MediaQuery.of(this).size.width;
 
   SizeProvider get sizeProvider => SizeProvider.of(this);
 
-  double get scaleWidth => sizeProvider.width / sizeProvider.baseSize.width;
-  double get scaleHeight => sizeProvider.height / sizeProvider.baseSize.height;
+  double get scaleWidth =>
+      (sizeProvider.width) /
+      (isLandScape
+          ? max(sizeProvider.baseSize.width, sizeProvider.baseSize.height)
+          : sizeProvider.baseSize.width);
+  double get scaleHeight =>
+      sizeProvider.height /
+      (isLandScape
+          ? min(sizeProvider.baseSize.width, sizeProvider.baseSize.height)
+          : sizeProvider.baseSize.height);
+
+  /*
+
+  double get screenHeight => isLandScape
+      ? min(MediaQuery.of(this).size.width, MediaQuery.of(this).size.height)
+      : MediaQuery.of(this).size.height;
+
+  double get screenWidth => isLandScape
+      ? max(MediaQuery.of(this).size.width, MediaQuery.of(this).size.height)
+      : MediaQuery.of(this).size.width;
+
+  SizeProvider get sizeProvider => SizeProvider.of(this);
+
+  double get scaleWidth =>
+      (sizeProvider.width) /
+      (isLandScape
+          ? max(sizeProvider.baseSize.width, sizeProvider.baseSize.height)
+          : sizeProvider.baseSize.width);
+  double get scaleHeight =>
+      sizeProvider.height /
+      (isLandScape
+          ? min(sizeProvider.baseSize.width, sizeProvider.baseSize.height)
+          : sizeProvider.baseSize.height);
+
+   */
 
   double setHeight(num num) {
     return num * scaleHeight;
@@ -32,6 +65,14 @@ extension BuildContextExtensions on BuildContext {
 
   double setWidth(num num) {
     return num * scaleWidth;
+  }
+
+  double setHeightScreenBase(double perc) {
+    return screenHeight * perc;
+  }
+
+  double setWidthScreenBase(double perc) {
+    return screenWidth * perc;
   }
 
   double setSp(num fontSize) {

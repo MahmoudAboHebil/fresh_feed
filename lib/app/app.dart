@@ -55,8 +55,8 @@ class FreshFeedApp extends ConsumerWidget {
               supportedLocales: S.delegate.supportedLocales,
               theme: AppTheme.lightTheme,
               darkTheme: AppTheme.darkTheme,
-              // themeMode: themeState.value ?? ThemeMode.system,
-              themeMode: ThemeMode.dark,
+              themeMode: themeState.value ?? ThemeMode.system,
+              // themeMode: ThemeMode.dark,
               home: AnnotatedRegion<SystemUiOverlayStyle>(
                 value: SystemUiOverlayStyle(
                   statusBarColor: Colors.transparent,

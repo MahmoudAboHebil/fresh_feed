@@ -19,7 +19,7 @@ class BorderTextButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: EdgeInsetsDirectional.symmetric(
-            horizontal: context.setWidth(18), vertical: context.setWidth(9)),
+            horizontal: context.setWidth(15), vertical: context.setWidth(6)),
         minimumSize: const Size(0, 0),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         backgroundColor: backgroundColor,

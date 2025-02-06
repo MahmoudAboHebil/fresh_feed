@@ -22,6 +22,7 @@ class BorderTextButton extends StatelessWidget {
             horizontal: context.setWidth(15), vertical: context.setWidth(6)),
         minimumSize: const Size(0, 0),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        overlayColor: context.colorScheme.inverseSurface,
         backgroundColor: backgroundColor,
         shape: StadiumBorder(
           side: BorderSide(color: color),

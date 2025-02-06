@@ -37,7 +37,7 @@ class _LoginButtonState extends State<LoginButton> {
               ),
         minimumSize: const Size(0, 0),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        overlayColor: Colors.black54,
+        overlayColor: context.colorScheme.inverseSurface,
         backgroundColor: context.colorScheme.secondary,
         shape: StadiumBorder(),
         elevation: 3,

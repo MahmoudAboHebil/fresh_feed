@@ -18,6 +18,7 @@ class AppTheme {
     surfaceMode: FlexSurfaceMode.highBackgroundLowScaffold, // Smooth design
     blendLevel: 5, // Soft blending
     appBarOpacity: 0.98,
+
     subThemesData: const FlexSubThemesData(
       blendOnLevel: 10,
       elevatedButtonSchemeColor: SchemeColor.primary,

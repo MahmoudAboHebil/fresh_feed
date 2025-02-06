@@ -5,7 +5,9 @@ import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 
 //ToDo:1. build the page UI take care about theme, responsive, orientation && localization
-//ToDo:2. inject the dateLayer
+//ToDo:2. page validation logic &
+//ToDo:3. inject the dateLayer
+//ToDo:4. Error Handling
 class SignScreen extends StatefulWidget {
   const SignScreen({super.key});
 
@@ -56,9 +58,40 @@ class _SignScreenState extends State<SignScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(context.setWidth(1));
-    print(context.setHeight(1));
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        toolbarHeight: context.setMinSize(50),
+        scrolledUnderElevation: 0,
+        actions: [
+          Padding(
+            padding: EdgeInsetsDirectional.only(
+                end: context.setMinSize(15), top: context.setMinSize(10)),
+            child: SizeProvider(
+              baseSize: const Size(60, 30),
+              width: context.setMinSize(60),
+              height: context.setMinSize(60), // scale ( min , min )
+              child: Align(
+                alignment: Alignment.topRight,
+                child: BorderTextButton(
+                  text: 'Skip',
+                  color: context.colorScheme.primary,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  callback: () {
+                    print(MediaQuery.of(context).size);
+                    print('context.screenWidth  ${context.screenWidth}');
+                    print('context.screenHeight  ${context.screenHeight}');
+                    print('width scale  ${context.setWidth(1)}');
+                    print('height scale  ${context.setHeight(1)}');
+
+                    print('press');
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -69,37 +102,16 @@ class _SignScreenState extends State<SignScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizeProvider(
-                  baseSize: const Size(60, 30),
-                  width: context.setMinSize(60),
-                  height: context.setMinSize(60), // scale ( min , min )
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: BorderTextButton(
-                      text: 'Skip',
-                      color: context.colorScheme.primary,
-                      backgroundColor:
-                          Theme.of(context).scaffoldBackgroundColor,
-                      callback: () {
-                        print(MediaQuery.of(context).size);
-                        print('context.screenWidth  ${context.screenWidth}');
-                        print('context.screenHeight  ${context.screenHeight}');
-                        print('width scale  ${context.setWidth(1)}');
-                        print('height scale  ${context.setHeight(1)}');
+                // logo
+                const Gap(20),
 
-                        print('press');
-                      },
-                    ),
+                Container(
+                  child: Image.asset(
+                    'assets/main_logo.png',
+                    width: context.setWidth(280),
+                    height: context.setWidth(200),
                   ),
                 ),
-                // logo
-                Gap(context.setHeightScreenBase(0.08)),
-                Container(
-                  width: context.setWidth(230),
-                  height: context.setWidth(160),
-                  color: Colors.grey,
-                ),
-                Gap(context.setHeightScreenBase(0.02)),
                 Text(
                   'Sign in to News Hunt',
                   style: TextStyle(
@@ -107,7 +119,7 @@ class _SignScreenState extends State<SignScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Gap(context.setHeightScreenBase(0.015)),
+                const Gap(20),
                 LoginButton(
                   icon: Image.asset(
                     "assets/google_icon.png",
@@ -120,7 +132,7 @@ class _SignScreenState extends State<SignScreen> {
                     await Future.delayed(Duration(seconds: 3));
                   },
                 ),
-                Gap(context.setHeightScreenBase(0.02)),
+                const Gap(20),
                 LoginButton(
                   icon: Container(
                     decoration: BoxDecoration(
@@ -140,7 +152,7 @@ class _SignScreenState extends State<SignScreen> {
                     await Future.delayed(Duration(seconds: 3));
                   },
                 ),
-                Gap(context.setHeightScreenBase(0.03)),
+                const Gap(28),
                 Row(
                   children: [
                     Expanded(
@@ -166,7 +178,7 @@ class _SignScreenState extends State<SignScreen> {
                     ),
                   ],
                 ),
-                Gap(context.setHeightScreenBase(0.03)),
+                const Gap(28),
                 Form(
                   key: _formKey,
                   child: Column(
@@ -177,7 +189,7 @@ class _SignScreenState extends State<SignScreen> {
                         label: 'Email',
                         validator: _emailValidator,
                       ),
-                      Gap(context.setHeightScreenBase(0.02)),
+                      const Gap(15),
                       LoginTextFormField(
                         controller: _passwordController,
                         hasError: hasError,
@@ -185,14 +197,50 @@ class _SignScreenState extends State<SignScreen> {
                         isPassword: true,
                         validator: _passwordValidator,
                       ),
-                      Gap(context.setHeightScreenBase(0.02)),
-                      ElevatedButton(
-                        onPressed: _submitForm,
-                        child: Text('تسجيل الدخول'),
+                      const Gap(18),
+                      RectangleTextButton(
+                        callback: _submitForm,
+                        color: context.colorScheme.onPrimary,
+                        backgroundColor: context.colorScheme.primary,
+                        text: 'Log In',
                       ),
                     ],
                   ),
                 ),
+                const Gap(20),
+                GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    'Forgot Password',
+                    style: TextStyle(
+                      color: context.colorScheme.primary,
+                      fontSize: context.setMinSize(14),
+                    ),
+                  ),
+                ),
+                const Gap(20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'No Account?',
+                      style: TextStyle(
+                        fontSize: context.setMinSize(14),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        'Create one',
+                        style: TextStyle(
+                          color: context.colorScheme.primary,
+                          fontSize: context.setMinSize(14),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const Gap(30),
               ],
             ),
           ),

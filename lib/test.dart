@@ -12,6 +12,6 @@ Future<String?> fetchOpenGraphImage(String url) async {
 }
 
 void main() async {
-  final x = await fetchOpenGraphImage("http://www.ew.com");
-  print(x);
+  final nameRegex = RegExp(
+      r"^[A-Za-zÀ-ÖØ-öø-ÿ\u0600-\u06FF\u0400-\u04FF\u4E00-\u9FFF\u3040-\u30FF' -]{2,50}$");
 }

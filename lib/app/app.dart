@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/providers/providers.dart';
-import 'package:fresh_feed/screens/auth/sign_screen.dart';
+import 'package:fresh_feed/screens/screens.dart';
 import 'package:fresh_feed/utils/extensions.dart';
 
 import '../config/theme/app_theme.dart';

@@ -19,7 +19,8 @@ class RectangleTextButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           padding: EdgeInsetsDirectional.symmetric(
-              horizontal: context.setWidth(15), vertical: context.setWidth(9)),
+              horizontal: context.setMinSize(15),
+              vertical: context.setMinSize(9)),
           minimumSize: const Size(0, 0),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           backgroundColor: backgroundColor,
@@ -33,7 +34,7 @@ class RectangleTextButton extends StatelessWidget {
           style: TextStyle(
             color: color,
             fontWeight: FontWeight.bold,
-            fontSize: context.setMinSize(15),
+            fontSize: context.setSp(15),
           ),
         ),
       ),

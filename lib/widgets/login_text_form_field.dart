@@ -6,7 +6,6 @@ class LoginTextFormField extends StatefulWidget {
     super.key,
     required this.controller,
     required this.label,
-    required this.hasError,
     this.isPassword = false,
     this.validator,
   });
@@ -14,7 +13,6 @@ class LoginTextFormField extends StatefulWidget {
   final String label;
   final bool isPassword;
   final String? Function(String?)? validator;
-  final bool hasError;
 
   @override
   State<LoginTextFormField> createState() => _LoginTextFormFieldState();
@@ -23,12 +21,29 @@ class LoginTextFormField extends StatefulWidget {
 class _LoginTextFormFieldState extends State<LoginTextFormField> {
   final FocusNode _focusNode = FocusNode();
   bool _obscureText = true;
+  bool hasFocus = false;
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {
+        hasFocus = _focusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
       // height: context.setWidth(55),
-      height: widget.hasError ? context.setMinSize(70) : context.setMinSize(53),
+      // height: widget.hasError ? context.setMinSize(85) : context.setMinSize(53),
       // color: Colors.red,
       child: Theme(
         data: Theme.of(context).copyWith(
@@ -49,7 +64,7 @@ class _LoginTextFormFieldState extends State<LoginTextFormField> {
             decorationThickness: 0,
           ),
           decoration: InputDecoration(
-              suffixIcon: widget.isPassword && _focusNode.hasFocus
+              suffixIcon: widget.isPassword && hasFocus
                   ? IconButton(
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsetsDirectional.only(
@@ -70,7 +85,6 @@ class _LoginTextFormFieldState extends State<LoginTextFormField> {
                   : null,
               errorStyle: TextStyle(
                   fontWeight: FontWeight.w500, fontSize: context.setSp(12)),
-              isDense: false,
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(context.setMinSize(8)),
                 borderSide: BorderSide(
@@ -93,14 +107,16 @@ class _LoginTextFormFieldState extends State<LoginTextFormField> {
               filled: true,
               fillColor: context.colorScheme.secondary,
               hintText: widget.label,
+              errorMaxLines: 2,
               hintStyle: TextStyle(
                 color: context.colorScheme.tertiary.withOpacity(0.9),
-                fontSize: context.setSp(16),
+                fontSize: context.setSp(15),
                 fontWeight: FontWeight.normal,
               ),
+              isDense: true,
               contentPadding: EdgeInsetsDirectional.symmetric(
-                  horizontal: context.setMinSize(15),
-                  vertical: context.setMinSize(7)),
+                  horizontal: context.setMinSize(16),
+                  vertical: context.setMinSize(11)),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(context.setMinSize(8)),
                 borderSide: BorderSide(

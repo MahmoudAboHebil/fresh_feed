@@ -22,8 +22,86 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "name": MessageLookupByLibrary.simpleMessage("mahmoud"),
-    "title": MessageLookupByLibrary.simpleMessage("Localización de Flutter"),
-    "welcome": MessageLookupByLibrary.simpleMessage("hola"),
+    "PasswordMustBAtLeast8": MessageLookupByLibrary.simpleMessage(
+      "La contraseña debe tener al menos 8 caracteres.",
+    ),
+    "PasswordMustContainDigit": MessageLookupByLibrary.simpleMessage(
+      "La contraseña debe contener al menos un número.",
+    ),
+    "PasswordMustContainLowercase": MessageLookupByLibrary.simpleMessage(
+      "La contraseña debe contener al menos una letra minúscula.",
+    ),
+    "PasswordMustContainSpecialChart": MessageLookupByLibrary.simpleMessage(
+      "La contraseña debe contener al menos un carácter especial (@\$!%*?&).",
+    ),
+    "PasswordMustContainUppercase": MessageLookupByLibrary.simpleMessage(
+      "La contraseña debe contener al menos una letra mayúscula.",
+    ),
+    "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
+      "¿Ya tienes una cuenta?",
+    ),
+    "createAccount": MessageLookupByLibrary.simpleMessage("Crear cuenta"),
+    "createOne": MessageLookupByLibrary.simpleMessage("Crear una"),
+    "email": MessageLookupByLibrary.simpleMessage("Correo electrónico"),
+    "emailIsRequired": MessageLookupByLibrary.simpleMessage(
+      "El correo electrónico es obligatorio",
+    ),
+    "enterAValidEmail": MessageLookupByLibrary.simpleMessage(
+      "Ingrese una dirección de correo electrónico válida",
+    ),
+    "forgotPassword": MessageLookupByLibrary.simpleMessage(
+      "¿Olvidaste tu contraseña?",
+    ),
+    "forgotPasswordTitle": MessageLookupByLibrary.simpleMessage(
+      "Por favor, ingrese la dirección de correo electrónico vinculada a su cuenta",
+    ),
+    "forgotPasswordWithoutQM": MessageLookupByLibrary.simpleMessage(
+      "¿Olvidaste tu contraseña",
+    ),
+    "login": MessageLookupByLibrary.simpleMessage("Iniciar sesión"),
+    "loginWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "Iniciar sesión con Google",
+    ),
+    "loginWithPhone": MessageLookupByLibrary.simpleMessage(
+      "Iniciar sesión con número",
+    ),
+    "name": MessageLookupByLibrary.simpleMessage("Nombre"),
+    "nameInvalid": MessageLookupByLibrary.simpleMessage(
+      "Formato de nombre no válido. Use solo letras, espacios, guiones o apóstrofes.",
+    ),
+    "nameIsRequired": MessageLookupByLibrary.simpleMessage(
+      "El nombre es obligatorio",
+    ),
+    "nameMustBeAtLeast2": MessageLookupByLibrary.simpleMessage(
+      "El nombre debe tener al menos 2 caracteres.",
+    ),
+    "nameMustBeAtMost50chart": MessageLookupByLibrary.simpleMessage(
+      "El nombre debe tener como máximo 50 caracteres.",
+    ),
+    "noAccount": MessageLookupByLibrary.simpleMessage("¿No tienes una cuenta?"),
+    "or": MessageLookupByLibrary.simpleMessage("o"),
+    "password": MessageLookupByLibrary.simpleMessage("Contraseña"),
+    "passwordIsRequired": MessageLookupByLibrary.simpleMessage(
+      "La contraseña es obligatoria",
+    ),
+    "rePassword": MessageLookupByLibrary.simpleMessage(
+      "Vuelva a ingresar la contraseña",
+    ),
+    "rePasswordDoesNotMatch": MessageLookupByLibrary.simpleMessage(
+      "La contraseña reingresada no coincide",
+    ),
+    "rePasswordIsRequired": MessageLookupByLibrary.simpleMessage(
+      "Se requiere volver a ingresar la contraseña",
+    ),
+    "sendEmail": MessageLookupByLibrary.simpleMessage(
+      "Enviar correo electrónico",
+    ),
+    "signIn": MessageLookupByLibrary.simpleMessage("Iniciar sesión"),
+    "signTitle": MessageLookupByLibrary.simpleMessage(
+      "Iniciar sesión en abc News",
+    ),
+    "skip": MessageLookupByLibrary.simpleMessage("Omitir"),
+    "title": MessageLookupByLibrary.simpleMessage("Localización de Flutterf"),
+    "welcome": MessageLookupByLibrary.simpleMessage("Bienvenido"),
   };
 }

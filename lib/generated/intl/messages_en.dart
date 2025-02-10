@@ -22,8 +22,76 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "name": MessageLookupByLibrary.simpleMessage("mahmoud"),
-    "title": MessageLookupByLibrary.simpleMessage("Flutter Localization"),
+    "PasswordMustBAtLeast8": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 8",
+    ),
+    "PasswordMustContainDigit": MessageLookupByLibrary.simpleMessage(
+      "Password must contain at least one digit.",
+    ),
+    "PasswordMustContainLowercase": MessageLookupByLibrary.simpleMessage(
+      "Password must contain at least one lowercase letter.",
+    ),
+    "PasswordMustContainSpecialChart": MessageLookupByLibrary.simpleMessage(
+      "Password must contain at least one special character (@\\\$!%*?&).",
+    ),
+    "PasswordMustContainUppercase": MessageLookupByLibrary.simpleMessage(
+      "Password must contain at least one uppercase letter.",
+    ),
+    "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
+      "Already have account? ",
+    ),
+    "createAccount": MessageLookupByLibrary.simpleMessage("Create Account"),
+    "createOne": MessageLookupByLibrary.simpleMessage("Create one"),
+    "email": MessageLookupByLibrary.simpleMessage("Email"),
+    "emailIsRequired": MessageLookupByLibrary.simpleMessage(
+      "Email is required",
+    ),
+    "enterAValidEmail": MessageLookupByLibrary.simpleMessage(
+      "Enter a valid email address",
+    ),
+    "forgotPassword": MessageLookupByLibrary.simpleMessage("Forgot Password?"),
+    "forgotPasswordTitle": MessageLookupByLibrary.simpleMessage(
+      "Please enter the email address linked with your account",
+    ),
+    "forgotPasswordWithoutQM": MessageLookupByLibrary.simpleMessage(
+      "Forgot Password",
+    ),
+    "login": MessageLookupByLibrary.simpleMessage("Log In"),
+    "loginWithGoogle": MessageLookupByLibrary.simpleMessage(
+      "Log in with Google",
+    ),
+    "loginWithPhone": MessageLookupByLibrary.simpleMessage(
+      "Log in with Number",
+    ),
+    "name": MessageLookupByLibrary.simpleMessage("Name"),
+    "nameInvalid": MessageLookupByLibrary.simpleMessage(
+      "Invalid name format. Use only letters, spaces, hyphens, or apostrophes.",
+    ),
+    "nameIsRequired": MessageLookupByLibrary.simpleMessage("Name is required"),
+    "nameMustBeAtLeast2": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 2 characters long.",
+    ),
+    "nameMustBeAtMost50chart": MessageLookupByLibrary.simpleMessage(
+      "Name must be at most 50 characters long.",
+    ),
+    "noAccount": MessageLookupByLibrary.simpleMessage("No Account?"),
+    "or": MessageLookupByLibrary.simpleMessage("or"),
+    "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "passwordIsRequired": MessageLookupByLibrary.simpleMessage(
+      "Password is required",
+    ),
+    "rePassword": MessageLookupByLibrary.simpleMessage("Re-enter Password"),
+    "rePasswordDoesNotMatch": MessageLookupByLibrary.simpleMessage(
+      "Re-Password doesn\'t match",
+    ),
+    "rePasswordIsRequired": MessageLookupByLibrary.simpleMessage(
+      "Re-Password is required",
+    ),
+    "sendEmail": MessageLookupByLibrary.simpleMessage("Send Email"),
+    "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),
+    "signTitle": MessageLookupByLibrary.simpleMessage("Sign in to abc News"),
+    "skip": MessageLookupByLibrary.simpleMessage("Skip"),
+    "title": MessageLookupByLibrary.simpleMessage("Flutter Localizationf"),
     "welcome": MessageLookupByLibrary.simpleMessage("welcome"),
   };
 }

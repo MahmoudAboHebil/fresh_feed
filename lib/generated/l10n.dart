@@ -55,10 +55,10 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Flutter Localization`
+  /// `Flutter Localizationf`
   String get title {
     return Intl.message(
-      'Flutter Localization',
+      'Flutter Localizationf',
       name: 'title',
       desc: '',
       args: [],
@@ -70,9 +70,284 @@ class S {
     return Intl.message('welcome', name: 'welcome', desc: '', args: []);
   }
 
-  /// `mahmoud`
+  /// `Sign in to abc News`
+  String get signTitle {
+    return Intl.message(
+      'Sign in to abc News',
+      name: 'signTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log in with Google`
+  String get loginWithGoogle {
+    return Intl.message(
+      'Log in with Google',
+      name: 'loginWithGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log in with Number`
+  String get loginWithPhone {
+    return Intl.message(
+      'Log in with Number',
+      name: 'loginWithPhone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `or`
+  String get or {
+    return Intl.message('or', name: 'or', desc: '', args: []);
+  }
+
+  /// `Email`
+  String get email {
+    return Intl.message('Email', name: 'email', desc: '', args: []);
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message('Password', name: 'password', desc: '', args: []);
+  }
+
+  /// `Log In`
+  String get login {
+    return Intl.message('Log In', name: 'login', desc: '', args: []);
+  }
+
+  /// `Forgot Password?`
+  String get forgotPassword {
+    return Intl.message(
+      'Forgot Password?',
+      name: 'forgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Account?`
+  String get noAccount {
+    return Intl.message('No Account?', name: 'noAccount', desc: '', args: []);
+  }
+
+  /// `Create one`
+  String get createOne {
+    return Intl.message('Create one', name: 'createOne', desc: '', args: []);
+  }
+
+  /// `Skip`
+  String get skip {
+    return Intl.message('Skip', name: 'skip', desc: '', args: []);
+  }
+
+  /// `Email is required`
+  String get emailIsRequired {
+    return Intl.message(
+      'Email is required',
+      name: 'emailIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid email address`
+  String get enterAValidEmail {
+    return Intl.message(
+      'Enter a valid email address',
+      name: 'enterAValidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password is required`
+  String get passwordIsRequired {
+    return Intl.message(
+      'Password is required',
+      name: 'passwordIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 8`
+  String get PasswordMustBAtLeast8 {
+    return Intl.message(
+      'Password must be at least 8',
+      name: 'PasswordMustBAtLeast8',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must contain at least one uppercase letter.`
+  String get PasswordMustContainUppercase {
+    return Intl.message(
+      'Password must contain at least one uppercase letter.',
+      name: 'PasswordMustContainUppercase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must contain at least one lowercase letter.`
+  String get PasswordMustContainLowercase {
+    return Intl.message(
+      'Password must contain at least one lowercase letter.',
+      name: 'PasswordMustContainLowercase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must contain at least one digit.`
+  String get PasswordMustContainDigit {
+    return Intl.message(
+      'Password must contain at least one digit.',
+      name: 'PasswordMustContainDigit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must contain at least one special character (@\$!%*?&).`
+  String get PasswordMustContainSpecialChart {
+    return Intl.message(
+      'Password must contain at least one special character (@\\\$!%*?&).',
+      name: 'PasswordMustContainSpecialChart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name is required`
+  String get nameIsRequired {
+    return Intl.message(
+      'Name is required',
+      name: 'nameIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 2 characters long.`
+  String get nameMustBeAtLeast2 {
+    return Intl.message(
+      'Password must be at least 2 characters long.',
+      name: 'nameMustBeAtLeast2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name must be at most 50 characters long.`
+  String get nameMustBeAtMost50chart {
+    return Intl.message(
+      'Name must be at most 50 characters long.',
+      name: 'nameMustBeAtMost50chart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid name format. Use only letters, spaces, hyphens, or apostrophes.`
+  String get nameInvalid {
+    return Intl.message(
+      'Invalid name format. Use only letters, spaces, hyphens, or apostrophes.',
+      name: 'nameInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forgot Password`
+  String get forgotPasswordWithoutQM {
+    return Intl.message(
+      'Forgot Password',
+      name: 'forgotPasswordWithoutQM',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the email address linked with your account`
+  String get forgotPasswordTitle {
+    return Intl.message(
+      'Please enter the email address linked with your account',
+      name: 'forgotPasswordTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Email`
+  String get sendEmail {
+    return Intl.message('Send Email', name: 'sendEmail', desc: '', args: []);
+  }
+
+  /// `Name`
   String get name {
-    return Intl.message('mahmoud', name: 'name', desc: '', args: []);
+    return Intl.message('Name', name: 'name', desc: '', args: []);
+  }
+
+  /// `Re-enter Password`
+  String get rePassword {
+    return Intl.message(
+      'Re-enter Password',
+      name: 'rePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Re-Password is required`
+  String get rePasswordIsRequired {
+    return Intl.message(
+      'Re-Password is required',
+      name: 'rePasswordIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Re-Password doesn't match`
+  String get rePasswordDoesNotMatch {
+    return Intl.message(
+      'Re-Password doesn\'t match',
+      name: 'rePasswordDoesNotMatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Account`
+  String get createAccount {
+    return Intl.message(
+      'Create Account',
+      name: 'createAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already have account? `
+  String get alreadyHaveAccount {
+    return Intl.message(
+      'Already have account? ',
+      name: 'alreadyHaveAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in`
+  String get signIn {
+    return Intl.message('Sign in', name: 'signIn', desc: '', args: []);
   }
 }
 

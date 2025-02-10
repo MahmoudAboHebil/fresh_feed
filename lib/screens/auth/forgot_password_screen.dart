@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:gap/gap.dart';
 
+import '../../generated/l10n.dart';
 import '../../widgets/login_text_form_field.dart';
 import '../../widgets/rectangle_text_button.dart';
 
-//ToDo:1. build the page UI take care about theme_done, responsive_done, orientation_done && localization
-//ToDo:2. page validation logic_done
+//(done) ToDo:1. build the page UI take care about theme_done, responsive_done, orientation_done && localization_done
+//(done) ToDo:2. page validation logic_done
+
+// progress
 //ToDo:3. inject the dateLayer
 //ToDo:4. Error Handling
 
@@ -30,6 +33,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final generalFuncs = GeneralFunctions(context);
+
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
@@ -52,7 +57,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               children: [
                 Gap(context.setHeight(30)),
                 Text(
-                  'Forgot Password',
+                  S.of(context).forgotPasswordWithoutQM,
                   style: TextStyle(
                     fontSize: context.setSp(22),
                     fontWeight: FontWeight.w500,
@@ -63,7 +68,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   padding:
                       EdgeInsetsDirectional.only(end: context.setWidth(10)),
                   child: Text(
-                    'Please enter the email address linked with your account',
+                    S.of(context).forgotPasswordTitle,
                     style: TextStyle(
                       fontSize: context.setSp(16),
                       color: context.colorScheme.tertiary,
@@ -78,15 +83,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     children: [
                       LoginTextFormField(
                         controller: _emailController,
-                        label: 'Email',
-                        validator: GeneralFunctions.emailValidator,
+                        label: S.of(context).email,
+                        validator: generalFuncs.emailValidator,
                       ),
                       Gap(context.setHeight(30)),
                       RectangleTextButton(
                         callback: _submitForm,
                         color: context.colorScheme.onPrimary,
                         backgroundColor: context.colorScheme.primary,
-                        text: 'Send Email',
+                        text: S.of(context).sendEmail,
                       ),
                     ],
                   ),

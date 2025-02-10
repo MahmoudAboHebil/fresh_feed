@@ -3,11 +3,14 @@ import 'package:fresh_feed/screens/auth/sign_screen.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:gap/gap.dart';
 
+import '../../generated/l10n.dart';
 import '../../widgets/login_text_form_field.dart';
 import '../../widgets/rectangle_text_button.dart';
 
-//ToDo:1. build the page UI take care about theme_done, responsive_done, orientation_done && localization
-//ToDo:2. page validation logic_done
+//(done) ToDo:1. build the page UI take care about theme_done, responsive_done, orientation_done && localization_done
+//(done) ToDo:2. page validation logic_done
+
+// progress
 //ToDo:3. inject the dateLayer
 //ToDo:4. Error Handling
 
@@ -39,6 +42,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final generalFuncs = GeneralFunctions(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -68,7 +72,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
                 Gap(context.setHeight(20)),
                 Text(
-                  'Sign in to News Hunt',
+                  S.of(context).signTitle,
                   style: TextStyle(
                     fontSize: context.setSp(18),
                     fontWeight: FontWeight.w500,
@@ -81,32 +85,32 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     children: [
                       LoginTextFormField(
                         controller: _emailController,
-                        label: 'Email',
-                        validator: GeneralFunctions.emailValidator,
+                        label: S.of(context).email,
+                        validator: generalFuncs.emailValidator,
                       ),
                       Gap(context.setHeight(15)),
                       LoginTextFormField(
                         controller: _nameController,
-                        label: 'Name',
-                        validator: GeneralFunctions.nameValidator,
+                        label: S.of(context).name,
+                        validator: generalFuncs.nameValidator,
                       ),
                       Gap(context.setHeight(15)),
                       LoginTextFormField(
                         controller: _passwordController,
-                        label: 'Password',
+                        label: S.of(context).password,
                         isPassword: true,
-                        validator: GeneralFunctions.passwordValidator,
+                        validator: generalFuncs.passwordValidator,
                       ),
                       Gap(context.setHeight(15)),
                       LoginTextFormField(
                         controller: _rePasswordController,
-                        label: 'Re-enter Password',
+                        label: S.of(context).rePassword,
                         isPassword: true,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Re-Password is required';
+                            return S.of(context).rePasswordIsRequired;
                           } else if (value != _passwordController.text) {
-                            return 'Re-Password doesn\'t match';
+                            return S.of(context).rePasswordDoesNotMatch;
                           }
                           return null;
                         },
@@ -116,7 +120,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         callback: _submitForm,
                         color: context.colorScheme.onPrimary,
                         backgroundColor: context.colorScheme.primary,
-                        text: 'Create Account',
+                        text: S.of(context).createAccount,
                       ),
                     ],
                   ),
@@ -134,7 +138,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       padding:
                           EdgeInsets.symmetric(horizontal: context.setWidth(8)),
                       child: Text(
-                        'or',
+                        S.of(context).or,
                         style: TextStyle(
                             color: context.colorScheme.tertiary,
                             fontSize: context.setSp(14)),
@@ -153,7 +157,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Already have account? ',
+                      S.of(context).alreadyHaveAccount,
                       style: TextStyle(
                         fontSize: context.setSp(14),
                       ),
@@ -167,7 +171,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ));
                       },
                       child: Text(
-                        'Sign in',
+                        S.of(context).signIn,
                         style: TextStyle(
                           color: context.colorScheme.primary,
                           fontSize: context.setSp(14),

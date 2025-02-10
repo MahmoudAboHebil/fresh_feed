@@ -5,10 +5,15 @@ import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 
-//ToDo:1. build the page UI take care about theme_done, responsive_done, orientation_done && localization
-//ToDo:2. page validation logic_done
+import '../../generated/l10n.dart';
+
+//(done) ToDo:1. build the page UI take care about theme_done, responsive_done, orientation_done && localization_done
+//(done) ToDo:2. page validation logic_done
+
+// progress
 //ToDo:3. inject the dateLayer
 //ToDo:4. Error Handling
+
 class SignScreen extends StatefulWidget {
   const SignScreen({super.key});
 
@@ -35,7 +40,7 @@ class _SignScreenState extends State<SignScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('ddddddddd');
+    final generalFuncs = GeneralFunctions(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -56,7 +61,7 @@ class _SignScreenState extends State<SignScreen> {
               child: Align(
                 alignment: Alignment.topRight,
                 child: BorderTextButton(
-                  text: 'Skip',
+                  text: S.of(context).skip,
                   color: context.colorScheme.primary,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   callback: () {},
@@ -86,7 +91,7 @@ class _SignScreenState extends State<SignScreen> {
                 ),
                 Gap(context.setHeight(20)),
                 Text(
-                  'Sign in to News Hunt',
+                  S.of(context).signTitle,
                   style: TextStyle(
                     fontSize: context.setSp(18),
                     fontWeight: FontWeight.w500,
@@ -99,7 +104,7 @@ class _SignScreenState extends State<SignScreen> {
                     width: context.setMinSize(25),
                     height: context.setMinSize(25),
                   ),
-                  text: 'Log in with Google',
+                  text: S.of(context).loginWithGoogle,
                   iconSize: 25,
                   callBack: () async {
                     await Future.delayed(const Duration(seconds: 3));
@@ -119,7 +124,7 @@ class _SignScreenState extends State<SignScreen> {
                       size: context.setMinSize(19),
                     ),
                   ),
-                  text: 'Log in with Number',
+                  text: S.of(context).loginWithPhone,
                   iconSize: 25,
                   callBack: () async {
                     await Future.delayed(const Duration(seconds: 3));
@@ -138,7 +143,7 @@ class _SignScreenState extends State<SignScreen> {
                       padding:
                           EdgeInsets.symmetric(horizontal: context.setWidth(8)),
                       child: Text(
-                        'or',
+                        S.of(context).or,
                         style: TextStyle(
                             color: context.colorScheme.tertiary,
                             fontSize: context.setSp(14)),
@@ -159,22 +164,22 @@ class _SignScreenState extends State<SignScreen> {
                     children: [
                       LoginTextFormField(
                         controller: _emailController,
-                        label: 'Email',
-                        validator: GeneralFunctions.emailValidator,
+                        label: S.of(context).email,
+                        validator: generalFuncs.emailValidator,
                       ),
                       Gap(context.setHeight(15)),
                       LoginTextFormField(
                         controller: _passwordController,
-                        label: 'Password',
+                        label: S.of(context).password,
                         isPassword: true,
-                        validator: GeneralFunctions.passwordValidator,
+                        validator: generalFuncs.passwordValidator,
                       ),
                       Gap(context.setHeight(18)),
                       RectangleTextButton(
                         callback: _submitForm,
                         color: context.colorScheme.onPrimary,
                         backgroundColor: context.colorScheme.primary,
-                        text: 'Log In',
+                        text: S.of(context).login,
                       ),
                     ],
                   ),
@@ -189,7 +194,7 @@ class _SignScreenState extends State<SignScreen> {
                         ));
                   },
                   child: Text(
-                    'Forgot Password',
+                    S.of(context).forgotPassword,
                     style: TextStyle(
                       color: context.colorScheme.primary,
                       fontSize: context.setSp(14),
@@ -201,7 +206,7 @@ class _SignScreenState extends State<SignScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'No Account?',
+                      S.of(context).noAccount,
                       style: TextStyle(
                         fontSize: context.setSp(14),
                       ),
@@ -215,7 +220,7 @@ class _SignScreenState extends State<SignScreen> {
                             ));
                       },
                       child: Text(
-                        'Create one',
+                        S.of(context).createOne,
                         style: TextStyle(
                           color: context.colorScheme.primary,
                           fontSize: context.setSp(14),

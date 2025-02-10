@@ -1,9 +1,11 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/utils/utlis.dart';
+
+import '../../../generated/l10n.dart';
 
 class AuthRepository {
   final AuthDataSource _authDataSource;
@@ -17,11 +19,12 @@ class AuthRepository {
     required String email,
     required String password,
     required String userName,
+    required BuildContext context,
   }) async {
     try {
       final user = await _authDataSource.signUp(email, password);
       if (user == null) {
-        throw Exception('user from Sign Up method equal null');
+        throw Exception(S.of(context).nullUserExp);
       }
       await _userRepository.updateUser(user, AuthProviderType.email,
           username: userName);
@@ -29,11 +32,11 @@ class AuthRepository {
     } on FirebaseAuthException catch (e) {
       String message;
       if (e.code == 'email-already-in-use') {
-        message = 'This account already exists. Please log in.';
+        message = S.of(context).accountAlreadyExistsExp;
       } else if (e.code == 'invalid-email') {
-        message = 'Invalid email format.';
+        message = S.of(context).invalidEmailFormatExp;
       } else {
-        message = 'An error occurred. Please try again.';
+        message = S.of(context).errorExp;
       }
       throw FreshFeedException(
           message: message,
@@ -46,7 +49,7 @@ class AuthRepository {
     } catch (e) {
       await deleteUserAccount();
       throw FreshFeedException(
-        message: 'Oops! An error occurred. Please try again.',
+        message: S.of(context).errorExp,
         methodInFile: 'SingUp()/AuthRepository',
         details: e.toString(),
       );
@@ -57,11 +60,12 @@ class AuthRepository {
   Future<User> signIn({
     required String email,
     required String password,
+    required BuildContext context,
   }) async {
     try {
       final user = await _authDataSource.signIn(email, password);
       if (user == null) {
-        throw Exception('user from Sign In method equal null');
+        throw Exception(S.of(context).nullUserExp);
       }
       final storedUserData = await _userRepository.getUserData(user.uid);
       if (storedUserData == null) {
@@ -77,13 +81,13 @@ class AuthRepository {
     } on FirebaseAuthException catch (e) {
       String message;
       if (e.code == 'invalid-credential') {
-        message = 'Invalid email or password.';
+        message = S.of(context).invalidCredentialExp;
       } else if (e.code == 'invalid-email') {
-        message = 'Invalid email format.';
+        message = S.of(context).invalidEmailFormatExp;
       } else if (e.code == 'user-disabled') {
-        message = 'This account has been disabled.';
+        message = S.of(context).userDisabledExp;
       } else {
-        message = 'An error occurred. Please try again.';
+        message = S.of(context).errorExp;
       }
       throw FreshFeedException(
         message: message,
@@ -97,7 +101,7 @@ class AuthRepository {
     } catch (e) {
       await signOut();
       throw FreshFeedException(
-        message: 'Oops! An error occurred. Please try again.',
+        message: S.of(context).errorExp,
         methodInFile: 'signIn()/AuthRepository',
         details: e.toString(),
       );

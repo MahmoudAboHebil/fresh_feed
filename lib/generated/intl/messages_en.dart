@@ -37,6 +37,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "PasswordMustContainUppercase": MessageLookupByLibrary.simpleMessage(
       "Password must contain at least one uppercase letter.",
     ),
+    "accountAlreadyExistsExp": MessageLookupByLibrary.simpleMessage(
+      "This account already exists. Please log in.",
+    ),
     "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
       "Already have account? ",
     ),
@@ -49,12 +52,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterAValidEmail": MessageLookupByLibrary.simpleMessage(
       "Enter a valid email address",
     ),
+    "errorExp": MessageLookupByLibrary.simpleMessage(
+      "Oops! An error occurred. Please try again.",
+    ),
     "forgotPassword": MessageLookupByLibrary.simpleMessage("Forgot Password?"),
     "forgotPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "Please enter the email address linked with your account",
     ),
     "forgotPasswordWithoutQM": MessageLookupByLibrary.simpleMessage(
       "Forgot Password",
+    ),
+    "invalidCredentialExp": MessageLookupByLibrary.simpleMessage(
+      "invalid-credential",
+    ),
+    "invalidEmailFormatExp": MessageLookupByLibrary.simpleMessage(
+      "Invalid email format.",
     ),
     "login": MessageLookupByLibrary.simpleMessage("Log In"),
     "loginWithGoogle": MessageLookupByLibrary.simpleMessage(
@@ -75,6 +87,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Name must be at most 50 characters long.",
     ),
     "noAccount": MessageLookupByLibrary.simpleMessage("No Account?"),
+    "noInternet": MessageLookupByLibrary.simpleMessage(
+      "No internet connection. Please check your network and try again.",
+    ),
+    "nullUserExp": MessageLookupByLibrary.simpleMessage(
+      "Oops! An error occurred. Please try again.",
+    ),
     "or": MessageLookupByLibrary.simpleMessage("or"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
     "passwordIsRequired": MessageLookupByLibrary.simpleMessage(
@@ -92,6 +110,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "signTitle": MessageLookupByLibrary.simpleMessage("Sign in to abc News"),
     "skip": MessageLookupByLibrary.simpleMessage("Skip"),
     "title": MessageLookupByLibrary.simpleMessage("Flutter Localizationf"),
+    "userDisabledExp": MessageLookupByLibrary.simpleMessage(
+      "This account has been disabled.",
+    ),
     "welcome": MessageLookupByLibrary.simpleMessage("welcome"),
   };
 }

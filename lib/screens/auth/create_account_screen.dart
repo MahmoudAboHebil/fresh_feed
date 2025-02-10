@@ -1,27 +1,34 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/screens/auth/sign_screen.dart';
+import 'package:fresh_feed/screens/home_screen.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:gap/gap.dart';
 
+import '../../data/repository/firebase_repo/auth_repository_provider.dart';
 import '../../generated/l10n.dart';
+import '../../providers/network_inf_provider.dart';
+import '../../providers/user_bookmarks_provider.dart';
+import '../../providers/user_followed_channels_provider.dart';
 import '../../widgets/login_text_form_field.dart';
 import '../../widgets/rectangle_text_button.dart';
 
-//(done) ToDo:1. build the page UI take care about theme_done, responsive_done, orientation_done && localization_done
-//(done) ToDo:2. page validation logic_done
+//(done)  build the page UI take care about theme_done, responsive_done, orientation_done && localization_done
+//(done)  page validation logic_done
+//progress==>
+//(done) inject the dateLayer
+//(done) Error Handling_done
 
-// progress
-//ToDo:3. inject the dateLayer
-//ToDo:4. Error Handling
-
-class CreateAccountScreen extends StatefulWidget {
+class CreateAccountScreen extends ConsumerStatefulWidget {
   const CreateAccountScreen({super.key});
 
   @override
-  State<CreateAccountScreen> createState() => _CreateAccountScreenState();
+  ConsumerState<CreateAccountScreen> createState() =>
+      _CreateAccountScreenState();
 }
 
-class _CreateAccountScreenState extends State<CreateAccountScreen> {
+class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
@@ -31,18 +38,63 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   final TextEditingController _rePasswordController = TextEditingController();
 
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      _passwordController.clear();
-      _emailController.clear();
-      _nameController.clear();
-      _rePasswordController.clear();
-    } else {}
+  void _submitForm() async {
+    try {
+      bool isConnected = ref.read(networkInfoStreamNotifierProv).value ?? false;
+      print(isConnected);
+      final authRepo = ref.read(authRepositoryProvider);
+      final userBookmarksProv =
+          ref.read(userBookmarksNotifierProvider.notifier);
+      final userFollowedChannelsProv =
+          ref.read(userFollowedChannelsNotifierProvider.notifier);
+
+      if (_formKey.currentState!.validate()) {
+        // check connections
+        if (!isConnected) {
+          AppAlerts.displaySnackBar(S.of(context).noInternet, context);
+          return;
+        }
+
+        // create account
+        User? user;
+        try {
+          user = await authRepo.signUp(
+              email: _emailController.text.toLowerCase(),
+              password: _passwordController.text,
+              userName: _nameController.text,
+              context: context);
+        } catch (e) {
+          AppAlerts.displaySnackBar(e.toString(), context);
+          return;
+        }
+
+        // mange user services
+        try {
+          await userFollowedChannelsProv.loadDataIfStateIsNull(user.uid);
+          await userBookmarksProv.loadDataIfStateIsNull(user.uid);
+        } catch (e) {
+          AppAlerts.displaySnackBar(e.toString(), context);
+        }
+        _passwordController.clear();
+        _emailController.clear();
+        _nameController.clear();
+        _rePasswordController.clear();
+      }
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ));
+    } catch (e) {
+      AppAlerts.displaySnackBar(e.toString(), context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final network_steam = ref.watch(networkInfoStreamNotifierProv);
     final generalFuncs = GeneralFunctions(context);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,

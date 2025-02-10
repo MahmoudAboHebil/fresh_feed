@@ -349,6 +349,76 @@ class S {
   String get signIn {
     return Intl.message('Sign in', name: 'signIn', desc: '', args: []);
   }
+
+  /// `No internet connection. Please check your network and try again.`
+  String get noInternet {
+    return Intl.message(
+      'No internet connection. Please check your network and try again.',
+      name: 'noInternet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Oops! An error occurred. Please try again.`
+  String get nullUserExp {
+    return Intl.message(
+      'Oops! An error occurred. Please try again.',
+      name: 'nullUserExp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This account already exists. Please log in.`
+  String get accountAlreadyExistsExp {
+    return Intl.message(
+      'This account already exists. Please log in.',
+      name: 'accountAlreadyExistsExp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invalid email format.`
+  String get invalidEmailFormatExp {
+    return Intl.message(
+      'Invalid email format.',
+      name: 'invalidEmailFormatExp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Oops! An error occurred. Please try again.`
+  String get errorExp {
+    return Intl.message(
+      'Oops! An error occurred. Please try again.',
+      name: 'errorExp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `invalid-credential`
+  String get invalidCredentialExp {
+    return Intl.message(
+      'invalid-credential',
+      name: 'invalidCredentialExp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This account has been disabled.`
+  String get userDisabledExp {
+    return Intl.message(
+      'This account has been disabled.',
+      name: 'userDisabledExp',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

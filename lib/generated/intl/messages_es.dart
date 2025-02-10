@@ -37,6 +37,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "PasswordMustContainUppercase": MessageLookupByLibrary.simpleMessage(
       "La contraseña debe contener al menos una letra mayúscula.",
     ),
+    "accountAlreadyExistsExp": MessageLookupByLibrary.simpleMessage(
+      "Esta cuenta ya existe. Por favor, inicie sesión.",
+    ),
     "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
       "¿Ya tienes una cuenta?",
     ),
@@ -49,6 +52,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterAValidEmail": MessageLookupByLibrary.simpleMessage(
       "Ingrese una dirección de correo electrónico válida",
     ),
+    "errorExp": MessageLookupByLibrary.simpleMessage(
+      "¡Vaya! Ocurrió un error. Por favor, inténtelo de nuevo.",
+    ),
     "forgotPassword": MessageLookupByLibrary.simpleMessage(
       "¿Olvidaste tu contraseña?",
     ),
@@ -57,6 +63,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "forgotPasswordWithoutQM": MessageLookupByLibrary.simpleMessage(
       "¿Olvidaste tu contraseña",
+    ),
+    "invalidCredentialExp": MessageLookupByLibrary.simpleMessage(
+      "Credenciales no válidas",
+    ),
+    "invalidEmailFormatExp": MessageLookupByLibrary.simpleMessage(
+      "Formato de correo electrónico no válido.",
     ),
     "login": MessageLookupByLibrary.simpleMessage("Iniciar sesión"),
     "loginWithGoogle": MessageLookupByLibrary.simpleMessage(
@@ -79,6 +91,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "El nombre debe tener como máximo 50 caracteres.",
     ),
     "noAccount": MessageLookupByLibrary.simpleMessage("¿No tienes una cuenta?"),
+    "noInternet": MessageLookupByLibrary.simpleMessage(
+      "Sin conexión a Internet. Por favor, verifica tu red e intenta de nuevo.",
+    ),
+    "nullUserExp": MessageLookupByLibrary.simpleMessage(
+      "Las credenciales no son válidas. Verifique e intente nuevamente.",
+    ),
     "or": MessageLookupByLibrary.simpleMessage("o"),
     "password": MessageLookupByLibrary.simpleMessage("Contraseña"),
     "passwordIsRequired": MessageLookupByLibrary.simpleMessage(
@@ -102,6 +120,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "skip": MessageLookupByLibrary.simpleMessage("Omitir"),
     "title": MessageLookupByLibrary.simpleMessage("Localización de Flutterf"),
+    "userDisabledExp": MessageLookupByLibrary.simpleMessage(
+      "Esta cuenta ha sido deshabilitada.",
+    ),
     "welcome": MessageLookupByLibrary.simpleMessage("Bienvenido"),
   };
 }

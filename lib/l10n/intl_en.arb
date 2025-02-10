@@ -33,6 +33,14 @@
   "rePasswordDoesNotMatch": "Re-Password doesn't match",
   "createAccount": "Create Account",
   "alreadyHaveAccount": "Already have account? ",
-  "signIn": "Sign in"
+  "signIn": "Sign in",
+  "noInternet": "No internet connection. Please check your network and try again.",
+  "nullUserExp": "Oops! An error occurred. Please try again.",
+  "accountAlreadyExistsExp": "This account already exists. Please log in.",
+  "invalidEmailFormatExp": "Invalid email format.",
+  "errorExp": "Oops! An error occurred. Please try again.",
+  "invalidCredentialExp": "invalid-credential",
+  "userDisabledExp": "This account has been disabled."
+
 
 }

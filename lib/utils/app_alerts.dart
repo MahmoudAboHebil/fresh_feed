@@ -10,10 +10,11 @@ class AppAlerts {
       SnackBar(
         content: Text(
           message,
-          style: context.textTheme.bodyLarge
-              ?.copyWith(color: context.colorScheme.surface),
+          style: context.textTheme.bodyMedium?.copyWith(
+              color: context.colorScheme.onSurface,
+              fontSize: context.setSp(context.textTheme.bodyMedium!.fontSize!)),
         ),
-        backgroundColor: context.colorScheme.primary,
+        backgroundColor: context.colorScheme.surface,
       ),
     );
   }

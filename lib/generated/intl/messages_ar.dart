@@ -37,6 +37,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "PasswordMustContainUppercase": MessageLookupByLibrary.simpleMessage(
       "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل.",
     ),
+    "accountAlreadyExistsExp": MessageLookupByLibrary.simpleMessage(
+      "هذا الحساب موجود بالفعل. يرجى تسجيل الدخول.",
+    ),
     "alreadyHaveAccount": MessageLookupByLibrary.simpleMessage(
       "هل لديك حساب بالفعل؟",
     ),
@@ -49,12 +52,21 @@ class MessageLookup extends MessageLookupByLibrary {
     "enterAValidEmail": MessageLookupByLibrary.simpleMessage(
       "أدخل عنوان بريد إلكتروني صالحًا",
     ),
+    "errorExp": MessageLookupByLibrary.simpleMessage(
+      "عذرًا! حدث خطأ. يرجى المحاولة مرة أخرى.",
+    ),
     "forgotPassword": MessageLookupByLibrary.simpleMessage("نسيت كلمة المرور؟"),
     "forgotPasswordTitle": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال عنوان البريد الإلكتروني المرتبط بحسابك",
     ),
     "forgotPasswordWithoutQM": MessageLookupByLibrary.simpleMessage(
       "نسيت كلمة المرور",
+    ),
+    "invalidCredentialExp": MessageLookupByLibrary.simpleMessage(
+      "بيانات الاعتماد غير صالحة",
+    ),
+    "invalidEmailFormatExp": MessageLookupByLibrary.simpleMessage(
+      "تنسيق البريد الإلكتروني غير صالح.",
     ),
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginWithGoogle": MessageLookupByLibrary.simpleMessage(
@@ -75,6 +87,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "يجب ألا يزيد الاسم عن 50 حرفًا.",
     ),
     "noAccount": MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
+    "noInternet": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة والمحاولة مرة أخرى.",
+    ),
+    "nullUserExp": MessageLookupByLibrary.simpleMessage(
+      "بيانات الاعتماد غير صحيحة. يرجى التحقق والمحاولة مرة أخرى.",
+    ),
     "or": MessageLookupByLibrary.simpleMessage("أو"),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "passwordIsRequired": MessageLookupByLibrary.simpleMessage(
@@ -96,6 +114,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "skip": MessageLookupByLibrary.simpleMessage("تخطي"),
     "title": MessageLookupByLibrary.simpleMessage("ب فلاتر"),
+    "userDisabledExp": MessageLookupByLibrary.simpleMessage(
+      "تم تعطيل هذا الحساب.",
+    ),
     "welcome": MessageLookupByLibrary.simpleMessage("مرحبا"),
   };
 }

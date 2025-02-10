@@ -33,5 +33,12 @@
   "rePasswordDoesNotMatch": "La contraseña reingresada no coincide",
   "createAccount": "Crear cuenta",
   "alreadyHaveAccount": "¿Ya tienes una cuenta?",
-  "signIn": "Iniciar sesión"
+  "signIn": "Iniciar sesión",
+  "noInternet": "Sin conexión a Internet. Por favor, verifica tu red e intenta de nuevo.",
+  "nullUserExp": "Las credenciales no son válidas. Verifique e intente nuevamente.",
+  "accountAlreadyExistsExp": "Esta cuenta ya existe. Por favor, inicie sesión.",
+  "invalidEmailFormatExp": "Formato de correo electrónico no válido.",
+  "errorExp": "¡Vaya! Ocurrió un error. Por favor, inténtelo de nuevo.",
+  "invalidCredentialExp": "Credenciales no válidas",
+  "userDisabledExp": "Esta cuenta ha sido deshabilitada."
 }

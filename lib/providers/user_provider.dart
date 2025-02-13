@@ -31,6 +31,8 @@ class UserNotifier extends StreamNotifier<UserModel?> {
     if (authState == null) {
       return Stream.value(null);
     }
+    print('======================>');
+    print(authState);
 
     final userRepoProv = ref.read(userRepositoryProvider);
     return userRepoProv.getUserStream(authState.uid);

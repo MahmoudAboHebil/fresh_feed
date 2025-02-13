@@ -232,7 +232,12 @@ class AuthRepository {
       } else if (storedUserData.authProvider != AuthProviderType.google) {
         // when user switching between auth types
         await _userRepository.saveUserData(
-          storedUserData.copyWith(authProvider: AuthProviderType.google),
+          storedUserData.copyWith(
+            authProvider: AuthProviderType.google,
+            emailVerified: user.emailVerified,
+            profileImageUrl: storedUserData.profileImageUrl ?? user.photoURL,
+            name: storedUserData.name.isEmpty ? user.displayName : null,
+          ),
         );
       }
       return user;

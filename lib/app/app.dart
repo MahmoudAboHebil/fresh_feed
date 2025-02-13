@@ -1,4 +1,5 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -33,7 +34,6 @@ class FreshFeedApp extends ConsumerWidget {
       Brightness brightnessSystem = MediaQuery.of(context).platformBrightness;
       Brightness brightnessTheme = Theme.of(context).brightness;
 
-      /*
       return DevicePreview(
         enabled: !kReleaseMode,
         builder: (context) {
@@ -46,7 +46,7 @@ class FreshFeedApp extends ConsumerWidget {
               builder: DevicePreview.appBuilder,
               debugShowCheckedModeBanner: false,
               // locale: Locale(languageState.value?.name ?? Language.en.name),
-              locale: Locale(Language.ar.name),
+              locale: Locale(Language.en.name),
               localizationsDelegates: const [
                 S.delegate,
                 GlobalMaterialLocalizations.delegate,
@@ -69,14 +69,14 @@ class FreshFeedApp extends ConsumerWidget {
                           ? Brightness.light
                           : Brightness.dark),
                 ),
-                child: SignScreen(),
+                child: const ProfileScreen(),
               ),
             ),
           );
         },
       );
 
-       */
+      /*
       return SizeProvider(
         baseSize: const Size(411, 869),
         height: context.screenHeight,
@@ -113,6 +113,8 @@ class FreshFeedApp extends ConsumerWidget {
           ),
         ),
       );
+
+       */
     }
   }
 }

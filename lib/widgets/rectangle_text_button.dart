@@ -5,12 +5,16 @@ class RectangleTextButton extends StatefulWidget {
   const RectangleTextButton({
     required this.text,
     this.color,
+    this.fontSize = 14,
+    this.verticalPadding = 9.0,
     required this.backgroundColor,
     required this.callback,
     super.key,
   });
   final String text;
   final Color? color;
+  final double? verticalPadding;
+  final double? fontSize;
   final Color backgroundColor;
   final Function callback;
 
@@ -28,7 +32,7 @@ class _RectangleTextButtonState extends State<RectangleTextButton> {
         style: ElevatedButton.styleFrom(
             padding: EdgeInsetsDirectional.symmetric(
                 horizontal: context.setMinSize(15),
-                vertical: context.setMinSize(9)),
+                vertical: context.setMinSize(widget.verticalPadding!)),
             minimumSize: const Size(0, 0),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             backgroundColor: widget.backgroundColor,
@@ -46,7 +50,7 @@ class _RectangleTextButtonState extends State<RectangleTextButton> {
                 style: TextStyle(
                   color: widget.color,
                   fontWeight: FontWeight.bold,
-                  fontSize: context.setSp(14),
+                  fontSize: context.setSp(widget.fontSize!),
                 ),
               ),
             ),

@@ -8,6 +8,7 @@ extension BuildContextExtensions on BuildContext {
   TextTheme get textTheme => _theme.textTheme;
   ColorScheme get colorScheme => _theme.colorScheme;
   Size get deviceSize => MediaQuery.of(this).size;
+  bool get isRTL => Directionality.of(this) == TextDirection.rtl;
 
   /// responsive extensions
   bool get isLandScape =>

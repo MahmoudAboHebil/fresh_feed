@@ -185,7 +185,8 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                             child: const Text('reset password'),
                             onPressed: () async {
                               try {
-                                await auth_repo.resetPassword(user!.email!);
+                                await auth_repo.resetPassword(
+                                    user!.email!, context);
                               } catch (e) {
                                 print(e.toString());
                                 AppAlerts.displaySnackBar(
@@ -254,7 +255,7 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                         child: const Text('sign with Google'),
                         onPressed: () async {
                           try {
-                            await auth_repo.signInWithGoogle();
+                            await auth_repo.signInWithGoogle(context);
                           } catch (e) {
                             print(e.toString());
                             AppAlerts.displaySnackBar(e.toString(), context);

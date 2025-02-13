@@ -39,6 +39,10 @@
   "accountAlreadyExistsExp": "Esta cuenta ya existe. Por favor, inicie sesión.",
   "invalidEmailFormatExp": "Formato de correo electrónico no válido.",
   "errorExp": "¡Vaya! Ocurrió un error. Por favor, inténtelo de nuevo.",
-  "invalidCredentialExp": "Credenciales no válidas",
-  "userDisabledExp": "Esta cuenta ha sido deshabilitada."
+  "invalidCredentialExp": "El correo electrónico o la contraseña son incorrectos. Por favor, verifica tus datos e inténtalo de nuevo.",
+  "userDisabledExp": "Esta cuenta ha sido deshabilitada.",
+  "resetPasswordExp": "Error al restablecer la contraseña. Por favor, inténtalo de nuevo más tarde.",
+  "resetPasswordSuccess": "Se ha enviado un correo electrónico para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada."
+
+
 }

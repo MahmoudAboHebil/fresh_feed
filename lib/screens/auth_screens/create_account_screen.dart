@@ -1,18 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fresh_feed/screens/auth/sign_screen.dart';
-import 'package:fresh_feed/screens/home_screen.dart';
+import 'package:fresh_feed/data/data.dart';
+import 'package:fresh_feed/providers/providers.dart';
+import 'package:fresh_feed/screens/screens.dart';
 import 'package:fresh_feed/utils/utlis.dart';
+import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 
-import '../../data/repository/firebase_repo/auth_repository_provider.dart';
 import '../../generated/l10n.dart';
-import '../../providers/network_inf_provider.dart';
-import '../../providers/user_bookmarks_provider.dart';
-import '../../providers/user_followed_channels_provider.dart';
-import '../../widgets/login_text_form_field.dart';
-import '../../widgets/rectangle_text_button.dart';
 
 //(done)  build the page UI take care about theme_done, responsive_done, orientation_done && localization_done
 //(done)  page validation logic_done
@@ -79,12 +75,14 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
         _emailController.clear();
         _nameController.clear();
         _rePasswordController.clear();
-      }
-      Navigator.push(
+        Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => const HomeScreen(),
-          ));
+          ),
+          (route) => false,
+        );
+      }
     } catch (e) {
       AppAlerts.displaySnackBar(e.toString(), context);
     }
@@ -216,11 +214,13 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignScreen(),
-                            ));
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignScreen(),
+                          ),
+                          (route) => false,
+                        );
                       },
                       child: Text(
                         S.of(context).signIn,

@@ -63,7 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "نسيت كلمة المرور",
     ),
     "invalidCredentialExp": MessageLookupByLibrary.simpleMessage(
-      "بيانات الاعتماد غير صالحة",
+      "البريد الإلكتروني أو كلمة المرور غير صحيحة. يرجى التحقق من بياناتك والمحاولة مرة أخرى.",
     ),
     "invalidEmailFormatExp": MessageLookupByLibrary.simpleMessage(
       "تنسيق البريد الإلكتروني غير صالح.",
@@ -104,6 +104,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "rePasswordIsRequired": MessageLookupByLibrary.simpleMessage(
       "إعادة إدخال كلمة المرور مطلوب",
+    ),
+    "resetPasswordExp": MessageLookupByLibrary.simpleMessage(
+      "فشل إعادة تعيين كلمة المرور. يرجى المحاولة مرة أخرى لاحقًا.",
+    ),
+    "resetPasswordSuccess": MessageLookupByLibrary.simpleMessage(
+      "تم إرسال بريد إلكتروني إليك لإعادة تعيين كلمة المرور. يرجى التحقق من صندوق الوارد.",
     ),
     "sendEmail": MessageLookupByLibrary.simpleMessage(
       "إرسال البريد الإلكتروني",

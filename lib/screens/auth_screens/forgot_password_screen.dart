@@ -1,39 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_feed/data/data.dart';
+import 'package:fresh_feed/providers/providers.dart';
+import 'package:fresh_feed/screens/screens.dart';
 import 'package:fresh_feed/utils/utlis.dart';
+import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 
 import '../../generated/l10n.dart';
-import '../../widgets/login_text_form_field.dart';
-import '../../widgets/rectangle_text_button.dart';
 
-//(done) ToDo:1. build the page UI take care about theme_done, responsive_done, orientation_done && localization_done
-//(done) ToDo:2. page validation logic_done
+//(done)  build the page UI take care about theme_done, responsive_done, orientation_done && localization_done
+//(done)  page validation logic_done
+//progress==>
+//(done) inject the dateLayer
+//(done) Error Handling_done
 
-// progress
-//ToDo:3. inject the dateLayer
-//ToDo:4. Error Handling
-
-class ForgotPasswordScreen extends StatefulWidget {
+class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() =>
+      _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
 
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      _emailController.clear();
-    } else {}
+  void _submitForm() async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        bool isConnected =
+            ref.read(networkInfoStreamNotifierProv).value ?? false;
+        final authRepo = ref.read(authRepositoryProvider);
+
+        // check connections
+        if (!isConnected) {
+          AppAlerts.displaySnackBar(S.of(context).noInternet, context);
+          return;
+        }
+        // send Email
+        try {
+          await authRepo.resetPassword(
+              _emailController.text.toLowerCase(), context);
+        } catch (e) {
+          AppAlerts.displaySnackBar(e.toString(), context);
+          return;
+        }
+
+        AppAlerts.displaySnackBar(S.of(context).resetPasswordSuccess, context);
+
+        _emailController.clear();
+
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const SignScreen(),
+          ),
+          (route) => false,
+        );
+      } else {}
+    } catch (e) {
+      AppAlerts.displaySnackBar(e.toString(), context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final generalFuncs = GeneralFunctions(context);
+    final network_steam = ref.watch(networkInfoStreamNotifierProv);
 
     return Scaffold(
       appBar: AppBar(

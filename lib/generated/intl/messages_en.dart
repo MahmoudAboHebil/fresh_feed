@@ -63,7 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Forgot Password",
     ),
     "invalidCredentialExp": MessageLookupByLibrary.simpleMessage(
-      "invalid-credential",
+      "The email or password is incorrect. Please check your credentials and try again.",
     ),
     "invalidEmailFormatExp": MessageLookupByLibrary.simpleMessage(
       "Invalid email format.",
@@ -104,6 +104,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "rePasswordIsRequired": MessageLookupByLibrary.simpleMessage(
       "Re-Password is required",
+    ),
+    "resetPasswordExp": MessageLookupByLibrary.simpleMessage(
+      "Password reset failed. Please try again later.",
+    ),
+    "resetPasswordSuccess": MessageLookupByLibrary.simpleMessage(
+      "An email has been sent to you to reset your password. Please check your inbox.",
     ),
     "sendEmail": MessageLookupByLibrary.simpleMessage("Send Email"),
     "signIn": MessageLookupByLibrary.simpleMessage("Sign in"),

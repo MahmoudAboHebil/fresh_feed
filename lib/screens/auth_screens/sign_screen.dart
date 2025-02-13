@@ -1,46 +1,134 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
-import 'package:fresh_feed/screens/auth/auth.dart';
+import 'package:fresh_feed/screens/screens.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 
 import '../../generated/l10n.dart';
 
-//(done) ToDo:1. build the page UI take care about theme_done, responsive_done, orientation_done && localization_done
-//(done) ToDo:2. page validation logic_done
+//(done)  build the page UI take care about theme_done, responsive_done, orientation_done && localization_done
+//(done)  page validation logic_done
+//progress==>
+//(done) inject the dateLayer
+//(done) Error Handling_done
 
-// progress
-//ToDo:3. inject the dateLayer
-//ToDo:4. Error Handling
-
-class SignScreen extends StatefulWidget {
+class SignScreen extends ConsumerStatefulWidget {
   const SignScreen({super.key});
 
   @override
-  State<SignScreen> createState() => _SignScreenState();
+  ConsumerState<SignScreen> createState() => _SignScreenState();
 }
 
-class _SignScreenState extends State<SignScreen> {
+class _SignScreenState extends ConsumerState<SignScreen> {
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController _emailController = TextEditingController();
-
   final TextEditingController _passwordController = TextEditingController();
 
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      _passwordController.clear();
-      _emailController.clear();
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(content: Text('تم تسجيل الدخول بنجاح!')),
-      // );
-    } else {}
+  Future<void> _submitForm() async {
+    try {
+      bool isConnected = ref.read(networkInfoStreamNotifierProv).value ?? false;
+      print(isConnected);
+      final authRepo = ref.read(authRepositoryProvider);
+      final userBookmarksProv =
+          ref.read(userBookmarksNotifierProvider.notifier);
+      final userFollowedChannelsProv =
+          ref.read(userFollowedChannelsNotifierProvider.notifier);
+
+      if (_formKey.currentState!.validate()) {
+        // check connections
+        if (!isConnected) {
+          AppAlerts.displaySnackBar(S.of(context).noInternet, context);
+          return;
+        }
+
+        // Sign In
+        User? user;
+        try {
+          user = await authRepo.signIn(
+              email: _emailController.text.toLowerCase(),
+              password: _passwordController.text,
+              context: context);
+        } catch (e) {
+          AppAlerts.displaySnackBar(e.toString(), context);
+          return;
+        }
+
+        // mange user services
+        try {
+          await userFollowedChannelsProv.loadDataIfStateIsNull(user.uid);
+          await userBookmarksProv.loadDataIfStateIsNull(user.uid);
+        } catch (e) {
+          AppAlerts.displaySnackBar(e.toString(), context);
+        }
+        _passwordController.clear();
+        _emailController.clear();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ),
+          (route) => false,
+        );
+      }
+    } catch (e) {
+      AppAlerts.displaySnackBar(e.toString(), context);
+    }
+  }
+
+  Future<void> _signWithGoogle() async {
+    try {
+      bool isConnected = ref.read(networkInfoStreamNotifierProv).value ?? false;
+      print(isConnected);
+      final authRepo = ref.read(authRepositoryProvider);
+      final userBookmarksProv =
+          ref.read(userBookmarksNotifierProvider.notifier);
+      final userFollowedChannelsProv =
+          ref.read(userFollowedChannelsNotifierProvider.notifier);
+
+      // check connections
+      if (!isConnected) {
+        AppAlerts.displaySnackBar(S.of(context).noInternet, context);
+        return;
+      }
+
+      // Sign In with Google
+      User? user;
+      try {
+        user = await authRepo.signInWithGoogle(context);
+      } catch (e) {
+        AppAlerts.displaySnackBar(e.toString(), context);
+        return;
+      }
+
+      // mange user services
+      try {
+        await userFollowedChannelsProv.loadDataIfStateIsNull(user.uid);
+        await userBookmarksProv.loadDataIfStateIsNull(user.uid);
+      } catch (e) {
+        AppAlerts.displaySnackBar(e.toString(), context);
+      }
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+        (route) => false,
+      );
+    } catch (e) {
+      AppAlerts.displaySnackBar(e.toString(), context);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final generalFuncs = GeneralFunctions(context);
+    final network_steam = ref.watch(networkInfoStreamNotifierProv);
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -107,7 +195,7 @@ class _SignScreenState extends State<SignScreen> {
                   text: S.of(context).loginWithGoogle,
                   iconSize: 25,
                   callBack: () async {
-                    await Future.delayed(const Duration(seconds: 3));
+                    await _signWithGoogle();
                   },
                 ),
                 Gap(context.setHeight(20)),

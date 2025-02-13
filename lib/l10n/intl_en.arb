@@ -39,8 +39,10 @@
   "accountAlreadyExistsExp": "This account already exists. Please log in.",
   "invalidEmailFormatExp": "Invalid email format.",
   "errorExp": "Oops! An error occurred. Please try again.",
-  "invalidCredentialExp": "invalid-credential",
-  "userDisabledExp": "This account has been disabled."
+  "invalidCredentialExp": "The email or password is incorrect. Please check your credentials and try again.",
+  "userDisabledExp": "This account has been disabled.",
+  "resetPasswordExp": "Password reset failed. Please try again later.",
+  "resetPasswordSuccess": "An email has been sent to you to reset your password. Please check your inbox."
 
 
 }

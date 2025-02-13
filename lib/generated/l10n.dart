@@ -400,10 +400,10 @@ class S {
     );
   }
 
-  /// `invalid-credential`
+  /// `The email or password is incorrect. Please check your credentials and try again.`
   String get invalidCredentialExp {
     return Intl.message(
-      'invalid-credential',
+      'The email or password is incorrect. Please check your credentials and try again.',
       name: 'invalidCredentialExp',
       desc: '',
       args: [],
@@ -415,6 +415,26 @@ class S {
     return Intl.message(
       'This account has been disabled.',
       name: 'userDisabledExp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password reset failed. Please try again later.`
+  String get resetPasswordExp {
+    return Intl.message(
+      'Password reset failed. Please try again later.',
+      name: 'resetPasswordExp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An email has been sent to you to reset your password. Please check your inbox.`
+  String get resetPasswordSuccess {
+    return Intl.message(
+      'An email has been sent to you to reset your password. Please check your inbox.',
+      name: 'resetPasswordSuccess',
       desc: '',
       args: [],
     );

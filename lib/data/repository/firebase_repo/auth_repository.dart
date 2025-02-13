@@ -219,11 +219,11 @@ class AuthRepository {
   }
 
   // testing signInWithGoogle is done
-  Future<User> signInWithGoogle() async {
+  Future<User> signInWithGoogle(BuildContext context) async {
     try {
       final user = await _authDataSource.signInWithGoogle();
       if (user == null) {
-        throw Exception('user from Sign In method equal null');
+        throw Exception(S.of(context).nullUserExp);
       }
       final storedUserData = await _userRepository.getUserData(user.uid);
       if (storedUserData == null) {
@@ -242,7 +242,7 @@ class AuthRepository {
     } catch (e) {
       await signOut();
       throw FreshFeedException(
-        message: 'An error occurred. Please try again.',
+        message: S.of(context).errorExp,
         methodInFile: 'signInWithGoogle()/AuthRepository',
         details: e.toString(),
       );
@@ -276,12 +276,12 @@ class AuthRepository {
   }
 
   // test resetPassword is done
-  Future<void> resetPassword(String email) async {
+  Future<void> resetPassword(String email, BuildContext context) async {
     try {
       await _authDataSource.resetPassword(email);
     } catch (e) {
       throw FreshFeedException(
-        message: "Password reset failed. Please try again later.",
+        message: S.of(context).resetPasswordExp,
         methodInFile: 'resetPassword()/AuthRepository',
         details: e.toString(),
       );

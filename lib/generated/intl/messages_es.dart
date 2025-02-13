@@ -65,7 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "¿Olvidaste tu contraseña",
     ),
     "invalidCredentialExp": MessageLookupByLibrary.simpleMessage(
-      "Credenciales no válidas",
+      "El correo electrónico o la contraseña son incorrectos. Por favor, verifica tus datos e inténtalo de nuevo.",
     ),
     "invalidEmailFormatExp": MessageLookupByLibrary.simpleMessage(
       "Formato de correo electrónico no válido.",
@@ -110,6 +110,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "rePasswordIsRequired": MessageLookupByLibrary.simpleMessage(
       "Se requiere volver a ingresar la contraseña",
+    ),
+    "resetPasswordExp": MessageLookupByLibrary.simpleMessage(
+      "Error al restablecer la contraseña. Por favor, inténtalo de nuevo más tarde.",
+    ),
+    "resetPasswordSuccess": MessageLookupByLibrary.simpleMessage(
+      "Se ha enviado un correo electrónico para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada.",
     ),
     "sendEmail": MessageLookupByLibrary.simpleMessage(
       "Enviar correo electrónico",

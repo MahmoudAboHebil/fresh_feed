@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,10 +7,13 @@ import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 
+import 'auth_screens/sign_screen.dart';
+
 //(Done): build the page UI take care about theme_done, responsive_done, orientation_done
 //progress==>
 //(Done): Language & Theme Buttons
-//TODO: User & Followed Channels & Login & Log Out  Bookmarks Buttons
+//(Done): Login  & Log Out
+//TODO: User & Followed Channels &   Bookmarks Buttons
 //TODO: Contact & Privacy Policy & About Us  Buttons
 //TODO: localization
 //TODO: page validation logic
@@ -46,7 +47,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
             ),
             titleText: 'Log In',
-            callBack: () {},
+            callBack: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SignScreen(),
+                ),
+                (route) => false,
+              );
+            },
           ),
           Gap(context.setHeight(18)),
         ],
@@ -315,21 +324,38 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               color: context.colorScheme.onPrimary,
                               backgroundColor: context.colorScheme.primary,
                               callback: () async {
-                                try {
-                                  final userBookmarksProv = ref.read(
-                                      userBookmarksNotifierProvider.notifier);
-                                  final userFollowedChannelsProv = ref.read(
-                                      userFollowedChannelsNotifierProvider
-                                          .notifier);
-                                  await userBookmarksProv
-                                      .loadDataIfStateIsNull(null);
-                                  await userFollowedChannelsProv
-                                      .loadDataIfStateIsNull(null);
-                                } catch (e) {
-                                  print(e);
-                                }
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SignScreen(),
+                                  ),
+                                  (route) => false,
+                                );
+                                await Future.delayed(Duration.zero, () async {
+                                  try {
+                                    await ref
+                                        .read(authRepositoryProvider)
+                                        .signOut();
 
-                                await Future.delayed(Duration(seconds: 2));
+                                    try {
+                                      final userBookmarksProv = ref.read(
+                                          userBookmarksNotifierProvider
+                                              .notifier);
+                                      final userFollowedChannelsProv = ref.read(
+                                          userFollowedChannelsNotifierProvider
+                                              .notifier);
+                                      await userBookmarksProv
+                                          .loadDataIfStateIsNull(null);
+                                      await userFollowedChannelsProv
+                                          .loadDataIfStateIsNull(null);
+                                    } catch (e) {
+                                      print(e);
+                                    }
+                                  } catch (e) {
+                                    AppAlerts.displaySnackBar(
+                                        e.toString(), context);
+                                  }
+                                });
                               },
                             ),
                         ],

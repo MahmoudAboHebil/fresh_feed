@@ -73,9 +73,11 @@ class _RectangleTextButtonState extends State<RectangleTextButton> {
               isLoading = true;
             });
             await widget.callback();
-            setState(() {
-              isLoading = false;
-            });
+            if (mounted) {
+              setState(() {
+                isLoading = false;
+              });
+            }
           }
         },
       ),

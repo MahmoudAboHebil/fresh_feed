@@ -152,7 +152,15 @@ class _SignScreenState extends ConsumerState<SignScreen> {
                   text: S.of(context).skip,
                   color: context.colorScheme.primary,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  callback: () {},
+                  callback: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                      (route) => false,
+                    );
+                  },
                 ),
               ),
             ),

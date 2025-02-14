@@ -11,6 +11,9 @@ import 'package:gap/gap.dart';
 
 //(Done): build the page UI take care about theme_done, responsive_done, orientation_done
 //progress==>
+//(Done): Language & Theme Buttons
+//TODO: User & Followed Channels & Login & Log Out  Bookmarks Buttons
+//TODO: Contact & Privacy Policy & About Us  Buttons
 //TODO: localization
 //TODO: page validation logic
 //TODO: inject the dateLayer
@@ -136,27 +139,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Widget build(BuildContext context) {
     final networkStream = ref.watch(networkInfoStreamNotifierProv);
     final userStream = ref.watch(userNotifierProvider);
-    final userBookmarksProv = ref.read(userBookmarksNotifierProvider.notifier);
-    final userFollowedChannelsProv =
-        ref.read(userFollowedChannelsNotifierProvider.notifier);
-    ref.listen(userListenerProvider, (prev, now) async {
-      print(
-          'userListenerProvider (SignInUp) about user Bookmarks-article=====>');
-      try {
-        await userBookmarksProv.loadDataIfStateIsNull(now?.uid);
-      } catch (e) {
-        print(e);
-      }
-    });
-    ref.listen(userListenerProvider, (prev, now) async {
-      print(
-          'userListenerProvider (SignInUp) about user followed-channels=====>');
-      try {
-        await userFollowedChannelsProv.loadDataIfStateIsNull(now?.uid);
-      } catch (e) {
-        print(e);
-      }
-    });
 
     return networkStream.when(
       data: (isConnect) {
@@ -213,7 +195,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               ),
                             ),
                             titleText: 'Theme',
-                            callBack: () {},
+                            callBack: () {
+                              final themeProv =
+                                  ref.read(themeProvider.notifier);
+                              AppAlerts.displayThemeModeDialog(
+                                  context,
+                                  ref.watch(themeProvider).value ??
+                                      ThemeMode.system, (theme) async {
+                                try {
+                                  themeProv.toggleTheme(theme);
+                                } catch (e) {
+                                  AppAlerts.displaySnackBar(
+                                      e.toString(), context);
+                                }
+                              });
+                            },
                           ),
                           Gap(context.setHeight(10)),
 
@@ -254,7 +250,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               ),
                             ),
                             titleText: 'Language',
-                            callBack: () {},
+                            callBack: () {
+                              final languageProv =
+                                  ref.read(languageProvider.notifier);
+                              AppAlerts.displayLanguageDialog(
+                                  context,
+                                  ref.watch(languageProvider).value ??
+                                      Language.en, (lan) async {
+                                try {
+                                  languageProv.toggleLanguage(lan);
+                                } catch (e) {
+                                  AppAlerts.displaySnackBar(
+                                      e.toString(), context);
+                                }
+                              });
+                            },
                           ),
                           Gap(context.setHeight(10)),
                           // Privacy Policy
@@ -305,6 +315,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               color: context.colorScheme.onPrimary,
                               backgroundColor: context.colorScheme.primary,
                               callback: () async {
+                                try {
+                                  final userBookmarksProv = ref.read(
+                                      userBookmarksNotifierProvider.notifier);
+                                  final userFollowedChannelsProv = ref.read(
+                                      userFollowedChannelsNotifierProvider
+                                          .notifier);
+                                  await userBookmarksProv
+                                      .loadDataIfStateIsNull(null);
+                                  await userFollowedChannelsProv
+                                      .loadDataIfStateIsNull(null);
+                                } catch (e) {
+                                  print(e);
+                                }
+
                                 await Future.delayed(Duration(seconds: 2));
                               },
                             ),

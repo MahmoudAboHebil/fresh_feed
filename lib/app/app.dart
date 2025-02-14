@@ -45,8 +45,8 @@ class FreshFeedApp extends ConsumerWidget {
               useInheritedMediaQuery: true,
               builder: DevicePreview.appBuilder,
               debugShowCheckedModeBanner: false,
-              // locale: Locale(languageState.value?.name ?? Language.en.name),
-              locale: Locale(Language.en.name),
+              locale: Locale(languageState.value?.name ?? Language.en.name),
+              // locale: Locale(Language.en.name),
               localizationsDelegates: const [
                 S.delegate,
                 GlobalMaterialLocalizations.delegate,

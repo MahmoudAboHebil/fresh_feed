@@ -46,6 +46,7 @@ class AppTheme {
     appBarOpacity: 0.95,
     subThemesData: const FlexSubThemesData(
       inputDecoratorBorderType: FlexInputBorderType.outline,
+
       inputDecoratorRadius: 10,
       inputDecoratorBorderWidth: 1,
       inputDecoratorFocusedBorderWidth: 1,

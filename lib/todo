@@ -20,8 +20,8 @@ Add network connection stream /done
 progress presentationLayer==================================================>
 1. ToDo: the app widgets
 2. ToDo: creating the splash screen
-3. ToDo: the app pages
-4. ToDo: the app routing
+3. ToDo: the app pages (currently is user profile screen)
+4. ToDo: the app routing ( you need to do it as soon as possible)
 5. ToDo: the app network
 6. ToDo: handling the app for user login&logout state
 7. ToDo: handling the app for login guest feature

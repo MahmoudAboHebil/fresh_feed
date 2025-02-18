@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_feed/config/config.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
-import 'package:fresh_feed/screens/screens.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../generated/l10n.dart';
 
@@ -19,6 +20,8 @@ import '../../generated/l10n.dart';
 
 class SignScreen extends ConsumerStatefulWidget {
   const SignScreen({super.key});
+  static SignScreen builder(BuildContext buildContext, GoRouterState state) =>
+      SignScreen();
 
   @override
   ConsumerState<SignScreen> createState() => _SignScreenState();
@@ -67,13 +70,7 @@ class _SignScreenState extends ConsumerState<SignScreen> {
         }
         _passwordController.clear();
         _emailController.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
-          (route) => false,
-        );
+        context.goNamed(RouteName.home);
       }
     } catch (e) {
       AppAlerts.displaySnackBar(e.toString(), context);
@@ -113,16 +110,33 @@ class _SignScreenState extends ConsumerState<SignScreen> {
         AppAlerts.displaySnackBar(e.toString(), context);
       }
 
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ),
-        (route) => false,
-      );
+      context.goNamed(RouteName.home);
     } catch (e) {
       AppAlerts.displaySnackBar(e.toString(), context);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((e) async {
+      try {
+        await ref.read(authRepositoryProvider).signOut();
+
+        try {
+          final userBookmarksProv =
+              ref.read(userBookmarksNotifierProvider.notifier);
+          final userFollowedChannelsProv =
+              ref.read(userFollowedChannelsNotifierProvider.notifier);
+          await userBookmarksProv.loadDataIfStateIsNull(null);
+          await userFollowedChannelsProv.loadDataIfStateIsNull(null);
+        } catch (e) {
+          print(e);
+        }
+      } catch (e) {
+        AppAlerts.displaySnackBar(e.toString(), context);
+      }
+    });
   }
 
   @override
@@ -154,13 +168,7 @@ class _SignScreenState extends ConsumerState<SignScreen> {
                   color: context.colorScheme.primary,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   callback: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomeScreen(),
-                      ),
-                      (route) => false,
-                    );
+                    context.goNamed(RouteName.home);
                   },
                 ),
               ),
@@ -284,11 +292,7 @@ class _SignScreenState extends ConsumerState<SignScreen> {
                 Gap(context.setHeight(20)),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ForgotPasswordScreen(),
-                        ));
+                    context.pushNamed(RouteName.forgotPassword);
                   },
                   child: Text(
                     S.of(context).forgotPassword,
@@ -310,11 +314,7 @@ class _SignScreenState extends ConsumerState<SignScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const CreateAccountScreen(),
-                            ));
+                        context.pushNamed(RouteName.createAccount);
                       },
                       child: Text(
                         S.of(context).createOne,

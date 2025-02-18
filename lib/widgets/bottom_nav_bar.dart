@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_feed/config/config.dart';
 import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/utils/utlis.dart';
+import 'package:go_router/go_router.dart';
 
 import 'animated_bottom_nav_tap.dart';
+
+//(Done): build the page UI take care about theme_done, responsive_done, orientation_done
+//progress==>
+//TODO: localization
+//TODO: page validation logic
 
 class BottomNavBar extends ConsumerWidget {
   const BottomNavBar({super.key});
@@ -35,6 +42,7 @@ class BottomNavBar extends ConsumerWidget {
             iconSize: 26,
             navItem: NavbarItem.Home,
             callBack: () {
+              context.goNamed(RouteName.home);
               print('Home');
             },
           ),
@@ -44,6 +52,8 @@ class BottomNavBar extends ConsumerWidget {
             activeIcon: Icons.explore,
             navItem: NavbarItem.Discover,
             callBack: () {
+              context.goNamed(RouteName.discover);
+
               print('Discover');
             },
           ),
@@ -53,6 +63,8 @@ class BottomNavBar extends ConsumerWidget {
             icon: Icons.category_outlined,
             navItem: NavbarItem.Topics,
             callBack: () {
+              context.goNamed(RouteName.topics);
+
               print('Topics');
             },
           ),
@@ -62,6 +74,8 @@ class BottomNavBar extends ConsumerWidget {
             activeIcon: Icons.bookmark,
             navItem: NavbarItem.Bookmarks,
             callBack: () {
+              context.goNamed(RouteName.bookmarks);
+
               print('Bookmarks');
             },
           ),
@@ -70,6 +84,8 @@ class BottomNavBar extends ConsumerWidget {
             icon: Icons.person,
             navItem: NavbarItem.Profile,
             callBack: () {
+              context.goNamed(RouteName.profile);
+
               print('Profile');
             },
           ),

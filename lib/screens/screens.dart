@@ -1,4 +1,10 @@
 export 'auth_screens/auth_screens.dart';
+export 'bookmarks_screen.dart';
+export 'discover_screen.dart';
+export 'followed_channels_screen.dart';
 export 'home_screen.dart';
 export 'profile_screen.dart';
+export 'shell_screen.dart';
+export 'splash_screen.dart';
+export 'topics_screen.dart';
 export 'user_screen.dart';

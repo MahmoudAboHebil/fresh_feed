@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
-import 'package:fresh_feed/screens/screens.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../config/route/route_name.dart';
 import '../../generated/l10n.dart';
 
 //(done)  build the page UI take care about theme_done, responsive_done, orientation_done && localization_done
@@ -53,13 +54,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
         _emailController.clear();
 
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const SignScreen(),
-          ),
-          (route) => false,
-        );
+        context.goNamed(RouteName.signIn);
       } else {}
     } catch (e) {
       AppAlerts.displaySnackBar(e.toString(), context);

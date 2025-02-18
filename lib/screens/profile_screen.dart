@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
-import 'package:fresh_feed/screens/screens.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+
+import '../config/route/route_name.dart';
 
 //(Done): build the page UI take care about theme_done, responsive_done, orientation_done
 //progress==>
@@ -21,6 +23,9 @@ import 'package:gap/gap.dart';
 //TODO: Image Chasing
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
+  static ProfileScreen builder(
+          BuildContext buildContext, GoRouterState state) =>
+      ProfileScreen();
 
   @override
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
@@ -48,13 +53,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ),
             titleText: 'Log In',
             callBack: () {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SignScreen(),
-                ),
-                (route) => false,
-              );
+              context.goNamed(RouteName.signIn);
             },
           ),
           Gap(context.setHeight(18)),
@@ -90,11 +89,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 ),
           titleText: user.name,
           callBack: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UserScreen(),
-                ));
+            context.pushNamed(RouteName.user);
           },
         ),
         Gap(context.setHeight(15)),
@@ -115,7 +110,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ),
           ),
           titleText: 'Followed Channels',
-          callBack: () {},
+          callBack: () {
+            context.pushNamed(RouteName.followedChannels);
+          },
         ),
         Gap(context.setHeight(18)),
       ],
@@ -143,7 +140,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ),
           ),
           titleText: 'Bookmarks',
-          callBack: () {},
+          callBack: () {
+            context.goNamed(RouteName.bookmarks);
+          },
         ),
         Gap(context.setHeight(10)),
       ],
@@ -159,7 +158,224 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       data: (isConnect) {
         if (isConnect) {
           // network is ok
-          return Scaffold(
+          return SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsetsDirectional.symmetric(
+                vertical: context.setWidth(15),
+                horizontal: context.setHeight(15),
+              ),
+              child: userStream.when(
+                data: (user) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Gap(context.setHeight(10)),
+                      getTopUserComponents(user),
+                      Text(
+                        'General Settings',
+                        style: TextStyle(fontSize: context.setSp(20)),
+                      ),
+                      Gap(context.setHeight(25)),
+                      getUserBookmarks(user),
+                      // theme
+                      CustomListTile(
+                        leadingChild: Container(
+                          height: context.setMinSize(32),
+                          width: context.setMinSize(32),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.blueGrey,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: FaIcon(
+                            FontAwesomeIcons.lightbulb,
+                            color: Colors.white,
+                            size: context.setMinSize(16),
+                          ),
+                        ),
+                        titleText: 'Theme',
+                        callBack: () {
+                          final themeProv = ref.read(themeProvider.notifier);
+                          AppAlerts.displayThemeModeDialog(
+                              context,
+                              ref.watch(themeProvider).value ??
+                                  ThemeMode.system, (theme) async {
+                            try {
+                              themeProv.toggleTheme(theme);
+                            } catch (e) {
+                              AppAlerts.displaySnackBar(e.toString(), context);
+                            }
+                          });
+                        },
+                      ),
+                      Gap(context.setHeight(10)),
+
+                      // Contact
+                      CustomListTile(
+                        leadingChild: Container(
+                          height: context.setMinSize(32),
+                          width: context.setMinSize(32),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff41c4fc),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: FaIcon(
+                            FontAwesomeIcons.envelope,
+                            color: Colors.white,
+                            size: context.setMinSize(16),
+                          ),
+                        ),
+                        titleText: 'Contact Us',
+                        callBack: () {},
+                      ),
+                      Gap(context.setHeight(10)),
+                      // language
+                      CustomListTile(
+                        leadingChild: Container(
+                          height: context.setMinSize(32),
+                          width: context.setMinSize(32),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: const Color(0xfffc554d),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: FaIcon(
+                            FontAwesomeIcons.earthAfrica,
+                            color: Colors.white,
+                            size: context.setMinSize(16),
+                          ),
+                        ),
+                        titleText: 'Language',
+                        callBack: () {
+                          final languageProv =
+                              ref.read(languageProvider.notifier);
+                          AppAlerts.displayLanguageDialog(context,
+                              ref.watch(languageProvider).value ?? Language.en,
+                              (lan) async {
+                            try {
+                              languageProv.toggleLanguage(lan);
+                            } catch (e) {
+                              AppAlerts.displaySnackBar(e.toString(), context);
+                            }
+                          });
+                        },
+                      ),
+                      Gap(context.setHeight(10)),
+                      // Privacy Policy
+                      CustomListTile(
+                        leadingChild: Container(
+                          height: context.setMinSize(32),
+                          width: context.setMinSize(32),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: const Color(0xfff44238),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: FaIcon(
+                            FontAwesomeIcons.lock,
+                            color: Colors.white,
+                            size: context.setMinSize(16),
+                          ),
+                        ),
+                        titleText: 'Privacy Policy',
+                        callBack: () {},
+                      ),
+                      Gap(context.setHeight(10)),
+                      // About Us
+                      CustomListTile(
+                        leadingChild: Container(
+                          height: context.setMinSize(32),
+                          width: context.setMinSize(32),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff4fae50),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: FaIcon(
+                            FontAwesomeIcons.circleExclamation,
+                            color: Colors.white,
+                            size: context.setMinSize(16),
+                          ),
+                        ),
+                        titleText: 'About Us',
+                        callBack: () {},
+                      ),
+                      Gap(context.setHeight(30)),
+                      if (user != null)
+                        RectangleTextButton(
+                          text: 'Log Out',
+                          verticalPadding: 12,
+                          fontSize: 15,
+                          color: context.colorScheme.onPrimary,
+                          backgroundColor: context.colorScheme.primary,
+                          callback: () async {
+                            context.goNamed(RouteName.signIn);
+
+                            await Future.delayed(Duration.zero, () async {
+                              try {
+                                await ref
+                                    .read(authRepositoryProvider)
+                                    .signOut();
+
+                                try {
+                                  final userBookmarksProv = ref.read(
+                                      userBookmarksNotifierProvider.notifier);
+                                  final userFollowedChannelsProv = ref.read(
+                                      userFollowedChannelsNotifierProvider
+                                          .notifier);
+                                  await userBookmarksProv
+                                      .loadDataIfStateIsNull(null);
+                                  await userFollowedChannelsProv
+                                      .loadDataIfStateIsNull(null);
+                                } catch (e) {
+                                  print(e);
+                                }
+                              } catch (e) {
+                                AppAlerts.displaySnackBar(
+                                    e.toString(), context);
+                              }
+                            });
+                          },
+                        ),
+                    ],
+                  );
+                },
+                error: (error, stack) {
+                  // Error user
+                  return Center(
+                    child: Text('Error User'),
+                  );
+                },
+                loading: () {
+                  // Loading user
+                  return CircularProgressIndicator(
+                    color: Colors.green,
+                  );
+                },
+              ),
+            ),
+          );
+        } else {
+          // network is lost
+          return Text(' network lost');
+        }
+      },
+      error: (error, stack) {
+        // error network
+        return Text('Error network');
+      },
+      loading: () {
+        // loading network
+        return CircularProgressIndicator(
+          color: Colors.red,
+        );
+      },
+    );
+  }
+}
+
+/*
               appBar: AppBar(
                 automaticallyImplyLeading: false,
                 backgroundColor: Colors.transparent,
@@ -173,236 +389,5 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       color: context.textTheme.bodyLarge?.color),
                 ),
               ),
-              body: SafeArea(
-                  child: SingleChildScrollView(
-                child: Container(
-                  margin: EdgeInsetsDirectional.symmetric(
-                    vertical: context.setWidth(15),
-                    horizontal: context.setHeight(15),
-                  ),
-                  child: userStream.when(
-                    data: (user) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Gap(context.setHeight(10)),
-                          getTopUserComponents(user),
-                          Text(
-                            'General Settings',
-                            style: TextStyle(fontSize: context.setSp(20)),
-                          ),
-                          Gap(context.setHeight(25)),
-                          getUserBookmarks(user),
-                          // theme
-                          CustomListTile(
-                            leadingChild: Container(
-                              height: context.setMinSize(32),
-                              width: context.setMinSize(32),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: Colors.blueGrey,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: FaIcon(
-                                FontAwesomeIcons.lightbulb,
-                                color: Colors.white,
-                                size: context.setMinSize(16),
-                              ),
-                            ),
-                            titleText: 'Theme',
-                            callBack: () {
-                              final themeProv =
-                                  ref.read(themeProvider.notifier);
-                              AppAlerts.displayThemeModeDialog(
-                                  context,
-                                  ref.watch(themeProvider).value ??
-                                      ThemeMode.system, (theme) async {
-                                try {
-                                  themeProv.toggleTheme(theme);
-                                } catch (e) {
-                                  AppAlerts.displaySnackBar(
-                                      e.toString(), context);
-                                }
-                              });
-                            },
-                          ),
-                          Gap(context.setHeight(10)),
 
-                          // Contact
-                          CustomListTile(
-                            leadingChild: Container(
-                              height: context.setMinSize(32),
-                              width: context.setMinSize(32),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff41c4fc),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: FaIcon(
-                                FontAwesomeIcons.envelope,
-                                color: Colors.white,
-                                size: context.setMinSize(16),
-                              ),
-                            ),
-                            titleText: 'Contact Us',
-                            callBack: () {},
-                          ),
-                          Gap(context.setHeight(10)),
-                          // language
-                          CustomListTile(
-                            leadingChild: Container(
-                              height: context.setMinSize(32),
-                              width: context.setMinSize(32),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: const Color(0xfffc554d),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: FaIcon(
-                                FontAwesomeIcons.earthAfrica,
-                                color: Colors.white,
-                                size: context.setMinSize(16),
-                              ),
-                            ),
-                            titleText: 'Language',
-                            callBack: () {
-                              final languageProv =
-                                  ref.read(languageProvider.notifier);
-                              AppAlerts.displayLanguageDialog(
-                                  context,
-                                  ref.watch(languageProvider).value ??
-                                      Language.en, (lan) async {
-                                try {
-                                  languageProv.toggleLanguage(lan);
-                                } catch (e) {
-                                  AppAlerts.displaySnackBar(
-                                      e.toString(), context);
-                                }
-                              });
-                            },
-                          ),
-                          Gap(context.setHeight(10)),
-                          // Privacy Policy
-                          CustomListTile(
-                            leadingChild: Container(
-                              height: context.setMinSize(32),
-                              width: context.setMinSize(32),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: const Color(0xfff44238),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: FaIcon(
-                                FontAwesomeIcons.lock,
-                                color: Colors.white,
-                                size: context.setMinSize(16),
-                              ),
-                            ),
-                            titleText: 'Privacy Policy',
-                            callBack: () {},
-                          ),
-                          Gap(context.setHeight(10)),
-                          // About Us
-                          CustomListTile(
-                            leadingChild: Container(
-                              height: context.setMinSize(32),
-                              width: context.setMinSize(32),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: const Color(0xff4fae50),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: FaIcon(
-                                FontAwesomeIcons.circleExclamation,
-                                color: Colors.white,
-                                size: context.setMinSize(16),
-                              ),
-                            ),
-                            titleText: 'About Us',
-                            callBack: () {},
-                          ),
-                          Gap(context.setHeight(30)),
-                          if (user != null)
-                            RectangleTextButton(
-                              text: 'Log Out',
-                              verticalPadding: 12,
-                              fontSize: 15,
-                              color: context.colorScheme.onPrimary,
-                              backgroundColor: context.colorScheme.primary,
-                              callback: () async {
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const SignScreen(),
-                                  ),
-                                  (route) => false,
-                                );
-                                await Future.delayed(Duration.zero, () async {
-                                  try {
-                                    await ref
-                                        .read(authRepositoryProvider)
-                                        .signOut();
-
-                                    try {
-                                      final userBookmarksProv = ref.read(
-                                          userBookmarksNotifierProvider
-                                              .notifier);
-                                      final userFollowedChannelsProv = ref.read(
-                                          userFollowedChannelsNotifierProvider
-                                              .notifier);
-                                      await userBookmarksProv
-                                          .loadDataIfStateIsNull(null);
-                                      await userFollowedChannelsProv
-                                          .loadDataIfStateIsNull(null);
-                                    } catch (e) {
-                                      print(e);
-                                    }
-                                  } catch (e) {
-                                    AppAlerts.displaySnackBar(
-                                        e.toString(), context);
-                                  }
-                                });
-                              },
-                            ),
-                        ],
-                      );
-                    },
-                    error: (error, stack) {
-                      // Error user
-                      return Center(
-                        child: Text('Error User'),
-                      );
-                    },
-                    loading: () {
-                      // Loading user
-                      return CircularProgressIndicator(
-                        color: Colors.green,
-                      );
-                    },
-                  ),
-                ),
-              )));
-        } else {
-          // network is lost
-          return Scaffold();
-        }
-      },
-      error: (error, stack) {
-        // error network
-        return Scaffold(
-          body: Center(
-            child: Text('Error network'),
-          ),
-        );
-      },
-      loading: () {
-        // loading network
-        return Scaffold(
-          body: CircularProgressIndicator(
-            color: Colors.red,
-          ),
-        );
-      },
-    );
-  }
-}
+ */

@@ -13,7 +13,7 @@ void main() async {
   // await PermissionHandlerService.requestPermissions();
 
   runApp(
-    const ProviderScope(
+    ProviderScope(
       child: FreshFeedApp(),
     ),
   );

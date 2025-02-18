@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
-import 'package:fresh_feed/screens/screens.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../config/route/route_name.dart';
 import '../../generated/l10n.dart';
 
 //(done)  build the page UI take care about theme_done, responsive_done, orientation_done && localization_done
@@ -19,6 +20,9 @@ import '../../generated/l10n.dart';
 
 class CreateAccountScreen extends ConsumerStatefulWidget {
   const CreateAccountScreen({super.key});
+  static CreateAccountScreen builder(
+          BuildContext buildContext, GoRouterState state) =>
+      CreateAccountScreen();
 
   @override
   ConsumerState<CreateAccountScreen> createState() =>
@@ -76,13 +80,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
         _emailController.clear();
         _nameController.clear();
         _rePasswordController.clear();
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
-          (route) => false,
-        );
+        context.goNamed(RouteName.home);
       }
     } catch (e) {
       AppAlerts.displaySnackBar(e.toString(), context);
@@ -215,13 +213,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignScreen(),
-                          ),
-                          (route) => false,
-                        );
+                        context.goNamed(RouteName.signIn);
                       },
                       child: Text(
                         S.of(context).signIn,

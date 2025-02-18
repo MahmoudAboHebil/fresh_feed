@@ -4,6 +4,7 @@ import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/custom_text_form_field.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 import '../generated/l10n.dart';
 import '../widgets/rectangle_text_button.dart';
@@ -19,6 +20,8 @@ import '../widgets/rectangle_text_button.dart';
 
 class UserScreen extends ConsumerStatefulWidget {
   const UserScreen({super.key});
+  static UserScreen builder(BuildContext buildContext, GoRouterState state) =>
+      UserScreen();
 
   @override
   ConsumerState<UserScreen> createState() => _UserScreenState();

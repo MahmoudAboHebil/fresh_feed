@@ -53,7 +53,8 @@ class AnimatedBottomNavTap extends ConsumerWidget {
         await callBack();
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: context.setMinSize(12)),
+        padding:
+            EdgeInsetsDirectional.symmetric(horizontal: context.setMinSize(12)),
         decoration: BoxDecoration(
           // color: Colors.red,
           borderRadius: BorderRadius.circular(8),
@@ -72,7 +73,8 @@ class AnimatedBottomNavTap extends ConsumerWidget {
                 duration: const Duration(milliseconds: 650),
                 child: expanded
                     ? Padding(
-                        padding: EdgeInsets.only(left: context.setMinSize(3)),
+                        padding: EdgeInsetsDirectional.only(
+                            start: context.setMinSize(3)),
                         child: Text(
                           navItem.name,
                           style: TextStyle(

@@ -18,6 +18,15 @@ Enable user profile within firestore and firebase /done
 Add network connection stream /done
 
 progress presentationLayer==================================================>
+
+*. ToDo: Network (center the logic at the shell page that serve the shell pages)
+
+    # inject the provider in one place at the top of shell pages and those that
+     out side the shell we will manage them at its pages
+
+*. ToDo: User (center the logic at the shell page that serve the shell pages)
+*. ToDo: the app image cashing
+
 1. ToDo: the app widgets
 2. ToDo: creating the splash screen
 3. ToDo: the app pages (currently is user profile screen)

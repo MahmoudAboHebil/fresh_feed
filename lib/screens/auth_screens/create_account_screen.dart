@@ -15,6 +15,7 @@ import '../../generated/l10n.dart';
 //progress==>
 //(done) inject the dateLayer
 //(done) Error Handling_done
+//TODO: Image Chasing
 
 class CreateAccountScreen extends ConsumerStatefulWidget {
   const CreateAccountScreen({super.key});
@@ -34,7 +35,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
 
   final TextEditingController _rePasswordController = TextEditingController();
 
-  void _submitForm() async {
+  Future<void> _submitForm() async {
     try {
       bool isConnected = ref.read(networkInfoStreamNotifierProv).value ?? false;
       print(isConnected);

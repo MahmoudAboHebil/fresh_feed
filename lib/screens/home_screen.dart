@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/screens/screens.dart';
+import 'package:gap/gap.dart';
+
+import '../widgets/bottom_nav_bar.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -37,9 +40,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
 
     return Scaffold(
-      body: Center(
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             MaterialButton(
               color: Colors.yellow,
@@ -52,6 +56,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ));
               },
             ),
+            Gap(30),
+            BottomNavBar()
           ],
         ),
       ),

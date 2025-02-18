@@ -5,6 +5,7 @@ export 'device_utils.dart';
 export 'extensions.dart';
 export 'general_functions.dart';
 export 'languages.dart';
+export 'navbar_item.dart';
 export 'news_category.dart';
 export 'news_country.dart';
 export 'news_sort_by.dart';

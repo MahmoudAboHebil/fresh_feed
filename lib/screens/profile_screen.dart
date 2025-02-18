@@ -3,11 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
+import 'package:fresh_feed/screens/screens.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
-
-import 'auth_screens/sign_screen.dart';
 
 //(Done): build the page UI take care about theme_done, responsive_done, orientation_done
 //progress==>
@@ -19,6 +18,7 @@ import 'auth_screens/sign_screen.dart';
 //TODO: page validation logic
 //TODO: inject the dateLayer
 //TODO: Error Handling
+//TODO: Image Chasing
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
@@ -89,7 +89,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   ),
                 ),
           titleText: user.name,
-          callBack: () {},
+          callBack: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UserScreen(),
+                ));
+          },
         ),
         Gap(context.setHeight(15)),
         // user profile tile

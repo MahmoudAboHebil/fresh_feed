@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../loading_components/shell_loading.dart';
 import '../utils/navbar_item.dart';
-import 'home_screen.dart';
+import 'navbar_screens/home_screen.dart';
 
 class ShellScreen extends ConsumerStatefulWidget {
   static ShellScreen builder(BuildContext buildContext, GoRouterState state) =>
@@ -104,6 +104,7 @@ class _ShellScreenState extends ConsumerState<ShellScreen> {
       child: Scaffold(
         body: networkStream.when(
           data: (net) {
+            // return const ShellLoading();
             if (!net)
               return Center(
                 child: Text('no network Shell'),

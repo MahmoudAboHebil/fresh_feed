@@ -36,7 +36,8 @@ class PermissionHandlerService {
     }
 
     if (status.isDenied) {
-      AppAlerts.displaySnackBar("Camera permission is required!", context);
+      AppAlerts.displaySnackBar(
+          "$permissionName permission is required!", context);
       return false;
     } else if (status.isPermanentlyDenied) {
       Future<bool> callback() async {

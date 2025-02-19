@@ -5,12 +5,13 @@ import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:go_router/go_router.dart';
 
+import '../generated/l10n.dart';
 import 'animated_bottom_nav_tap.dart';
 
 //(Done): build the page UI take care about theme_done, responsive_done, orientation_done
 //progress==>
-//TODO: localization
-//TODO: page validation logic
+//(Done): localization
+//(Done): page validation logic
 
 class BottomNavBar extends ConsumerWidget {
   const BottomNavBar({super.key});
@@ -26,6 +27,7 @@ class BottomNavBar extends ConsumerWidget {
         : (brightnessTheme == Brightness.light);
 
     return Container(
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(color: context.colorScheme.secondary, width: 1.5),
@@ -38,6 +40,7 @@ class BottomNavBar extends ConsumerWidget {
         children: [
           AnimatedBottomNavTap(
             icon: Icons.home_filled,
+            text: S.of(context).Home,
             isLight: isLight,
             iconSize: 26,
             navItem: NavbarItem.Home,
@@ -48,6 +51,7 @@ class BottomNavBar extends ConsumerWidget {
           ),
           AnimatedBottomNavTap(
             isLight: isLight,
+            text: S.of(context).Discover,
             icon: Icons.explore_outlined,
             activeIcon: Icons.explore,
             navItem: NavbarItem.Discover,
@@ -59,6 +63,7 @@ class BottomNavBar extends ConsumerWidget {
           ),
           AnimatedBottomNavTap(
             isLight: isLight,
+            text: S.of(context).Topics,
             activeIcon: Icons.category,
             icon: Icons.category_outlined,
             navItem: NavbarItem.Topics,
@@ -72,6 +77,7 @@ class BottomNavBar extends ConsumerWidget {
             isLight: isLight,
             icon: Icons.bookmark_outline_outlined,
             activeIcon: Icons.bookmark,
+            text: S.of(context).Bookmarks,
             navItem: NavbarItem.Bookmarks,
             callBack: () {
               context.goNamed(RouteName.bookmarks);
@@ -80,6 +86,7 @@ class BottomNavBar extends ConsumerWidget {
             },
           ),
           AnimatedBottomNavTap(
+            text: S.of(context).Profile,
             isLight: isLight,
             icon: Icons.person,
             navItem: NavbarItem.Profile,

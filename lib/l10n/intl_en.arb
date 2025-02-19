@@ -42,7 +42,31 @@
   "invalidCredentialExp": "The email or password is incorrect. Please check your credentials and try again.",
   "userDisabledExp": "This account has been disabled.",
   "resetPasswordExp": "Password reset failed. Please try again later.",
-  "resetPasswordSuccess": "An email has been sent to you to reset your password. Please check your inbox."
+  "resetPasswordSuccess": "An email has been sent to you to reset your password. Please check your inbox.",
+  "Home": "Home",
+  "Topics": "Topics",
+  "Discover": "Discover",
+  "Profile": "Profile",
+  "Bookmarks": "Bookmarks",
+  "FollowedChannels": "Followed Channels",
+  "GeneralSettings": "General Settings",
+  "Theme": "Theme",
+  "ContactUs": "Contact Us",
+  "Language": "Language",
+  "PrivacyPolicy": "Privacy Policy",
+  "AboutUs": "About Us",
+  "LogOut": "Log Out",
+  "ChooseLanguage": "Choose Language",
+  "English": "English",
+  "Spanish": "Spanish",
+  "Arabic": "Arabic",
+  "Cancel": "Cancel",
+  "Apply": "Apply",
+  "ChooseTheme": "Choose Theme",
+  "SystemMode": "System Mode",
+  "DarkMode": "Dark Mode",
+  "LightMode": "Light Mode",
+  "PermissionRequired": "Permission Required"
 
 
 }

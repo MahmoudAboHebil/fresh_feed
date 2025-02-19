@@ -1,4 +1,5 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -30,41 +31,45 @@ class FreshFeedApp extends ConsumerWidget {
 
  */
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: themeState.value == ThemeMode.system
-            ? (brightnessSystem == Brightness.dark
-                ? Brightness.light
-                : Brightness.dark)
-            : (brightnessTheme == Brightness.dark
-                ? Brightness.light
-                : Brightness.dark),
-      ),
-      child: SizeProvider(
-        baseSize: const Size(411, 869),
-        height: context.screenHeight,
-        width: context.screenWidth,
-        child: MaterialApp.router(
-          useInheritedMediaQuery: true,
-          builder: DevicePreview.appBuilder,
-          debugShowCheckedModeBanner: false,
-          locale: Locale(languageState.value?.name ?? Language.en.name),
-          // locale: Locale(Language.en.name),
-          localizationsDelegates: const [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: S.delegate.supportedLocales,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: themeState.value ?? ThemeMode.system,
-          // themeMode: ThemeMode.dark,
-          routerConfig: appRouteProv,
-        ),
-      ),
-    );
+    return DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (context) {
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: themeState.value == ThemeMode.system
+                  ? (brightnessSystem == Brightness.dark
+                      ? Brightness.light
+                      : Brightness.dark)
+                  : (brightnessTheme == Brightness.dark
+                      ? Brightness.light
+                      : Brightness.dark),
+            ),
+            child: SizeProvider(
+              baseSize: const Size(411, 869),
+              height: context.screenHeight,
+              width: context.screenWidth,
+              child: MaterialApp.router(
+                useInheritedMediaQuery: true,
+                builder: DevicePreview.appBuilder,
+                debugShowCheckedModeBanner: false,
+                locale: Locale(languageState.value?.name ?? Language.en.name),
+                // locale: Locale(Language.en.name),
+                localizationsDelegates: const [
+                  S.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: S.delegate.supportedLocales,
+                theme: AppTheme.lightTheme,
+                darkTheme: AppTheme.darkTheme,
+                themeMode: themeState.value ?? ThemeMode.system,
+                // themeMode: ThemeMode.dark,
+                routerConfig: appRouteProv,
+              ),
+            ),
+          );
+        });
   }
 }

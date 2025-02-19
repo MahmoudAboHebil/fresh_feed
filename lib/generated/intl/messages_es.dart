@@ -22,6 +22,27 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "AboutUs": MessageLookupByLibrary.simpleMessage("Sobre Nosotros"),
+    "Apply": MessageLookupByLibrary.simpleMessage("Aplicar"),
+    "Arabic": MessageLookupByLibrary.simpleMessage("Árabe"),
+    "Bookmarks": MessageLookupByLibrary.simpleMessage("Marcadores"),
+    "Cancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
+    "ChooseLanguage": MessageLookupByLibrary.simpleMessage("Elige Idioma"),
+    "ChooseTheme": MessageLookupByLibrary.simpleMessage("Elige Tema"),
+    "ContactUs": MessageLookupByLibrary.simpleMessage("Contáctanos"),
+    "DarkMode": MessageLookupByLibrary.simpleMessage("Modo Oscuro"),
+    "Discover": MessageLookupByLibrary.simpleMessage("Descubrir"),
+    "English": MessageLookupByLibrary.simpleMessage("Inglés"),
+    "FollowedChannels": MessageLookupByLibrary.simpleMessage(
+      "Canales Seguidos",
+    ),
+    "GeneralSettings": MessageLookupByLibrary.simpleMessage(
+      "Configuración General",
+    ),
+    "Home": MessageLookupByLibrary.simpleMessage("Inicio"),
+    "Language": MessageLookupByLibrary.simpleMessage("Idioma"),
+    "LightMode": MessageLookupByLibrary.simpleMessage("Modo Claro"),
+    "LogOut": MessageLookupByLibrary.simpleMessage("Cerrar Sesión"),
     "PasswordMustBAtLeast8": MessageLookupByLibrary.simpleMessage(
       "La contraseña debe tener al menos 8 caracteres.",
     ),
@@ -37,6 +58,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "PasswordMustContainUppercase": MessageLookupByLibrary.simpleMessage(
       "La contraseña debe contener al menos una letra mayúscula.",
     ),
+    "PermissionRequired": MessageLookupByLibrary.simpleMessage(
+      "Permiso Requerido",
+    ),
+    "PrivacyPolicy": MessageLookupByLibrary.simpleMessage(
+      "Política de Privacidad",
+    ),
+    "Profile": MessageLookupByLibrary.simpleMessage("Perfil"),
+    "Spanish": MessageLookupByLibrary.simpleMessage("Español"),
+    "SystemMode": MessageLookupByLibrary.simpleMessage("Modo del Sistema"),
+    "Theme": MessageLookupByLibrary.simpleMessage("Tema"),
+    "Topics": MessageLookupByLibrary.simpleMessage("Temas"),
     "accountAlreadyExistsExp": MessageLookupByLibrary.simpleMessage(
       "Esta cuenta ya existe. Por favor, inicie sesión.",
     ),

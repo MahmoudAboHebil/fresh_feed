@@ -22,6 +22,25 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "AboutUs": MessageLookupByLibrary.simpleMessage("معلومات عنا"),
+    "Apply": MessageLookupByLibrary.simpleMessage("تطبيق"),
+    "Arabic": MessageLookupByLibrary.simpleMessage("العربية"),
+    "Bookmarks": MessageLookupByLibrary.simpleMessage("الإشارات المرجعية"),
+    "Cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "ChooseLanguage": MessageLookupByLibrary.simpleMessage("اختر اللغة"),
+    "ChooseTheme": MessageLookupByLibrary.simpleMessage("اختر السمة"),
+    "ContactUs": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
+    "DarkMode": MessageLookupByLibrary.simpleMessage("الوضع الداكن"),
+    "Discover": MessageLookupByLibrary.simpleMessage("استكشاف"),
+    "English": MessageLookupByLibrary.simpleMessage("الإنجليزية"),
+    "FollowedChannels": MessageLookupByLibrary.simpleMessage(
+      "القنوات المتابعة",
+    ),
+    "GeneralSettings": MessageLookupByLibrary.simpleMessage("الإعدادات العامة"),
+    "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+    "Language": MessageLookupByLibrary.simpleMessage("اللغة"),
+    "LightMode": MessageLookupByLibrary.simpleMessage("الوضع الفاتح"),
+    "LogOut": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "PasswordMustBAtLeast8": MessageLookupByLibrary.simpleMessage(
       "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
     ),
@@ -37,6 +56,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "PasswordMustContainUppercase": MessageLookupByLibrary.simpleMessage(
       "يجب أن تحتوي كلمة المرور على حرف كبير واحد على الأقل.",
     ),
+    "PermissionRequired": MessageLookupByLibrary.simpleMessage("يتطلب إذنًا"),
+    "PrivacyPolicy": MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
+    "Profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
+    "Spanish": MessageLookupByLibrary.simpleMessage("الإسبانية"),
+    "SystemMode": MessageLookupByLibrary.simpleMessage("وضع النظام"),
+    "Theme": MessageLookupByLibrary.simpleMessage("السمة"),
+    "Topics": MessageLookupByLibrary.simpleMessage("الموضوعات"),
     "accountAlreadyExistsExp": MessageLookupByLibrary.simpleMessage(
       "هذا الحساب موجود بالفعل. يرجى تسجيل الدخول.",
     ),

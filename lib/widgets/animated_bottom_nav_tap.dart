@@ -9,12 +9,14 @@ class AnimatedBottomNavTap extends ConsumerWidget {
     required this.icon,
     required this.isLight,
     required this.navItem,
+    required this.text,
     required this.callBack,
     this.activeIcon,
     this.iconSize = 26,
     super.key,
   });
   final IconData icon;
+  final String text;
   final bool isLight;
   final double iconSize;
   final IconData? activeIcon;
@@ -56,7 +58,6 @@ class AnimatedBottomNavTap extends ConsumerWidget {
         padding:
             EdgeInsetsDirectional.symmetric(horizontal: context.setMinSize(12)),
         decoration: BoxDecoration(
-          // color: Colors.red,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -76,10 +77,14 @@ class AnimatedBottomNavTap extends ConsumerWidget {
                         padding: EdgeInsetsDirectional.only(
                             start: context.setMinSize(3)),
                         child: Text(
-                          navItem.name,
+                          text,
                           style: TextStyle(
-                              color: textColor,
-                              fontSize: context.setMinSize(15)),
+                            color: textColor,
+                            fontSize: context.setWidth(15),
+                          ),
+                          textHeightBehavior: const TextHeightBehavior(
+                            applyHeightToFirstAscent: false,
+                          ),
                         ),
                       )
                     : const SizedBox.shrink(),

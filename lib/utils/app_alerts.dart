@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../generated/l10n.dart';
 import 'extensions.dart';
 import 'languages.dart';
 
@@ -27,7 +28,7 @@ class AppAlerts {
             end: 15,
           ),
           title: Text(
-            'Choose Language',
+            S.of(context).ChooseLanguage,
             style: GoogleFonts.inter(
               fontSize: context.setSp(22),
               fontWeight: FontWeight.w600,
@@ -40,7 +41,7 @@ class AppAlerts {
               children: [
                 RadioListTile(
                   title: Text(
-                    'English',
+                    S.of(context).English,
                     style: TextStyle(
                         color: context.textTheme.bodyLarge?.color,
                         fontSize: context.setSp(17)),
@@ -56,7 +57,7 @@ class AppAlerts {
                 ),
                 RadioListTile(
                   title: Text(
-                    'Spanish',
+                    S.of(context).Spanish,
                     style: TextStyle(
                         color: context.textTheme.bodyLarge?.color,
                         fontSize: context.setSp(17)),
@@ -74,7 +75,7 @@ class AppAlerts {
                 ),
                 RadioListTile(
                   title: Text(
-                    'Arabic',
+                    S.of(context).Arabic,
                     style: TextStyle(
                         color: context.textTheme.bodyLarge?.color,
                         fontSize: context.setSp(17)),
@@ -93,9 +94,13 @@ class AppAlerts {
           }),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
+              },
               child: Text(
-                'Cancel',
+                S.of(context).Cancel,
                 style: GoogleFonts.inter(
                     color: context.colorScheme.primary,
                     fontWeight: FontWeight.w600,
@@ -105,10 +110,12 @@ class AppAlerts {
             TextButton(
               onPressed: () async {
                 await callBack(selectedLanguage);
-                Navigator.pop(context);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
               },
               child: Text(
-                'Apply',
+                S.of(context).Apply,
                 style: GoogleFonts.inter(
                     color: context.colorScheme.primary,
                     fontWeight: FontWeight.w600,
@@ -141,7 +148,7 @@ class AppAlerts {
             end: 15,
           ),
           title: Text(
-            'Choose Theme',
+            S.of(context).ChooseTheme,
             style: GoogleFonts.inter(
               fontSize: context.setSp(22),
               fontWeight: FontWeight.w600,
@@ -154,7 +161,7 @@ class AppAlerts {
               children: [
                 RadioListTile(
                   title: Text(
-                    'System Mode',
+                    S.of(context).SystemMode,
                     style: TextStyle(
                         color: context.textTheme.bodyLarge?.color,
                         fontSize: context.setSp(17)),
@@ -170,7 +177,7 @@ class AppAlerts {
                 ),
                 RadioListTile(
                   title: Text(
-                    'Dark Mode',
+                    S.of(context).DarkMode,
                     style: TextStyle(
                         color: context.textTheme.bodyLarge?.color,
                         fontSize: context.setSp(17)),
@@ -186,7 +193,7 @@ class AppAlerts {
                 ),
                 RadioListTile(
                   title: Text(
-                    'Light Mode',
+                    S.of(context).LightMode,
                     style: TextStyle(
                         color: context.textTheme.bodyLarge?.color,
                         fontSize: context.setSp(17)),
@@ -205,9 +212,13 @@ class AppAlerts {
           }),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
+              },
               child: Text(
-                'Cancel',
+                S.of(context).Cancel,
                 style: GoogleFonts.inter(
                     color: context.colorScheme.primary,
                     fontWeight: FontWeight.w600,
@@ -217,10 +228,12 @@ class AppAlerts {
             TextButton(
               onPressed: () async {
                 await callBack(ThemeMode.values[selectedModeIndex]);
-                Navigator.pop(context);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
               },
               child: Text(
-                'Apply',
+                S.of(context).Apply,
                 style: GoogleFonts.inter(
                     color: context.colorScheme.primary,
                     fontWeight: FontWeight.w600,
@@ -252,7 +265,7 @@ class AppAlerts {
     bool? result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Permission Required"),
+        title: Text(S.of(context).PermissionRequired),
         content: Text(content),
         actions: [
           TextButton(
@@ -263,7 +276,7 @@ class AppAlerts {
             },
           ),
           TextButton(
-            child: const Text("Cancel"),
+            child: Text(S.of(context).Cancel),
             onPressed: () => Navigator.pop(context, false), // Return false
           ),
         ],

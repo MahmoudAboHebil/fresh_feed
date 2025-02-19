@@ -8,18 +8,20 @@ import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import '../config/route/route_name.dart';
+import '../../config/route/route_name.dart';
+import '../../generated/l10n.dart';
 
 //(Done): build the page UI take care about theme_done, responsive_done, orientation_done
 //progress==>
 //(Done): Language & Theme Buttons
 //(Done): Login  & Log Out
-//TODO: User & Followed Channels &   Bookmarks Buttons
+//(done): localization
+//(done): User & Followed Channels &   Bookmarks Buttons
+//(done): inject the dateLayer (User & network)
+//(done): page validation logic (Language & Theme Logic)
+
+//TODO: Error Handling (Language & Theme Errors_done)&(User Error & Loading)
 //TODO: Contact & Privacy Policy & About Us  Buttons
-//TODO: localization
-//TODO: page validation logic
-//TODO: inject the dateLayer
-//TODO: Error Handling
 //TODO: Image Chasing
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -51,7 +53,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 size: context.setMinSize(15),
               ),
             ),
-            titleText: 'Log In',
+            titleText: S.of(context).login,
             callBack: () {
               context.goNamed(RouteName.signIn);
             },
@@ -109,7 +111,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               size: context.setMinSize(15),
             ),
           ),
-          titleText: 'Followed Channels',
+          titleText: S.of(context).FollowedChannels,
           callBack: () {
             context.pushNamed(RouteName.followedChannels);
           },
@@ -139,7 +141,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               size: context.setMinSize(15),
             ),
           ),
-          titleText: 'Bookmarks',
+          titleText: S.of(context).Bookmarks,
           callBack: () {
             context.goNamed(RouteName.bookmarks);
           },
@@ -161,7 +163,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         scrolledUnderElevation: 0,
         centerTitle: true,
         title: Text(
-          'Profile',
+          S.of(context).Profile,
           style: TextStyle(
               fontSize: context.setSp(23),
               color: context.textTheme.bodyLarge?.color),
@@ -181,7 +183,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   Gap(context.setHeight(10)),
                   getTopUserComponents(user),
                   Text(
-                    'General Settings',
+                    S.of(context).GeneralSettings,
                     style: TextStyle(fontSize: context.setSp(20)),
                   ),
                   Gap(context.setHeight(25)),
@@ -202,14 +204,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         size: context.setMinSize(16),
                       ),
                     ),
-                    titleText: 'Theme',
+                    titleText: S.of(context).Theme,
                     callBack: () {
                       final themeProv = ref.read(themeProvider.notifier);
                       AppAlerts.displayThemeModeDialog(context,
-                          ref.watch(themeProvider).value ?? ThemeMode.system,
+                          ref.read(themeProvider).value ?? ThemeMode.system,
                           (theme) async {
                         try {
-                          themeProv.toggleTheme(theme);
+                          await themeProv.toggleTheme(theme);
                         } catch (e) {
                           AppAlerts.displaySnackBar(e.toString(), context);
                         }
@@ -234,7 +236,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         size: context.setMinSize(16),
                       ),
                     ),
-                    titleText: 'Contact Us',
+                    titleText: S.of(context).ContactUs,
                     callBack: () {},
                   ),
                   Gap(context.setHeight(10)),
@@ -254,14 +256,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         size: context.setMinSize(16),
                       ),
                     ),
-                    titleText: 'Language',
+                    titleText: S.of(context).Language,
                     callBack: () {
                       final languageProv = ref.read(languageProvider.notifier);
                       AppAlerts.displayLanguageDialog(context,
-                          ref.watch(languageProvider).value ?? Language.en,
+                          ref.read(languageProvider).value ?? Language.en,
                           (lan) async {
                         try {
-                          languageProv.toggleLanguage(lan);
+                          await languageProv.toggleLanguage(lan);
                         } catch (e) {
                           AppAlerts.displaySnackBar(e.toString(), context);
                         }
@@ -285,7 +287,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         size: context.setMinSize(16),
                       ),
                     ),
-                    titleText: 'Privacy Policy',
+                    titleText: S.of(context).PrivacyPolicy,
                     callBack: () {},
                   ),
                   Gap(context.setHeight(10)),
@@ -305,13 +307,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         size: context.setMinSize(16),
                       ),
                     ),
-                    titleText: 'About Us',
+                    titleText: S.of(context).AboutUs,
                     callBack: () {},
                   ),
                   Gap(context.setHeight(30)),
                   if (user != null)
                     RectangleTextButton(
-                      text: 'Log Out',
+                      text: S.of(context).LogOut,
                       verticalPadding: 12,
                       fontSize: 15,
                       color: context.colorScheme.onPrimary,
@@ -363,20 +365,3 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     );
   }
 }
-
-/*
-              appBar: AppBar(
-                automaticallyImplyLeading: false,
-                backgroundColor: Colors.transparent,
-                toolbarHeight: context.setMinSize(50),
-                scrolledUnderElevation: 0,
-                centerTitle: true,
-                title: Text(
-                  'Profile',
-                  style: TextStyle(
-                      fontSize: context.setSp(23),
-                      color: context.textTheme.bodyLarge?.color),
-                ),
-              ),
-
- */

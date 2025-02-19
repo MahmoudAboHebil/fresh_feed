@@ -42,7 +42,31 @@
   "invalidCredentialExp": "El correo electrónico o la contraseña son incorrectos. Por favor, verifica tus datos e inténtalo de nuevo.",
   "userDisabledExp": "Esta cuenta ha sido deshabilitada.",
   "resetPasswordExp": "Error al restablecer la contraseña. Por favor, inténtalo de nuevo más tarde.",
-  "resetPasswordSuccess": "Se ha enviado un correo electrónico para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada."
+  "resetPasswordSuccess": "Se ha enviado un correo electrónico para restablecer tu contraseña. Por favor, revisa tu bandeja de entrada.",
+  "Home": "Inicio",
+  "Topics": "Temas",
+  "Discover": "Descubrir",
+  "Profile": "Perfil",
+  "Bookmarks": "Marcadores",
+  "FollowedChannels": "Canales Seguidos",
+  "GeneralSettings": "Configuración General",
+  "Theme": "Tema",
+  "ContactUs": "Contáctanos",
+  "Language": "Idioma",
+  "PrivacyPolicy": "Política de Privacidad",
+  "AboutUs": "Sobre Nosotros",
+  "LogOut": "Cerrar Sesión",
+  "ChooseLanguage": "Elige Idioma",
+  "English": "Inglés",
+  "Spanish": "Español",
+  "Arabic": "Árabe",
+  "Cancel": "Cancelar",
+  "Apply": "Aplicar",
+  "ChooseTheme": "Elige Tema",
+  "SystemMode": "Modo del Sistema",
+  "DarkMode": "Modo Oscuro",
+  "LightMode": "Modo Claro",
+  "PermissionRequired": "Permiso Requerido"
 
 
 }

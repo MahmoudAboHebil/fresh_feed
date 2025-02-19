@@ -439,6 +439,156 @@ class S {
       args: [],
     );
   }
+
+  /// `Home`
+  String get Home {
+    return Intl.message('Home', name: 'Home', desc: '', args: []);
+  }
+
+  /// `Topics`
+  String get Topics {
+    return Intl.message('Topics', name: 'Topics', desc: '', args: []);
+  }
+
+  /// `Discover`
+  String get Discover {
+    return Intl.message('Discover', name: 'Discover', desc: '', args: []);
+  }
+
+  /// `Profile`
+  String get Profile {
+    return Intl.message('Profile', name: 'Profile', desc: '', args: []);
+  }
+
+  /// `Bookmarks`
+  String get Bookmarks {
+    return Intl.message('Bookmarks', name: 'Bookmarks', desc: '', args: []);
+  }
+
+  /// `Followed Channels`
+  String get FollowedChannels {
+    return Intl.message(
+      'Followed Channels',
+      name: 'FollowedChannels',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `General Settings`
+  String get GeneralSettings {
+    return Intl.message(
+      'General Settings',
+      name: 'GeneralSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Theme`
+  String get Theme {
+    return Intl.message('Theme', name: 'Theme', desc: '', args: []);
+  }
+
+  /// `Contact Us`
+  String get ContactUs {
+    return Intl.message('Contact Us', name: 'ContactUs', desc: '', args: []);
+  }
+
+  /// `Language`
+  String get Language {
+    return Intl.message('Language', name: 'Language', desc: '', args: []);
+  }
+
+  /// `Privacy Policy`
+  String get PrivacyPolicy {
+    return Intl.message(
+      'Privacy Policy',
+      name: 'PrivacyPolicy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About Us`
+  String get AboutUs {
+    return Intl.message('About Us', name: 'AboutUs', desc: '', args: []);
+  }
+
+  /// `Log Out`
+  String get LogOut {
+    return Intl.message('Log Out', name: 'LogOut', desc: '', args: []);
+  }
+
+  /// `Choose Language`
+  String get ChooseLanguage {
+    return Intl.message(
+      'Choose Language',
+      name: 'ChooseLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `English`
+  String get English {
+    return Intl.message('English', name: 'English', desc: '', args: []);
+  }
+
+  /// `Spanish`
+  String get Spanish {
+    return Intl.message('Spanish', name: 'Spanish', desc: '', args: []);
+  }
+
+  /// `Arabic`
+  String get Arabic {
+    return Intl.message('Arabic', name: 'Arabic', desc: '', args: []);
+  }
+
+  /// `Cancel`
+  String get Cancel {
+    return Intl.message('Cancel', name: 'Cancel', desc: '', args: []);
+  }
+
+  /// `Apply`
+  String get Apply {
+    return Intl.message('Apply', name: 'Apply', desc: '', args: []);
+  }
+
+  /// `Choose Theme`
+  String get ChooseTheme {
+    return Intl.message(
+      'Choose Theme',
+      name: 'ChooseTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `System Mode`
+  String get SystemMode {
+    return Intl.message('System Mode', name: 'SystemMode', desc: '', args: []);
+  }
+
+  /// `Dark Mode`
+  String get DarkMode {
+    return Intl.message('Dark Mode', name: 'DarkMode', desc: '', args: []);
+  }
+
+  /// `Light Mode`
+  String get LightMode {
+    return Intl.message('Light Mode', name: 'LightMode', desc: '', args: []);
+  }
+
+  /// `Permission Required`
+  String get PermissionRequired {
+    return Intl.message(
+      'Permission Required',
+      name: 'PermissionRequired',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

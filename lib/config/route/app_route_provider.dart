@@ -9,12 +9,12 @@ import '../../providers/user_provider.dart';
 import 'app_route.dart';
 
 final appRouteProvider = Provider<GoRouter>((ref) {
-  final themeState = ref.watch(themeProvider);
-  final languageState = ref.watch(languageProvider);
-  final userStream = ref.read(authStateNotifierProvider);
   return GoRouter(
     redirect: (context, state) async {
       //ToDo : handling the auth here
+      final themeState = ref.read(themeProvider);
+      final languageState = ref.read(languageProvider);
+      final userStream = ref.read(authStateNotifierProvider);
 
       bool isThemDone = false;
       bool isLangDone = false;

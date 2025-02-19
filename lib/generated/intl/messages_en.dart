@@ -22,6 +22,25 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "AboutUs": MessageLookupByLibrary.simpleMessage("About Us"),
+    "Apply": MessageLookupByLibrary.simpleMessage("Apply"),
+    "Arabic": MessageLookupByLibrary.simpleMessage("Arabic"),
+    "Bookmarks": MessageLookupByLibrary.simpleMessage("Bookmarks"),
+    "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "ChooseLanguage": MessageLookupByLibrary.simpleMessage("Choose Language"),
+    "ChooseTheme": MessageLookupByLibrary.simpleMessage("Choose Theme"),
+    "ContactUs": MessageLookupByLibrary.simpleMessage("Contact Us"),
+    "DarkMode": MessageLookupByLibrary.simpleMessage("Dark Mode"),
+    "Discover": MessageLookupByLibrary.simpleMessage("Discover"),
+    "English": MessageLookupByLibrary.simpleMessage("English"),
+    "FollowedChannels": MessageLookupByLibrary.simpleMessage(
+      "Followed Channels",
+    ),
+    "GeneralSettings": MessageLookupByLibrary.simpleMessage("General Settings"),
+    "Home": MessageLookupByLibrary.simpleMessage("Home"),
+    "Language": MessageLookupByLibrary.simpleMessage("Language"),
+    "LightMode": MessageLookupByLibrary.simpleMessage("Light Mode"),
+    "LogOut": MessageLookupByLibrary.simpleMessage("Log Out"),
     "PasswordMustBAtLeast8": MessageLookupByLibrary.simpleMessage(
       "Password must be at least 8",
     ),
@@ -37,6 +56,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "PasswordMustContainUppercase": MessageLookupByLibrary.simpleMessage(
       "Password must contain at least one uppercase letter.",
     ),
+    "PermissionRequired": MessageLookupByLibrary.simpleMessage(
+      "Permission Required",
+    ),
+    "PrivacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
+    "Profile": MessageLookupByLibrary.simpleMessage("Profile"),
+    "Spanish": MessageLookupByLibrary.simpleMessage("Spanish"),
+    "SystemMode": MessageLookupByLibrary.simpleMessage("System Mode"),
+    "Theme": MessageLookupByLibrary.simpleMessage("Theme"),
+    "Topics": MessageLookupByLibrary.simpleMessage("Topics"),
     "accountAlreadyExistsExp": MessageLookupByLibrary.simpleMessage(
       "This account already exists. Please log in.",
     ),

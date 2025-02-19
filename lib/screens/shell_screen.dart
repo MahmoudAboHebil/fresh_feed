@@ -5,6 +5,7 @@ import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/widgets/bottom_nav_bar.dart';
 import 'package:go_router/go_router.dart';
 
+import '../loading_components/shell_loading.dart';
 import '../utils/navbar_item.dart';
 import 'home_screen.dart';
 
@@ -28,8 +29,6 @@ class _ShellScreenState extends ConsumerState<ShellScreen> {
       GoRouter.of(context).routerDelegate.addListener(() {
         if (mounted) {
           final navItem = getCurrentRoute();
-          print('====================> ${GoRouter.of(context).state.uri}');
-          print('******************777777*******************');
           final navProv = ref.read(navBarProvider);
           if (navItem != navProv) {
             ref.read(navBarProvider.notifier).state = navItem;
@@ -66,12 +65,14 @@ class _ShellScreenState extends ConsumerState<ShellScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userStream = ref.watch(userNotifierProvider);
+    final networkStream = ref.watch(networkInfoStreamNotifierProv);
     final userBookmarksProv = ref.read(userBookmarksNotifierProvider.notifier);
     final userFollowedChannelsProv =
         ref.read(userFollowedChannelsNotifierProvider.notifier);
     ref.listen(userListenerProvider, (prev, now) async {
       print(
-          'userListenerProvider (SignInUp) about user Bookmarks-article=====>');
+          'userListenerProvider (SignInUp) about user Bookmarks-article=====> shell');
       try {
         await userBookmarksProv.loadDataIfStateIsNull(now?.uid);
       } catch (e) {
@@ -80,7 +81,7 @@ class _ShellScreenState extends ConsumerState<ShellScreen> {
     });
     ref.listen(userListenerProvider, (prev, now) async {
       print(
-          'userListenerProvider (SignInUp) about user followed-channels=====>');
+          'userListenerProvider (SignInUp) about user followed-channels=====> shell');
       try {
         await userFollowedChannelsProv.loadDataIfStateIsNull(now?.uid);
       } catch (e) {
@@ -91,25 +92,37 @@ class _ShellScreenState extends ConsumerState<ShellScreen> {
     return WillPopScope(
       onWillPop: () async {
         final navItem = getCurrentRoute();
+
         if (navItem != NavbarItem.Home) {
           context.goNamed(RouteName.home);
           ref.read(navBarProvider.notifier).state = NavbarItem.Home;
           return false;
         }
+
         return true;
       },
       child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: widget.child!,
+        body: networkStream.when(
+          data: (net) {
+            if (!net)
+              return Center(
+                child: Text('no network Shell'),
+              );
+            return SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: widget.child!,
+                  ),
+                  BottomNavBar()
+                ],
               ),
-              BottomNavBar()
-            ],
-          ),
+            );
+          },
+          error: (error, stackTrace) => Text('Error network Shell'),
+          loading: () => const ShellLoading(),
         ),
       ),
     );

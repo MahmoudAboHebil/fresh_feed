@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../config/route/route_name.dart';
+
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
@@ -23,10 +25,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           color: Colors.red,
           child: const Text('Go followed Channels'),
           onPressed: () async {
-            // context.goNamed(RouteName.followedChannels);
-            // await auth_repo.signOut();
-            print('====================> ${GoRouter.of(context).state.uri}');
-            print('*************************************');
+            context.pushNamed(RouteName.followedChannels);
           },
         )
       ],

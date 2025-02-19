@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_feed/loading_components/loading_components.dart';
 import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/custom_text_form_field.dart';
@@ -211,10 +212,8 @@ class _UserScreenState extends ConsumerState<UserScreen> {
       },
       loading: () {
         // loading network
-        return Scaffold(
-          body: CircularProgressIndicator(
-            color: Colors.red,
-          ),
+        return const Scaffold(
+          body: ShellLoading(),
         );
       },
     );

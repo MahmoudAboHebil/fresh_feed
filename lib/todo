@@ -19,13 +19,8 @@ Add network connection stream /done
 
 progress presentationLayer==================================================>
 
-*. ToDo: Network (center the logic at the shell page that serve the shell pages)
 
-    # inject the provider in one place at the top of shell pages and those that
-     out side the shell we will manage them at its pages
-
-*. ToDo: User (center the logic at the shell page that serve the shell pages)
-*. ToDo: the app image cashing
+ *. ToDo: the app image cashing
 
 1. ToDo: the app widgets
 2. ToDo: creating the splash screen
@@ -35,6 +30,8 @@ progress presentationLayer==================================================>
 7. ToDo: handling the app for login guest feature
 
 Done presentationLayer==================================================>
+User (center the logic at the shell page that serve the shell pages) /done
+Network (center the logic at the shell page that serve the shell pages) /done
 The app routing /done
 'Sign  screen/auth' /done
 'Forgot password screen/auth' /done

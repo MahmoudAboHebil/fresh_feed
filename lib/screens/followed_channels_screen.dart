@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/utils/extensions.dart';
 import 'package:go_router/go_router.dart';
 
+//ToDO: this page not in the shell so you need add manually the logic
 class FollowedChannelsScreen extends ConsumerStatefulWidget {
   const FollowedChannelsScreen({super.key});
   static FollowedChannelsScreen builder(

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fresh_feed/config/config.dart';
 import 'package:fresh_feed/utils/extensions.dart';
 import 'package:fresh_feed/widgets/rectangle_text_button.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
-class AppErrorWidget extends StatelessWidget {
-  const AppErrorWidget(
-      {super.key, required this.buttonText, required this.callBack});
-  final String? buttonText;
-  final Function? callBack;
+import '../generated/l10n.dart';
+
+class NoUserWidget extends StatelessWidget {
+  const NoUserWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +27,13 @@ class AppErrorWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(
-                "assets/error_img.jpg",
+                "assets/sign_in.jpg",
                 width: context.setMinSize(400),
               ),
             ),
             Gap(context.setMinSize(40)),
             Text(
-              'Opps!',
+              'Sign In Required!',
               style: TextStyle(
                   fontWeight: FontWeight.bold, fontSize: context.setSp(16)),
             ),
@@ -40,26 +41,20 @@ class AppErrorWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                'We’re sorry. Something went wrong please try again..',
+                ' Please sign in to access all features and enjoy a complete experience.',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: context.setSp(15)),
               ),
             ),
-            buttonText != null
-                ? Gap(!context.isLandScape ? 70 : 30)
-                : SizedBox(),
-            buttonText != null
-                ? SizedBox(
-                    child: RectangleTextButton(
-                      callback: () async {
-                        await callBack!();
-                      },
-                      color: context.colorScheme.onPrimary,
-                      backgroundColor: context.colorScheme.primary,
-                      text: buttonText!,
-                    ),
-                  )
-                : SizedBox(),
+            Gap(!context.isLandScape ? 70 : 30),
+            RectangleTextButton(
+              callback: () async {
+                context.goNamed(RouteName.signIn);
+              },
+              color: context.colorScheme.onPrimary,
+              backgroundColor: context.colorScheme.primary,
+              text: S.of(context).login,
+            ),
             Gap(context.setMinSize(30)),
           ],
         ),

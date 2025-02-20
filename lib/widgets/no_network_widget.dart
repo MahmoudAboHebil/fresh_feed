@@ -3,11 +3,8 @@ import 'package:fresh_feed/utils/extensions.dart';
 import 'package:fresh_feed/widgets/rectangle_text_button.dart';
 import 'package:gap/gap.dart';
 
-class AppErrorWidget extends StatelessWidget {
-  const AppErrorWidget(
-      {super.key, required this.buttonText, required this.callBack});
-  final String? buttonText;
-  final Function? callBack;
+class NoNetworkWidget extends StatelessWidget {
+  const NoNetworkWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +23,13 @@ class AppErrorWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(
-                "assets/error_img.jpg",
-                width: context.setMinSize(400),
+                "assets/no_network.jpg",
+                width: context.setMinSize(310),
               ),
             ),
             Gap(context.setMinSize(40)),
             Text(
-              'Opps!',
+              'You’re offline',
               style: TextStyle(
                   fontWeight: FontWeight.bold, fontSize: context.setSp(16)),
             ),
@@ -40,26 +37,22 @@ class AppErrorWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30),
               child: Text(
-                'We’re sorry. Something went wrong please try again..',
+                'Please connect to the internet and try again.',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: context.setSp(15)),
               ),
             ),
-            buttonText != null
-                ? Gap(!context.isLandScape ? 70 : 30)
-                : SizedBox(),
-            buttonText != null
-                ? SizedBox(
-                    child: RectangleTextButton(
-                      callback: () async {
-                        await callBack!();
-                      },
-                      color: context.colorScheme.onPrimary,
-                      backgroundColor: context.colorScheme.primary,
-                      text: buttonText!,
-                    ),
-                  )
-                : SizedBox(),
+            Gap(context.setMinSize(!context.isLandScape ? 70 : 30)),
+            SizedBox(
+              child: RectangleTextButton(
+                callback: () async {
+                  await Future.delayed(const Duration(seconds: 3));
+                },
+                color: context.colorScheme.onPrimary,
+                backgroundColor: context.colorScheme.primary,
+                text: 'Retry',
+              ),
+            ),
             Gap(context.setMinSize(30)),
           ],
         ),

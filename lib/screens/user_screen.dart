@@ -4,6 +4,8 @@ import 'package:fresh_feed/loading_components/loading_components.dart';
 import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/custom_text_form_field.dart';
+import 'package:fresh_feed/widgets/no_network_widget.dart';
+import 'package:fresh_feed/widgets/no_user_widget.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,13 +14,13 @@ import '../generated/l10n.dart';
 import '../widgets/app_error_widget.dart';
 import '../widgets/rectangle_text_button.dart';
 //(Done): build the page UI take care about theme_done, responsive_done, orientation_done
+//(done): Error Handling net&userError_done
 //progress==>
 //TODO: Phone Text Filed
 //TODO: Pick Image process
 //TODO: localization
 //TODO: page validation logic submit
 //TODO: inject the dateLayer
-//TODO: Error Handling net&userError_done
 //TODO: Image Chasing
 
 class UserScreen extends ConsumerStatefulWidget {
@@ -59,7 +61,9 @@ class _UserScreenState extends ConsumerState<UserScreen> {
             data: (user) {
               if (user == null) {
                 // there is no user
-                return Scaffold();
+                return Scaffold(
+                  body: NoUserWidget(),
+                );
               } else {
                 return Scaffold(
                   appBar: AppBar(
@@ -199,14 +203,16 @@ class _UserScreenState extends ConsumerState<UserScreen> {
             },
             loading: () {
               // Loading user
-              return CircularProgressIndicator(
-                color: Colors.green,
+              return const Scaffold(
+                body: UserScreenLoading(),
               );
             },
           );
         } else {
           // network is lost
-          return Scaffold();
+          return const Scaffold(
+            body: NoNetworkWidget(),
+          );
         }
       },
       error: (error, stack) {
@@ -226,7 +232,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
       loading: () {
         // loading network
         return const Scaffold(
-          body: ShellLoading(),
+          body: UserScreenLoading(),
         );
       },
     );

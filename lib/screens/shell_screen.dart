@@ -4,6 +4,7 @@ import 'package:fresh_feed/config/config.dart';
 import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/widgets/app_error_widget.dart';
 import 'package:fresh_feed/widgets/bottom_nav_bar.dart';
+import 'package:fresh_feed/widgets/no_network_widget.dart';
 import 'package:go_router/go_router.dart';
 
 import '../loading_components/shell_loading.dart';
@@ -92,6 +93,10 @@ class _ShellScreenState extends ConsumerState<ShellScreen> {
 
     return WillPopScope(
       onWillPop: () async {
+        if (GoRouter.of(context).canPop()) {
+          print('ddddddddddddddddd');
+          return false; // لا تدع النظام يعالج الرجوع بنفسه
+        }
         final navItem = getCurrentRoute();
 
         if (navItem != NavbarItem.Home) {
@@ -105,20 +110,15 @@ class _ShellScreenState extends ConsumerState<ShellScreen> {
       child: Scaffold(
         body: networkStream.when(
           data: (net) {
-            // return const ShellLoading();
-            if (!net)
-              return Center(
-                child: Text('no network Shell'),
-              );
             return SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: widget.child!,
+                    child: net ? widget.child! : const NoNetworkWidget(),
                   ),
-                  BottomNavBar()
+                  const BottomNavBar()
                 ],
               ),
             );

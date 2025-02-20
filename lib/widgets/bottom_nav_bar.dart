@@ -45,8 +45,10 @@ class BottomNavBar extends ConsumerWidget {
             iconSize: 26,
             navItem: NavbarItem.Home,
             callBack: () {
-              context.goNamed(RouteName.home);
-              print('Home');
+              if (GoRouter.of(context).state.uri.toString() != RoutePath.home) {
+                context.goNamed(RouteName.home);
+                print('Home');
+              }
             },
           ),
           AnimatedBottomNavTap(
@@ -56,9 +58,12 @@ class BottomNavBar extends ConsumerWidget {
             activeIcon: Icons.explore,
             navItem: NavbarItem.Discover,
             callBack: () {
-              context.goNamed(RouteName.discover);
+              if (GoRouter.of(context).state.uri.toString() !=
+                  RoutePath.discover) {
+                context.goNamed(RouteName.discover);
 
-              print('Discover');
+                print('Discover');
+              }
             },
           ),
           AnimatedBottomNavTap(
@@ -68,9 +73,12 @@ class BottomNavBar extends ConsumerWidget {
             icon: Icons.category_outlined,
             navItem: NavbarItem.Topics,
             callBack: () {
-              context.goNamed(RouteName.topics);
+              if (GoRouter.of(context).state.uri.toString() !=
+                  RoutePath.topics) {
+                context.goNamed(RouteName.topics);
 
-              print('Topics');
+                print('Topics');
+              }
             },
           ),
           AnimatedBottomNavTap(
@@ -80,9 +88,12 @@ class BottomNavBar extends ConsumerWidget {
             text: S.of(context).Bookmarks,
             navItem: NavbarItem.Bookmarks,
             callBack: () {
-              context.goNamed(RouteName.bookmarks);
+              if (GoRouter.of(context).state.uri.toString() !=
+                  RoutePath.bookmarks) {
+                context.goNamed(RouteName.bookmarks);
 
-              print('Bookmarks');
+                print('Bookmarks');
+              }
             },
           ),
           AnimatedBottomNavTap(
@@ -91,7 +102,10 @@ class BottomNavBar extends ConsumerWidget {
             icon: Icons.person,
             navItem: NavbarItem.Profile,
             callBack: () {
-              context.goNamed(RouteName.profile);
+              if (GoRouter.of(context).state.uri.toString() !=
+                  RoutePath.profile) {
+                context.goNamed(RouteName.profile);
+              }
 
               print('Profile');
             },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fresh_feed/data/data.dart';
+import 'package:fresh_feed/loading_components/loading_components.dart';
 import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/widgets.dart';
@@ -19,8 +20,8 @@ import '../../generated/l10n.dart';
 //(done): User & Followed Channels &   Bookmarks Buttons
 //(done): inject the dateLayer (User & network)
 //(done): page validation logic (Language & Theme Logic)
+//(done): Error Handling (Language & Theme Errors_done)&(UserError & Loading)
 
-//TODO: Error Handling (Language & Theme Errors_done)&(User Error & Loading)
 //TODO: Contact & Privacy Policy & About Us  Buttons
 //TODO: Image Chasing
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -358,9 +359,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             },
             loading: () {
               // Loading user
-              return CircularProgressIndicator(
-                color: Colors.green,
-              );
+              return const ProfileLoading();
             },
           ),
         ),

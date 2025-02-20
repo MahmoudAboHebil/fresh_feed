@@ -349,8 +349,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             },
             error: (error, stack) {
               // Error user
-              return Center(
-                child: Text('Error User'),
+              return AppErrorWidget(
+                buttonText: "Back to Home page",
+                callBack: () {
+                  context.goNamed(RouteName.home);
+                },
               );
             },
             loading: () {

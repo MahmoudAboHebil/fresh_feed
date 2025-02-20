@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/config/config.dart';
 import 'package:fresh_feed/providers/providers.dart';
+import 'package:fresh_feed/widgets/app_error_widget.dart';
 import 'package:fresh_feed/widgets/bottom_nav_bar.dart';
 import 'package:go_router/go_router.dart';
 
@@ -94,8 +95,8 @@ class _ShellScreenState extends ConsumerState<ShellScreen> {
         final navItem = getCurrentRoute();
 
         if (navItem != NavbarItem.Home) {
-          context.goNamed(RouteName.home);
           ref.read(navBarProvider.notifier).state = NavbarItem.Home;
+          context.goNamed(RouteName.home);
           return false;
         }
 
@@ -122,7 +123,10 @@ class _ShellScreenState extends ConsumerState<ShellScreen> {
               ),
             );
           },
-          error: (error, stackTrace) => Text('Error network Shell'),
+          error: (error, stackTrace) => const AppErrorWidget(
+            buttonText: null,
+            callBack: null,
+          ),
           loading: () => const ShellLoading(),
         ),
       ),

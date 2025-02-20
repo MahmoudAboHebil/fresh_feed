@@ -7,7 +7,9 @@ import 'package:fresh_feed/widgets/custom_text_form_field.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
+import '../config/route/route_name.dart';
 import '../generated/l10n.dart';
+import '../widgets/app_error_widget.dart';
 import '../widgets/rectangle_text_button.dart';
 //(Done): build the page UI take care about theme_done, responsive_done, orientation_done
 //progress==>
@@ -16,7 +18,7 @@ import '../widgets/rectangle_text_button.dart';
 //TODO: localization
 //TODO: page validation logic submit
 //TODO: inject the dateLayer
-//TODO: Error Handling
+//TODO: Error Handling net&userError_done
 //TODO: Image Chasing
 
 class UserScreen extends ConsumerStatefulWidget {
@@ -186,8 +188,13 @@ class _UserScreenState extends ConsumerState<UserScreen> {
             },
             error: (error, stack) {
               // Error user
-              return Center(
-                child: Text('Error User'),
+              return Scaffold(
+                body: AppErrorWidget(
+                  buttonText: "Back to Home page",
+                  callBack: () {
+                    context.goNamed(RouteName.home);
+                  },
+                ),
               );
             },
             loading: () {
@@ -204,9 +211,15 @@ class _UserScreenState extends ConsumerState<UserScreen> {
       },
       error: (error, stack) {
         // error network
-        return Scaffold(
-          body: Center(
-            child: Text('Error network'),
+        return WillPopScope(
+          onWillPop: () async {
+            return false;
+          },
+          child: Scaffold(
+            body: AppErrorWidget(
+              buttonText: null,
+              callBack: null,
+            ),
           ),
         );
       },

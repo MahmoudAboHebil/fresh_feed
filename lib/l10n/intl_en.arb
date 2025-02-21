@@ -66,7 +66,9 @@
   "SystemMode": "System Mode",
   "DarkMode": "Dark Mode",
   "LightMode": "Light Mode",
-  "PermissionRequired": "Permission Required"
+  "PermissionRequired": "Permission Required",
+  "PhoneNumber": "Phone number",
+  "SearchCountry": "Search country"
 
 
 }

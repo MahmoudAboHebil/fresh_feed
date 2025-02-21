@@ -589,6 +589,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Phone number`
+  String get PhoneNumber {
+    return Intl.message(
+      'Phone number',
+      name: 'PhoneNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search country`
+  String get SearchCountry {
+    return Intl.message(
+      'Search country',
+      name: 'SearchCountry',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

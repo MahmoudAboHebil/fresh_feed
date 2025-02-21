@@ -61,10 +61,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "PermissionRequired": MessageLookupByLibrary.simpleMessage(
       "Permiso Requerido",
     ),
+    "PhoneNumber": MessageLookupByLibrary.simpleMessage("Número de teléfono"),
     "PrivacyPolicy": MessageLookupByLibrary.simpleMessage(
       "Política de Privacidad",
     ),
     "Profile": MessageLookupByLibrary.simpleMessage("Perfil"),
+    "SearchCountry": MessageLookupByLibrary.simpleMessage("Buscar país"),
     "Spanish": MessageLookupByLibrary.simpleMessage("Español"),
     "SystemMode": MessageLookupByLibrary.simpleMessage("Modo del Sistema"),
     "Theme": MessageLookupByLibrary.simpleMessage("Tema"),

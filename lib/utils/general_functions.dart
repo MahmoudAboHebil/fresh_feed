@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 import '../generated/l10n.dart';
 
@@ -54,5 +55,21 @@ class GeneralFunctions {
       return S.of(context).nameInvalid;
     }
     return null;
+  }
+
+  Future<PhoneNumber> getPhoneNumber(
+      String phoneNumber, String? isoCode) async {
+    try {
+      PhoneNumber number;
+      if (isoCode != null) {
+        number = await PhoneNumber.getRegionInfoFromPhoneNumber(
+            phoneNumber, isoCode);
+      } else {
+        number = await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber);
+      }
+      return number;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

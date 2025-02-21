@@ -8,4 +8,5 @@ export 'login_button.dart';
 export 'login_text_form_field.dart';
 export 'no_network_widget.dart';
 export 'no_user_widget.dart';
+export 'phone_text_field.dart';
 export 'rectangle_text_button.dart';

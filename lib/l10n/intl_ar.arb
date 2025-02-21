@@ -66,6 +66,10 @@
   "SystemMode": "وضع النظام",
   "DarkMode": "الوضع الداكن",
   "LightMode": "الوضع الفاتح",
-  "PermissionRequired": "يتطلب إذنًا"
+  "PermissionRequired": "يتطلب إذنًا",
+  "PhoneNumber": "رقم الهاتف",
+  "SearchCountry": "البحث عن دولة"
+
+
 
 }

@@ -68,7 +68,12 @@
   "LightMode": "الوضع الفاتح",
   "PermissionRequired": "يتطلب إذنًا",
   "PhoneNumber": "رقم الهاتف",
-  "SearchCountry": "البحث عن دولة"
+  "SearchCountry": "البحث عن دولة",
+  "CropImage": "قص الصورة",
+  "Camera": "الكاميرا",
+  "Gallery": "المعرض",
+  "SelectImageSource": "اختر مصدر الصورة"
+
 
 
 

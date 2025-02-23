@@ -68,7 +68,11 @@
   "LightMode": "Light Mode",
   "PermissionRequired": "Permission Required",
   "PhoneNumber": "Phone number",
-  "SearchCountry": "Search country"
+  "SearchCountry": "Search country",
+  "CropImage": "Crop Image",
+  "Camera": "Camera",
+  "Gallery": "Gallery",
+  "SelectImageSource": "Select Image Source"
 
 
 }

@@ -68,7 +68,12 @@
   "LightMode": "Modo Claro",
   "PermissionRequired": "Permiso Requerido",
   "PhoneNumber": "Número de teléfono",
-  "SearchCountry": "Buscar país"
+  "SearchCountry": "Buscar país",
+  "CropImage": "Recortar imagen",
+  "Camera": "Cámara",
+  "Gallery": "Galería",
+  "SelectImageSource": "Seleccionar fuente de imagen"
+
 
 
 

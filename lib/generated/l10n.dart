@@ -609,6 +609,31 @@ class S {
       args: [],
     );
   }
+
+  /// `Crop Image`
+  String get CropImage {
+    return Intl.message('Crop Image', name: 'CropImage', desc: '', args: []);
+  }
+
+  /// `Camera`
+  String get Camera {
+    return Intl.message('Camera', name: 'Camera', desc: '', args: []);
+  }
+
+  /// `Gallery`
+  String get Gallery {
+    return Intl.message('Gallery', name: 'Gallery', desc: '', args: []);
+  }
+
+  /// `Select Image Source`
+  String get SelectImageSource {
+    return Intl.message(
+      'Select Image Source',
+      name: 'SelectImageSource',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

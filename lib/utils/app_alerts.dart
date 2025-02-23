@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fresh_feed/utils/general_functions.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../generated/l10n.dart';
 import 'extensions.dart';
@@ -283,5 +288,135 @@ class AppAlerts {
       ),
     );
     return result ?? false;
+  }
+
+  static Future<File?> showImagePickerOptions(BuildContext context) async {
+    final GeneralFunctions functions = GeneralFunctions(context);
+    return await showModalBottomSheet<File?>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      constraints: BoxConstraints(minWidth: context.screenWidth),
+      builder: (context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(context.setMinSize(16)),
+            ), // Optional rounded corners
+          ),
+          padding: EdgeInsetsDirectional.only(
+              top: context.setMinSize(20), bottom: context.setMinSize(25)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                S.of(context).SelectImageSource,
+                style: TextStyle(
+                    fontSize: context.setSp(19),
+                    fontWeight: FontWeight.w600,
+                    color:
+                        context.textTheme.bodyLarge?.color!.withOpacity(0.80)),
+              ),
+              Gap(context.setHeight(20)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          try {
+                            final pickImage = await functions.pickImage(
+                                source: ImageSource.camera);
+                            if (pickImage == null) Navigator.pop(context, null);
+
+                            final image = await functions.cropImage(pickImage!);
+                            if (image == null) Navigator.pop(context, null);
+
+                            Navigator.pop(context, image);
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: context.colorScheme.tertiary,
+                              ),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Padding(
+                            padding: EdgeInsets.all(context.setMinSize(20)),
+                            child: Icon(
+                              Icons.camera_alt_rounded,
+                              color: context.colorScheme.primary,
+                              size: context.setMinSize(45),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Gap(context.setHeight(10)),
+                      Text(
+                        S.of(context).Camera,
+                        style: TextStyle(
+                            fontSize: context.setSp(14),
+                            fontWeight: FontWeight.w500,
+                            color: context.textTheme.bodyLarge?.color),
+                      ),
+                    ],
+                  ),
+                  Gap(context.setHeight(70)),
+                  Column(
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          try {
+                            final pickImage = await functions.pickImage(
+                                source: ImageSource.gallery);
+                            if (pickImage == null) Navigator.pop(context, null);
+
+                            final image = await functions.cropImage(pickImage!);
+                            if (image == null) Navigator.pop(context, null);
+
+                            Navigator.pop(context, image);
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: context.colorScheme.tertiary,
+                              ),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Padding(
+                            padding: EdgeInsets.all(context.setMinSize(20)),
+                            child: Icon(
+                              Icons.photo_library,
+                              color: context.colorScheme.primary,
+                              size: context.setMinSize(45),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Gap(context.setHeight(10)),
+                      Text(
+                        S.of(context).Gallery,
+                        style: TextStyle(
+                            fontSize: context.setSp(14),
+                            fontWeight: FontWeight.w500,
+                            color: context.textTheme.bodyLarge?.color),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 }

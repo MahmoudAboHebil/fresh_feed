@@ -10,6 +10,7 @@ import 'package:fresh_feed/widgets/phone_text_field.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../config/route/route_name.dart';
 import '../generated/l10n.dart';
@@ -18,11 +19,12 @@ import '../widgets/rectangle_text_button.dart';
 //(Done): build the page UI take care about theme_done, responsive_done, orientation_done
 //(done): Error Handling net&userError_done
 //progress==>
-//TODO: Phone Text Filed
-//TODO: Pick Image process
+//TODO: verified email
+//TODO: Phone Text Filed => get from DB
+//TODO: Pick Image process => no image & display
 //TODO: localization
 //TODO: page validation logic submit
-//TODO: inject the dateLayer
+//TODO: inject the dateLayer => send to DB
 //TODO: Image Chasing
 
 class UserScreen extends ConsumerStatefulWidget {
@@ -122,8 +124,27 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                                       ),
                                     ),
                                     InkWell(
-                                      onTap: () {
-                                        print('hello');
+                                      onTap: () async {
+                                        try {
+                                          final isPremOk =
+                                              await PermissionHandlerService
+                                                  .checkPermissionStatus(
+                                            Permission.camera,
+                                            "Camera",
+                                            context,
+                                          );
+                                          if (isPremOk) {
+                                            final image = await AppAlerts
+                                                .showImagePickerOptions(
+                                                    context);
+                                            if (image != null) {
+                                              //ToDo: handling the image
+                                              print('===============> success');
+                                            }
+                                          }
+                                        } catch (e) {
+                                          print(e);
+                                        }
                                       },
                                       child: Container(
                                         height: context.setMinSize(38),

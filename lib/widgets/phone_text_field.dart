@@ -10,9 +10,11 @@ class PhoneTextField extends ConsumerStatefulWidget {
   const PhoneTextField({
     super.key,
     required this.controller,
+    required this.initialPhoneNumber,
     required this.callBack,
   });
   final TextEditingController controller;
+  final PhoneNumber? initialPhoneNumber;
   final Function(PhoneNumber) callBack;
 
   @override
@@ -20,9 +22,19 @@ class PhoneTextField extends ConsumerStatefulWidget {
 }
 
 class _PhoneTextFieldState extends ConsumerState<PhoneTextField> {
-  PhoneNumber number = PhoneNumber(
-    isoCode: 'EG',
-  );
+  late PhoneNumber number;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialPhoneNumber != null) {
+      number = widget.initialPhoneNumber!;
+    } else {
+      number = PhoneNumber(
+        isoCode: 'EG',
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

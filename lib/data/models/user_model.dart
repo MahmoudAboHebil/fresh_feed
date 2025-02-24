@@ -8,6 +8,8 @@ class UserModel extends Equatable {
     this.profileImageUrl,
     this.email,
     this.phoneNumber,
+    this.phoneIsoCode,
+    this.phoneDialCode,
     required this.emailVerified,
     required this.phoneVerified,
     required this.authProvider,
@@ -17,6 +19,8 @@ class UserModel extends Equatable {
   final String? profileImageUrl;
   final String? email;
   final String? phoneNumber;
+  final String? phoneIsoCode;
+  final String? phoneDialCode;
   final bool emailVerified;
   final bool phoneVerified;
   final AuthProviderType authProvider;
@@ -32,6 +36,8 @@ class UserModel extends Equatable {
         emailVerified: data['emailVerified'] as bool? ?? false,
         phoneVerified: data['phoneVerified'] as bool? ?? false,
         phoneNumber: data['phoneNumber'] as String?,
+        phoneIsoCode: data['phoneIsoCode'] as String?,
+        phoneDialCode: data['phoneDialCode'] as String?,
         uid: data['uid'] as String,
       );
     } catch (e) {
@@ -45,6 +51,8 @@ class UserModel extends Equatable {
       'profileImageUrl': profileImageUrl,
       'email': email,
       'phoneNumber': phoneNumber,
+      'phoneIsoCode': phoneIsoCode,
+      'phoneDialCode': phoneDialCode,
       'emailVerified': emailVerified,
       'phoneVerified': phoneVerified,
       'authProvider': authProvider.name,
@@ -57,6 +65,8 @@ class UserModel extends Equatable {
     String? profileImageUrl,
     String? email,
     String? phoneNumber,
+    String? phoneIsoCode,
+    String? phoneDialCode,
     bool? emailVerified,
     bool? phoneVerified,
     AuthProviderType? authProvider,
@@ -68,6 +78,8 @@ class UserModel extends Equatable {
       phoneVerified: phoneVerified ?? this.phoneVerified,
       authProvider: authProvider ?? this.authProvider,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      phoneIsoCode: phoneIsoCode ?? this.phoneIsoCode,
+      phoneDialCode: phoneDialCode ?? this.phoneDialCode,
       profileImageUrl: profileImageUrl ?? this.profileImageUrl,
       email: email ?? this.email,
     );
@@ -75,7 +87,7 @@ class UserModel extends Equatable {
 
   @override
   String toString() {
-    return 'UserModel{\nuid: $uid, name: $name,\nprofileImageUrl: $profileImageUrl, email: $email,\n phoneNumber: $phoneNumber, emailVerified: $emailVerified, \nphoneVerified: $phoneVerified, authProvider: $authProvider\n}';
+    return 'UserModel{\nuid: $uid, name: $name,\nprofileImageUrl: $profileImageUrl, email: $email,\n phoneNumber: $phoneNumber,\n phoneIsoCode: $phoneIsoCode,\n phoneDialCode: $phoneDialCode, emailVerified: $emailVerified, \nphoneVerified: $phoneVerified, authProvider: $authProvider\n}';
   }
 
   @override
@@ -86,6 +98,8 @@ class UserModel extends Equatable {
         profileImageUrl,
         email,
         phoneNumber,
+        phoneIsoCode,
+        phoneDialCode,
         emailVerified,
         phoneVerified,
         authProvider,

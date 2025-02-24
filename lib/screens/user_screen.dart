@@ -1,12 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/loading_components/loading_components.dart';
 import 'package:fresh_feed/providers/providers.dart';
 import 'package:fresh_feed/utils/utlis.dart';
-import 'package:fresh_feed/widgets/custom_text_form_field.dart';
-import 'package:fresh_feed/widgets/no_network_widget.dart';
-import 'package:fresh_feed/widgets/no_user_widget.dart';
-import 'package:fresh_feed/widgets/phone_text_field.dart';
+import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
@@ -14,14 +14,13 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../config/route/route_name.dart';
 import '../generated/l10n.dart';
-import '../widgets/app_error_widget.dart';
-import '../widgets/rectangle_text_button.dart';
 //(Done): build the page UI take care about theme_done, responsive_done, orientation_done
 //(done): Error Handling net&userError_done
 //progress==>
 //TODO: verified email
-//TODO: Phone Text Filed => get from DB
-//TODO: Pick Image process => no image & display
+//TODO: verified phone
+//(done): Phone Text Filed => get from DB
+//(done): Pick Image process => no image & display
 //TODO: localization
 //TODO: page validation logic submit
 //TODO: inject the dateLayer => send to DB
@@ -39,16 +38,26 @@ class UserScreen extends ConsumerStatefulWidget {
 class _UserScreenState extends ConsumerState<UserScreen> {
   final _formKey = GlobalKey<FormState>();
   PhoneNumber? userPhone;
+  File? pickUpImage;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
 
-  Future<void> _submitForm() async {
+  Future<void> _submitForm(UserModel userModel) async {
     try {
       if (_formKey.currentState!.validate()) {
         print('phone: $userPhone');
       }
+      // if (pickUpImage != null) {
+      //   final cloudinaryRepoProv = ref.read(cloudinaryRepoProvider);
+      //   final userRepoProv = ref.read(userRepositoryProvider);
+      //   final imageURL =
+      //       await cloudinaryRepoProv.uploadImage(pickUpImage!, userModel.uid);
+      //   await userRepoProv
+      //       .saveUserData(userModel.copyWith(profileImageUrl: imageURL));
+      // }
     } catch (e) {
+      print(e.toString());
       AppAlerts.displaySnackBar(e.toString(), context);
     }
   }
@@ -56,7 +65,6 @@ class _UserScreenState extends ConsumerState<UserScreen> {
   @override
   Widget build(BuildContext context) {
     final generalFuncs = GeneralFunctions(context);
-
     final networkStream = ref.watch(networkInfoStreamNotifierProv);
     final userStream = ref.watch(userNotifierProvider);
 
@@ -72,6 +80,25 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                   body: NoUserWidget(),
                 );
               } else {
+                PhoneNumber? initialPhoneNumber;
+                final ImageProvider userImage;
+                if (user.phoneNumber != null) {
+                  initialPhoneNumber = PhoneNumber(
+                    phoneNumber: user.phoneNumber,
+                    isoCode: user.phoneIsoCode,
+                    dialCode: user.phoneDialCode,
+                  );
+                }
+                if (pickUpImage != null) {
+                  userImage = FileImage(pickUpImage!);
+                } else if (user.profileImageUrl != null) {
+                  userImage = NetworkImage(
+                    user.profileImageUrl!,
+                  );
+                } else {
+                  userImage = const AssetImage("assets/user_profile.png");
+                }
+
                 return GestureDetector(
                   onTap: () {
                     FocusScope.of(context).unfocus();
@@ -118,9 +145,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                                       child: CircleAvatar(
                                         backgroundColor: Colors.transparent,
                                         radius: context.setMinSize(60),
-                                        backgroundImage: NetworkImage(
-                                          user.profileImageUrl!,
-                                        ),
+                                        backgroundImage: userImage,
                                       ),
                                     ),
                                     InkWell(
@@ -139,7 +164,9 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                                                     context);
                                             if (image != null) {
                                               //ToDo: handling the image
-                                              print('===============> success');
+                                              setState(() {
+                                                pickUpImage = image;
+                                              });
                                             }
                                           }
                                         } catch (e) {
@@ -192,6 +219,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                                       ),
                                       Gap(context.setHeight(25)),
                                       PhoneTextField(
+                                        initialPhoneNumber: initialPhoneNumber,
                                         controller: _phoneController,
                                         callBack: (value) {
                                           setState(() {
@@ -208,7 +236,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                                         backgroundColor:
                                             context.colorScheme.primary,
                                         callback: () async {
-                                          await _submitForm();
+                                          await _submitForm(user);
                                         },
                                       ),
                                     ],

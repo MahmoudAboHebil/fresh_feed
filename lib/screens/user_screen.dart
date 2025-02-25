@@ -22,8 +22,8 @@ import '../generated/l10n.dart';
 //(done): Phone Text Filed => get from DB
 //(done): Pick Image process => no image & display
 //TODO: localization
-//TODO: page validation logic submit
-//TODO: inject the dateLayer => send to DB
+//(done): page validation logic submit
+//(done): inject the dateLayer => send to DB
 //TODO: Image Chasing
 
 class UserScreen extends ConsumerStatefulWidget {
@@ -46,20 +46,37 @@ class _UserScreenState extends ConsumerState<UserScreen> {
   Future<void> _submitForm(UserModel userModel) async {
     try {
       if (_formKey.currentState!.validate()) {
-        print('phone: $userPhone');
+        final userRepoProv = ref.read(userRepositoryProvider);
+        final cloudinaryRepoProv = ref.read(cloudinaryRepoProvider);
+        String? imageURL;
+        if (pickUpImage != null) {
+          imageURL =
+              await cloudinaryRepoProv.uploadImage(pickUpImage!, userModel.uid);
+        }
+
+        await userRepoProv.saveUserData(
+          userModel.copyWith(
+              profileImageUrl: imageURL,
+              phoneNumber: userPhone?.phoneNumber,
+              phoneDialCode: userPhone?.dialCode,
+              phoneIsoCode: userPhone?.isoCode,
+              name: _nameController.text),
+        );
+        context.goNamed(RouteName.profile);
       }
-      // if (pickUpImage != null) {
-      //   final cloudinaryRepoProv = ref.read(cloudinaryRepoProvider);
-      //   final userRepoProv = ref.read(userRepositoryProvider);
-      //   final imageURL =
-      //       await cloudinaryRepoProv.uploadImage(pickUpImage!, userModel.uid);
-      //   await userRepoProv
-      //       .saveUserData(userModel.copyWith(profileImageUrl: imageURL));
-      // }
     } catch (e) {
       print(e.toString());
       AppAlerts.displaySnackBar(e.toString(), context);
     }
+  }
+
+  bool isEnable(UserModel user) {
+    if (pickUpImage != null ||
+        userPhone?.phoneNumber != user.phoneNumber ||
+        _nameController.text != user.name) {
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -232,6 +249,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                                         text: 'Update Profile',
                                         verticalPadding: 11,
                                         fontSize: 15,
+                                        enable: isEnable(user),
                                         color: context.colorScheme.onPrimary,
                                         backgroundColor:
                                             context.colorScheme.primary,

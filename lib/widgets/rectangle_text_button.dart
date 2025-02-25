@@ -6,6 +6,7 @@ class RectangleTextButton extends StatefulWidget {
     required this.text,
     this.color,
     this.fontSize = 14,
+    this.enable = true,
     this.verticalPadding = 9.0,
     required this.backgroundColor,
     required this.callback,
@@ -13,6 +14,7 @@ class RectangleTextButton extends StatefulWidget {
   });
   final String text;
   final Color? color;
+  final bool enable;
   final double? verticalPadding;
   final double? fontSize;
   final Color backgroundColor;
@@ -26,6 +28,11 @@ class _RectangleTextButtonState extends State<RectangleTextButton> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    Color? color =
+        widget.enable ? widget.color : widget.color?.withOpacity(0.7);
+    Color backgroundColor = widget.enable
+        ? widget.backgroundColor
+        : widget.backgroundColor.withOpacity(0.7);
     return SizedBox(
       width: context.screenWidth,
       child: ElevatedButton(
@@ -35,7 +42,7 @@ class _RectangleTextButtonState extends State<RectangleTextButton> {
                 vertical: context.setMinSize(widget.verticalPadding!)),
             minimumSize: const Size(0, 0),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            backgroundColor: widget.backgroundColor,
+            backgroundColor: backgroundColor,
             overlayColor: context.colorScheme.inverseSurface,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(context.setMinSize(8)),
@@ -48,7 +55,7 @@ class _RectangleTextButtonState extends State<RectangleTextButton> {
               child: Text(
                 widget.text,
                 style: TextStyle(
-                  color: widget.color,
+                  color: color,
                   fontWeight: FontWeight.bold,
                   fontSize: context.setSp(widget.fontSize!),
                 ),
@@ -68,15 +75,17 @@ class _RectangleTextButtonState extends State<RectangleTextButton> {
           ],
         ),
         onPressed: () async {
-          if (!isLoading) {
-            setState(() {
-              isLoading = true;
-            });
-            await widget.callback();
-            if (mounted) {
+          if (widget.enable) {
+            if (!isLoading) {
               setState(() {
-                isLoading = false;
+                isLoading = true;
               });
+              await widget.callback();
+              if (mounted) {
+                setState(() {
+                  isLoading = false;
+                });
+              }
             }
           }
         },

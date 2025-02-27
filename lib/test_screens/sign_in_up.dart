@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/providers/providers.dart';
 
+import '../generated/l10n.dart';
 import '../utils/app_alerts.dart';
 import 'articles_comment_page.dart';
 
@@ -162,11 +163,13 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                             onPressed: () async {
                               try {
                                 await auth_repo.sendEmailVerification();
-                                await auth_repo.listenToEmailVerification(user,
-                                    () {
-                                  AppAlerts.displaySnackBar(
-                                      'success updated', context);
-                                });
+                                await auth_repo.listenToEmailVerification(
+                                  userAsModel: user,
+                                  successUpdateAlert: () {
+                                    AppAlerts.displaySnackBar(
+                                        S.of(context).EmailVerified, context);
+                                  },
+                                );
                                 // auth_repo.cancelTimer();
                                 final v = await auth_repo.isUserEmailVerified();
                                 print('================> $v');

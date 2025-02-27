@@ -17,8 +17,9 @@ import '../generated/l10n.dart';
 //(Done): build the page UI take care about theme_done, responsive_done, orientation_done
 //(done): Error Handling net&userError_done
 //progress==>
-//TODO: verified email _ need test
+//(done): verified email
 //TODO: verified phone
+//TODO: improve the snake bar design of verified email
 //(done): Phone Text Filed => get from DB
 //(done): Pick Image process => no image & display
 //TODO: localization
@@ -114,9 +115,12 @@ class _UserScreenState extends ConsumerState<UserScreen> {
       });
       _nameController.text = widget.user?.name ?? '';
       final auth_repo = ref.read(authRepositoryProvider);
-      await auth_repo.listenToEmailVerification(widget.user, () {
-        AppAlerts.displaySnackBar(S.of(context).EmailVerified, context);
-      });
+      await auth_repo.listenToEmailVerification(
+        userAsModel: widget.user,
+        successUpdateAlert: () {
+          AppAlerts.displaySnackBar(S.of(context).EmailVerified, context);
+        },
+      );
     });
   }
 

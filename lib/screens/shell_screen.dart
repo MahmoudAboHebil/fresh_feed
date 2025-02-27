@@ -73,18 +73,12 @@ class _ShellScreenState extends ConsumerState<ShellScreen> {
     final userFollowedChannelsProv =
         ref.read(userFollowedChannelsNotifierProvider.notifier);
     ref.listen(userListenerProvider, (prev, now) async {
-      print(
-          'userListenerProvider (SignInUp) about user Bookmarks-article=====> shell');
       try {
+        print(
+            'userListenerProvider (SignInUp) about user Bookmarks-article=====> shell');
         await userBookmarksProv.loadDataIfStateIsNull(now?.uid);
-      } catch (e) {
-        print(e);
-      }
-    });
-    ref.listen(userListenerProvider, (prev, now) async {
-      print(
-          'userListenerProvider (SignInUp) about user followed-channels=====> shell');
-      try {
+        print(
+            'userListenerProvider (SignInUp) about user followed-channels=====> shell');
         await userFollowedChannelsProv.loadDataIfStateIsNull(now?.uid);
       } catch (e) {
         print(e);

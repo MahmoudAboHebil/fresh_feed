@@ -153,8 +153,28 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((e) async {
+      try {
+        final auth_repo = ref.read(authRepositoryProvider);
+        final user = await ref.read(authStateNotifierProvider.future);
+        await auth_repo.listenToEmailVerification(
+          userAsAuth: user,
+          successUpdateAlert: () {
+            AppAlerts.displaySnackBar(S.of(context).EmailVerified, context);
+          },
+        );
+      } catch (e) {
+        print(e);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final userStream = ref.watch(userNotifierProvider);
+    final auth_repo = ref.watch(authRepositoryProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -178,6 +198,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
           child: userStream.when(
             data: (user) {
+              final auth_repo = ref.watch(authRepositoryProvider);
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

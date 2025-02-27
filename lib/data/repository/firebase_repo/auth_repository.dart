@@ -326,9 +326,23 @@ class AuthRepository {
   }
 
   // testing listenToEmailVerification is done
-  Future<void> listenToEmailVerification(
-      UserModel? user, VoidCallback successUpdateAlert) async {
+  Future<void> listenToEmailVerification({
+    UserModel? userAsModel,
+    User? userAsAuth,
+    required VoidCallback successUpdateAlert,
+  }) async {
+    print(' listing is called =================>');
+    UserModel? user;
+    if (userAsModel == null && userAsAuth != null) {
+      final userRepo = FirestoreDatasource(FirebaseService());
+      user = await userRepo.getUserData(userAsAuth.uid);
+    } else {
+      user = userAsModel;
+    }
+
     if (user != null && !user.emailVerified) {
+      print('Start listing =================>');
+
       try {
         cancelTimer();
         _timer = Timer.periodic(
@@ -338,7 +352,7 @@ class AuthRepository {
             final isEmailUserVerified = await isUserEmailVerified();
             if (isEmailUserVerified) {
               await _userRepository
-                  .saveUserData(user.copyWith(emailVerified: true));
+                  .saveUserData(user!.copyWith(emailVerified: true));
               successUpdateAlert();
               cancelTimer();
             }

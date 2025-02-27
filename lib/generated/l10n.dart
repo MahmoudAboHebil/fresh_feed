@@ -634,6 +634,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Your email has been successfully verified`
+  String get EmailVerified {
+    return Intl.message(
+      'Your email has been successfully verified',
+      name: 'EmailVerified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A verification link has been sent to your email`
+  String get SendEmailVerify {
+    return Intl.message(
+      'A verification link has been sent to your email',
+      name: 'SendEmailVerify',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

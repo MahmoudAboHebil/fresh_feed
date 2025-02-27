@@ -9,6 +9,7 @@ class CustomTextFormField extends StatefulWidget {
     this.isPassword = false,
     this.enable = true,
     this.initialValue = '',
+    this.suffixWidget,
     this.validator,
     this.prefixIcon,
   });
@@ -18,6 +19,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool isPassword;
   final bool enable;
   final IconData? prefixIcon;
+  final Widget? suffixWidget;
   final String? Function(String?)? validator;
 
   @override
@@ -27,8 +29,8 @@ class CustomTextFormField extends StatefulWidget {
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   void initState() {
-    super.initState();
     widget.controller.text = widget.initialValue;
+    super.initState();
   }
 
   @override
@@ -46,9 +48,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           controller: widget.controller,
           cursorColor: context.textTheme.bodyLarge?.color,
           textAlignVertical: TextAlignVertical.center,
+          scrollPhysics: AlwaysScrollableScrollPhysics(),
+          readOnly: !widget.enable,
           style: TextStyle(
             fontSize: context.setSp(16),
             fontWeight: FontWeight.w500,
+            color: !widget.enable
+                ? context.textTheme.bodyLarge?.color?.withOpacity(.3)
+                : null,
             decorationThickness: 0,
           ),
           decoration: InputDecoration(
@@ -67,6 +74,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                       ),
                     )
                   : null,
+              suffixIcon: widget.suffixWidget,
               errorStyle: TextStyle(
                   fontWeight: FontWeight.w500, fontSize: context.setSp(12)),
               focusedErrorBorder: OutlineInputBorder(
@@ -99,7 +107,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               ),
               fillColor: Colors.transparent,
               errorMaxLines: 2,
-              enabled: widget.enable,
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(context.setMinSize(4)),
                 borderSide: BorderSide(

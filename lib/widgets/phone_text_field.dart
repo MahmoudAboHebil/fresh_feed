@@ -27,13 +27,15 @@ class _PhoneTextFieldState extends ConsumerState<PhoneTextField> {
   @override
   void initState() {
     super.initState();
-    if (widget.initialPhoneNumber != null) {
+    if (widget.initialPhoneNumber?.phoneNumber != null) {
       number = widget.initialPhoneNumber!;
     } else {
       number = PhoneNumber(
         isoCode: 'EG',
       );
     }
+    print('sssssssssssssss');
+    print(number);
   }
 
   @override
@@ -182,7 +184,7 @@ class _PhoneTextFieldState extends ConsumerState<PhoneTextField> {
               ),
             ),
             ignoreBlank: false,
-            autoValidateMode: AutovalidateMode.disabled,
+            autoValidateMode: AutovalidateMode.onUserInteraction,
             selectorTextStyle: TextStyle(
                 color: context.textTheme.bodyLarge?.color?.withOpacity(.80),
                 fontWeight: FontWeight.w600,

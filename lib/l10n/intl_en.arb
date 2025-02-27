@@ -72,7 +72,10 @@
   "CropImage": "Crop Image",
   "Camera": "Camera",
   "Gallery": "Gallery",
-  "SelectImageSource": "Select Image Source"
+  "SelectImageSource": "Select Image Source",
+  "EmailVerified": "Your email has been successfully verified",
+  "SendEmailVerify": "A verification link has been sent to your email"
+
 
 
 }

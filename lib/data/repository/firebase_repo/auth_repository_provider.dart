@@ -10,6 +10,7 @@ final authRepositoryProvider = Provider.autoDispose((ref) {
   final authRepo = AuthRepository(authDatasource, userRepo);
 
   ref.onDispose(() {
+    print('Desposed 000000000000');
     authRepo.cancelTimer();
   });
 

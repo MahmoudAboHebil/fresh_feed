@@ -334,6 +334,7 @@ class AuthRepository {
         _timer = Timer.periodic(
           const Duration(seconds: 3),
           (timer) async {
+            print('xxxxxxxxxxxxxxxxxxxxx');
             final isEmailUserVerified = await isUserEmailVerified();
             if (isEmailUserVerified) {
               await _userRepository
@@ -344,6 +345,8 @@ class AuthRepository {
           },
         );
       } catch (e) {
+        print('yyyyyyyyyyyyyyyyyyy$e');
+
         cancelTimer();
         return;
       }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fresh_feed/config/route/route_name.dart';
 import 'package:fresh_feed/config/route/route_path.dart';
+import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/screens/screens.dart';
 import 'package:go_router/go_router.dart';
 
@@ -87,9 +88,12 @@ final appRoute = [
     name: RouteName.user,
     path: RoutePath.user,
     pageBuilder: (context, state) {
+      final user = state.extra as UserModel?;
       return NoTransitionPage(
         name: state.fullPath,
-        child: const UserScreen(),
+        child: UserScreen(
+          user: user,
+        ),
       );
     },
   ),

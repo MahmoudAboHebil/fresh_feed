@@ -72,7 +72,11 @@
   "CropImage": "Recortar imagen",
   "Camera": "Cámara",
   "Gallery": "Galería",
-  "SelectImageSource": "Seleccionar fuente de imagen"
+  "SelectImageSource": "Seleccionar fuente de imagen",
+  "EmailVerified": "Tu correo electrónico ha sido verificado con éxito",
+  "SendEmailVerify": "Se ha enviado un enlace de verificación a tu correo electrónico"
+
+
 
 
 

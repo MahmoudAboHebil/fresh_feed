@@ -92,7 +92,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 ),
           titleText: user.name,
           callBack: () {
-            context.pushNamed(RouteName.user);
+            context.pushNamed(RouteName.user, extra: user);
           },
         ),
         Gap(context.setHeight(15)),

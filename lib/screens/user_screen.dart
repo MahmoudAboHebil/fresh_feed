@@ -17,7 +17,7 @@ import '../generated/l10n.dart';
 //(Done): build the page UI take care about theme_done, responsive_done, orientation_done
 //(done): Error Handling net&userError_done
 //progress==>
-//TODO: verified email
+//TODO: verified email _ need test
 //TODO: verified phone
 //(done): Phone Text Filed => get from DB
 //(done): Pick Image process => no image & display
@@ -27,9 +27,14 @@ import '../generated/l10n.dart';
 //TODO: Image Chasing
 
 class UserScreen extends ConsumerStatefulWidget {
-  const UserScreen({super.key});
-  static UserScreen builder(BuildContext buildContext, GoRouterState state) =>
-      UserScreen();
+  const UserScreen({required this.user, super.key});
+  final UserModel? user;
+  static UserScreen builder(BuildContext buildContext, GoRouterState state) {
+    final user = state.extra as UserModel?;
+    return UserScreen(
+      user: user,
+    );
+  }
 
   @override
   ConsumerState<UserScreen> createState() => _UserScreenState();
@@ -39,6 +44,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
   final _formKey = GlobalKey<FormState>();
   PhoneNumber? userPhone;
   File? pickUpImage;
+  bool sendEmail = true;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -71,16 +77,53 @@ class _UserScreenState extends ConsumerState<UserScreen> {
   }
 
   bool isEnable(UserModel user) {
+    bool isPhoneChanged;
+
+    if (_phoneController.text.isEmpty && (user.phoneNumber?.isEmpty ?? true)) {
+      isPhoneChanged = false;
+    } else {
+      isPhoneChanged = (userPhone?.phoneNumber != user.phoneNumber);
+    }
+
     if (pickUpImage != null ||
-        userPhone?.phoneNumber != user.phoneNumber ||
+        isPhoneChanged ||
         _nameController.text != user.name) {
+      // not the same
+      print(" phone ${userPhone?.phoneNumber != user.phoneNumber}");
+      print('vari${userPhone?.phoneNumber}');
+      print('user${user.phoneNumber} }');
+      print(" image ${pickUpImage != null}");
+      print(" name ${_nameController.text != user.name}");
+      print(" contr ${_nameController.text}");
+      print(" db ${user.name}");
       return true;
     }
     return false;
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((e) async {
+      setState(() {
+        userPhone = PhoneNumber(
+          phoneNumber: widget.user?.phoneNumber,
+          isoCode: widget.user?.phoneIsoCode,
+          dialCode: widget.user?.phoneDialCode,
+        );
+      });
+      _nameController.text = widget.user?.name ?? '';
+      final auth_repo = ref.read(authRepositoryProvider);
+      await auth_repo.listenToEmailVerification(widget.user, () {
+        AppAlerts.displaySnackBar(S.of(context).EmailVerified, context);
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final auth_repo = ref.watch(authRepositoryProvider);
+
     final generalFuncs = GeneralFunctions(context);
     final networkStream = ref.watch(networkInfoStreamNotifierProv);
     final userStream = ref.watch(userNotifierProvider);
@@ -97,15 +140,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                   body: NoUserWidget(),
                 );
               } else {
-                PhoneNumber? initialPhoneNumber;
                 final ImageProvider userImage;
-                if (user.phoneNumber != null) {
-                  initialPhoneNumber = PhoneNumber(
-                    phoneNumber: user.phoneNumber,
-                    isoCode: user.phoneIsoCode,
-                    dialCode: user.phoneDialCode,
-                  );
-                }
                 if (pickUpImage != null) {
                   userImage = FileImage(pickUpImage!);
                 } else if (user.profileImageUrl != null) {
@@ -115,6 +150,11 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                 } else {
                   userImage = const AssetImage("assets/user_profile.png");
                 }
+                userPhone ??= PhoneNumber(
+                  phoneNumber: widget.user?.phoneNumber,
+                  isoCode: widget.user?.phoneIsoCode,
+                  dialCode: widget.user?.phoneDialCode,
+                );
 
                 return GestureDetector(
                   onTap: () {
@@ -232,11 +272,54 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                                         initialValue: user.email ?? '',
                                         label: S.of(context).email,
                                         prefixIcon: Icons.email,
+                                        suffixWidget: user.emailVerified
+                                            ? Icon(
+                                                Icons.verified,
+                                                color: Colors.green,
+                                                size: context.setMinSize(20),
+                                              )
+                                            : IconButton(
+                                                onPressed: () async {
+                                                  if (sendEmail) {
+                                                    setState(() {
+                                                      sendEmail = false;
+                                                    });
+                                                    final auth_repo = ref.read(
+                                                        authRepositoryProvider);
+                                                    await auth_repo
+                                                        .sendEmailVerification();
+                                                    AppAlerts.displaySnackBar(
+                                                        S
+                                                            .of(context)
+                                                            .SendEmailVerify,
+                                                        context);
+
+                                                    if (mounted) {
+                                                      await Future.delayed(
+                                                        const Duration(
+                                                            seconds: 10),
+                                                        () {
+                                                          setState(() {
+                                                            sendEmail = true;
+                                                          });
+                                                        },
+                                                      );
+                                                    }
+                                                  }
+                                                },
+                                                icon: Icon(
+                                                  Icons
+                                                      .mark_email_unread_rounded,
+                                                  color:
+                                                      context.colorScheme.error,
+                                                  size: context.setMinSize(20),
+                                                ),
+                                              ),
                                         enable: false,
                                       ),
                                       Gap(context.setHeight(25)),
                                       PhoneTextField(
-                                        initialPhoneNumber: initialPhoneNumber,
+                                        initialPhoneNumber: userPhone,
                                         controller: _phoneController,
                                         callBack: (value) {
                                           setState(() {

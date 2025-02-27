@@ -34,6 +34,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "CropImage": MessageLookupByLibrary.simpleMessage("قص الصورة"),
     "DarkMode": MessageLookupByLibrary.simpleMessage("الوضع الداكن"),
     "Discover": MessageLookupByLibrary.simpleMessage("استكشاف"),
+    "EmailVerified": MessageLookupByLibrary.simpleMessage(
+      "تم التحقق من بريدك الإلكتروني بنجاح",
+    ),
     "English": MessageLookupByLibrary.simpleMessage("الإنجليزية"),
     "FollowedChannels": MessageLookupByLibrary.simpleMessage(
       "القنوات المتابعة",
@@ -66,6 +69,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "SearchCountry": MessageLookupByLibrary.simpleMessage("البحث عن دولة"),
     "SelectImageSource": MessageLookupByLibrary.simpleMessage(
       "اختر مصدر الصورة",
+    ),
+    "SendEmailVerify": MessageLookupByLibrary.simpleMessage(
+      "تم إرسال رابط التحقق إلى بريدك الإلكتروني",
     ),
     "Spanish": MessageLookupByLibrary.simpleMessage("الإسبانية"),
     "SystemMode": MessageLookupByLibrary.simpleMessage("وضع النظام"),

@@ -72,7 +72,11 @@
   "CropImage": "قص الصورة",
   "Camera": "الكاميرا",
   "Gallery": "المعرض",
-  "SelectImageSource": "اختر مصدر الصورة"
+  "SelectImageSource": "اختر مصدر الصورة",
+  "EmailVerified": "تم التحقق من بريدك الإلكتروني بنجاح",
+  "SendEmailVerify": "تم إرسال رابط التحقق إلى بريدك الإلكتروني"
+
+
 
 
 

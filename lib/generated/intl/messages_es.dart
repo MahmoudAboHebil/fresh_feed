@@ -34,6 +34,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "CropImage": MessageLookupByLibrary.simpleMessage("Recortar imagen"),
     "DarkMode": MessageLookupByLibrary.simpleMessage("Modo Oscuro"),
     "Discover": MessageLookupByLibrary.simpleMessage("Descubrir"),
+    "EmailVerified": MessageLookupByLibrary.simpleMessage(
+      "Tu correo electrónico ha sido verificado con éxito",
+    ),
     "English": MessageLookupByLibrary.simpleMessage("Inglés"),
     "FollowedChannels": MessageLookupByLibrary.simpleMessage(
       "Canales Seguidos",
@@ -72,6 +75,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "SearchCountry": MessageLookupByLibrary.simpleMessage("Buscar país"),
     "SelectImageSource": MessageLookupByLibrary.simpleMessage(
       "Seleccionar fuente de imagen",
+    ),
+    "SendEmailVerify": MessageLookupByLibrary.simpleMessage(
+      "Se ha enviado un enlace de verificación a tu correo electrónico",
     ),
     "Spanish": MessageLookupByLibrary.simpleMessage("Español"),
     "SystemMode": MessageLookupByLibrary.simpleMessage("Modo del Sistema"),

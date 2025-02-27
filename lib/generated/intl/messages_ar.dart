@@ -77,6 +77,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "SystemMode": MessageLookupByLibrary.simpleMessage("وضع النظام"),
     "Theme": MessageLookupByLibrary.simpleMessage("السمة"),
     "Topics": MessageLookupByLibrary.simpleMessage("الموضوعات"),
+    "UpdateProfile": MessageLookupByLibrary.simpleMessage("تحديث الملف الشخصي"),
     "accountAlreadyExistsExp": MessageLookupByLibrary.simpleMessage(
       "هذا الحساب موجود بالفعل. يرجى تسجيل الدخول.",
     ),

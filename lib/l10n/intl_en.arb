@@ -74,7 +74,8 @@
   "Gallery": "Gallery",
   "SelectImageSource": "Select Image Source",
   "EmailVerified": "Your email has been successfully verified",
-  "SendEmailVerify": "A verification link has been sent to your email"
+  "SendEmailVerify": "A verification link has been sent to your email",
+  "UpdateProfile": "Update Profile"
 
 
 

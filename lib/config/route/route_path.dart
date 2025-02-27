@@ -10,5 +10,7 @@ class RoutePath {
   static String get forgotPassword => '/forgot_password';
   static String get splashScreen => '/splash_screen';
   static String get followedChannels => '/profile/followed_channels';
+  static String get aboutUS => '/profile/about_us';
+  static String get privacyPolicy => '/profile/privacy_policy';
   static String get user => '/profile/user';
 }

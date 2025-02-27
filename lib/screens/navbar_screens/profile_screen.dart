@@ -22,7 +22,8 @@ import '../../generated/l10n.dart';
 //(done): page validation logic (Language & Theme Logic)
 //(done): Error Handling (Language & Theme Errors_done)&(UserError & Loading)
 
-//TODO: Contact & Privacy Policy & About Us  Buttons
+//(done): Privacy Policy & About Us  Buttons
+//TODO: Contact  Buttons
 //TODO: Image Chasing
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -162,7 +163,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         await auth_repo.listenToEmailVerification(
           userAsAuth: user,
           successUpdateAlert: () {
-            AppAlerts.displaySnackBar(S.of(context).EmailVerified, context);
+            AppAlerts.displaySnackBar(S.of(context).EmailVerified, context,
+                backgroundColor: Colors.green);
           },
         );
       } catch (e) {
@@ -311,7 +313,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       ),
                     ),
                     titleText: S.of(context).PrivacyPolicy,
-                    callBack: () {},
+                    callBack: () {
+                      context.pushNamed(RouteName.privacyPolicy,
+                          queryParameters: {
+                            'title': S.of(context).PrivacyPolicy
+                          });
+                    },
                   ),
                   Gap(context.setHeight(10)),
                   // About Us
@@ -331,7 +338,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       ),
                     ),
                     titleText: S.of(context).AboutUs,
-                    callBack: () {},
+                    callBack: () {
+                      context.pushNamed(RouteName.aboutUS,
+                          queryParameters: {'title': S.of(context).AboutUs});
+                    },
                   ),
                   Gap(context.setHeight(30)),
                   if (user != null)

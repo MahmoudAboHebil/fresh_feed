@@ -18,13 +18,13 @@ import '../generated/l10n.dart';
 //(done): Error Handling net&userError_done
 //progress==>
 //(done): verified email
-//TODO: verified phone
-//TODO: improve the snake bar design of verified email
+//(done): improve the snake bar design of verified email
 //(done): Phone Text Filed => get from DB
 //(done): Pick Image process => no image & display
-//TODO: localization
+//(done): localization
 //(done): page validation logic submit
 //(done): inject the dateLayer => send to DB
+//TODO: verified phone
 //TODO: Image Chasing
 
 class UserScreen extends ConsumerStatefulWidget {
@@ -89,14 +89,6 @@ class _UserScreenState extends ConsumerState<UserScreen> {
     if (pickUpImage != null ||
         isPhoneChanged ||
         _nameController.text != user.name) {
-      // not the same
-      print(" phone ${userPhone?.phoneNumber != user.phoneNumber}");
-      print('vari${userPhone?.phoneNumber}');
-      print('user${user.phoneNumber} }');
-      print(" image ${pickUpImage != null}");
-      print(" name ${_nameController.text != user.name}");
-      print(" contr ${_nameController.text}");
-      print(" db ${user.name}");
       return true;
     }
     return false;
@@ -118,7 +110,8 @@ class _UserScreenState extends ConsumerState<UserScreen> {
       await auth_repo.listenToEmailVerification(
         userAsModel: widget.user,
         successUpdateAlert: () {
-          AppAlerts.displaySnackBar(S.of(context).EmailVerified, context);
+          AppAlerts.displaySnackBar(S.of(context).EmailVerified, context,
+              backgroundColor: Colors.green);
         },
       );
     });
@@ -333,7 +326,7 @@ class _UserScreenState extends ConsumerState<UserScreen> {
                                       ),
                                       Gap(context.setHeight(70)),
                                       RectangleTextButton(
-                                        text: 'Update Profile',
+                                        text: S.of(context).UpdateProfile,
                                         verticalPadding: 11,
                                         fontSize: 15,
                                         enable: isEnable(user),

@@ -98,6 +98,28 @@ final appRoute = [
     },
   ),
   GoRoute(
+    name: RouteName.aboutUS,
+    path: RoutePath.aboutUS,
+    pageBuilder: (context, state) {
+      final title = state.uri.queryParameters['title'] ?? '';
+      return NoTransitionPage(
+        name: state.fullPath,
+        child: AppInfoScreen(title: title),
+      );
+    },
+  ),
+  GoRoute(
+    name: RouteName.privacyPolicy,
+    path: RoutePath.privacyPolicy,
+    pageBuilder: (context, state) {
+      final title = state.uri.queryParameters['title'] ?? '';
+      return NoTransitionPage(
+        name: state.fullPath,
+        child: AppInfoScreen(title: title),
+      );
+    },
+  ),
+  GoRoute(
     name: RouteName.followedChannels,
     path: RoutePath.followedChannels,
     pageBuilder: (context, state) {

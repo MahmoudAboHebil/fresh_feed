@@ -10,5 +10,7 @@ class RouteName {
   static String get forgotPassword => 'forgot_password';
   static String get followedChannels => 'followed_channels';
   static String get splashScreen => 'splash_screen';
+  static String get aboutUS => 'about_us';
+  static String get privacyPolicy => 'privacy_policy';
   static String get user => 'user';
 }

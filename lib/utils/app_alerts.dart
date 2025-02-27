@@ -251,7 +251,8 @@ class AppAlerts {
     );
   }
 
-  static void displaySnackBar(String message, BuildContext context) {
+  static void displaySnackBar(String message, BuildContext context,
+      {Color? backgroundColor}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -260,7 +261,7 @@ class AppAlerts {
               color: context.colorScheme.onSurface,
               fontSize: context.setSp(context.textTheme.bodyMedium!.fontSize!)),
         ),
-        backgroundColor: context.colorScheme.surface,
+        backgroundColor: backgroundColor ?? context.colorScheme.surface,
       ),
     );
   }

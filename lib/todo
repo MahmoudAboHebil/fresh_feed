@@ -19,17 +19,23 @@ Add network connection stream /done
 
 progress presentationLayer==================================================>
 
+note: the user and network logic is center at shell screen to serve the shell
+screens but the non shell screens should have its own logic
 
 
  *. ToDo: the app image cashing
+ *. ToDo: you need to alert the user that log in with Phone number feature not supported yet
+ *. ToDo: still some logic at ( profile, user) screens not completed yet
+
 
 1. ToDo: the app widgets
 2. ToDo: creating the splash screen
-3. ToDo: the app pages ( currently profile, user, shell screens )
+3. ToDo: the app pages ( currently Home)
 5. ToDo: the app network
 6. ToDo: handling the app for user login&logout state
 
 Done presentationLayer==================================================>
+'shell screen' /done
 handling the app for login guest feature /done
 User (center the logic at the shell page that serve the shell pages) /done
 Network (center the logic at the shell page that serve the shell pages) /done

@@ -11,6 +11,7 @@ class AppTheme {
       secondary: Color(0xfff6fafd), // Secondary color
       secondaryContainer: Color(0xff767676),
       tertiary: Color(0xff989898),
+      tertiaryContainer: Color(0xffa0a0a0),
 
       appBarColor: Color(0xFFF8F8F8), // Light app bar
       error: Color(0xff990101), // Error color
@@ -37,6 +38,7 @@ class AppTheme {
       secondary: Color(0xff29292b),
       secondaryContainer: Color(0xff6f6f71),
       tertiary: Color(0xff989898),
+      tertiaryContainer: Color(0xff9b9b9b),
       appBarColor: Color(0xff212121),
       error: Color(0xffff6767),
     ),

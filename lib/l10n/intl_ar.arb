@@ -75,7 +75,14 @@
   "SelectImageSource": "اختر مصدر الصورة",
   "EmailVerified": "تم التحقق من بريدك الإلكتروني بنجاح",
   "SendEmailVerify": "تم إرسال رابط التحقق إلى بريدك الإلكتروني",
-  "UpdateProfile": "تحديث الملف الشخصي"
+  "UpdateProfile": "تحديث الملف الشخصي",
+  "ForYou": "لك",
+  "Business": "أعمال",
+  "Sports": "رياضة",
+  "Health": "صحة",
+  "Technology": "تكنولوجيا",
+  "Entertainment": "ترفيه",
+  "SeeAll": "عرض الكل"
 
 
 

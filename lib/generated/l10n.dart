@@ -664,6 +664,46 @@ class S {
       args: [],
     );
   }
+
+  /// `For You`
+  String get ForYou {
+    return Intl.message('For You', name: 'ForYou', desc: '', args: []);
+  }
+
+  /// `Business`
+  String get Business {
+    return Intl.message('Business', name: 'Business', desc: '', args: []);
+  }
+
+  /// `Sports`
+  String get Sports {
+    return Intl.message('Sports', name: 'Sports', desc: '', args: []);
+  }
+
+  /// `Health`
+  String get Health {
+    return Intl.message('Health', name: 'Health', desc: '', args: []);
+  }
+
+  /// `Technology`
+  String get Technology {
+    return Intl.message('Technology', name: 'Technology', desc: '', args: []);
+  }
+
+  /// `Entertainment`
+  String get Entertainment {
+    return Intl.message(
+      'Entertainment',
+      name: 'Entertainment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See all`
+  String get SeeAll {
+    return Intl.message('See all', name: 'SeeAll', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

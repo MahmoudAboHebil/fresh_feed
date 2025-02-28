@@ -75,7 +75,14 @@
   "SelectImageSource": "Select Image Source",
   "EmailVerified": "Your email has been successfully verified",
   "SendEmailVerify": "A verification link has been sent to your email",
-  "UpdateProfile": "Update Profile"
+  "UpdateProfile": "Update Profile",
+  "ForYou": "For You",
+  "Business": "Business",
+  "Sports": "Sports",
+  "Health": "Health",
+  "Technology": "Technology",
+  "Entertainment": "Entertainment",
+  "SeeAll": "See all"
 
 
 

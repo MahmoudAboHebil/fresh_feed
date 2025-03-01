@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/utils/extensions.dart';
-import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../generated/l10n.dart';
+import '../../widgets/duration_article_cart.dart';
 
 // ToDO: font type
 
@@ -119,7 +119,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [ArticleCart()],
+                children: [
+                  DurationArticleCarts(
+                    data: articleCartData,
+                  )
+                ],
               ),
             ),
             Icon(Icons.directions_transit),
@@ -135,100 +139,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 }
 
-class ArticleCart extends StatelessWidget {
-  const ArticleCart({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      overlayColor: WidgetStateProperty.all(Colors.transparent),
-      child: Container(
-        height: context.setWidth(205),
-        width: context.setWidth(420),
-        // width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(
-                  "https://www.thesun.co.uk/wp-content/uploads/2025/02/image_cb6d5f.png?strip=all&w=960")),
-          // https://www.thesun.co.uk/wp-content/uploads/2025/02/image_cb6d5f.png?strip=all&w=960
-        ),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black12,
-                    Colors.black87,
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            Container(
-              padding: EdgeInsetsDirectional.symmetric(
-                vertical: context.setWidth(10),
-                horizontal: context.setWidth(10),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsetsDirectional.symmetric(
-                      vertical: context.setWidth(4),
-                      horizontal: context.setWidth(7),
-                    ),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: context.colorScheme.primary),
-                    child: Text(
-                      'Topstory',
-                      style: TextStyle(color: Colors.white, fontSize: 12),
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'istana pastikan Danauntara siapkan investasi di bidang teknologi',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
-                      Gap(10),
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.watch_later_outlined,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                            Gap(10),
-                            Text(
-                              '1 day ago',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+final articleCartData = [
+  {
+    "image":
+        "https://www.thesun.co.uk/wp-content/uploads/2025/02/image_cb6d5f.png?strip=all&w=960"
+  },
+  {
+    "image":
+        "https://www.thesun.co.uk/wp-content/uploads/2025/02/image_cb6d5f.png?strip=all&w=960"
+  },
+  {
+    "image":
+        "https://i0.wp.com/plopdo.com/wp-content/uploads/2021/11/feature-pic.jpg?w=537&ssl=1"
+  },
+  {
+    "image":
+        "https://cdn.futura-sciences.com/cdn-cgi/image/width=1520,quality=50,format=auto/sources/images/AI-creation.jpg"
+  },
+  {"image": "https://www.industrialempathy.com/img/remote/ZiClJf-640w.avif"}
+];

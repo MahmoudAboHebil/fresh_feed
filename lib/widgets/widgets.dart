@@ -1,10 +1,12 @@
 export 'animated_bottom_nav_tap.dart';
 export 'app_error_widget.dart';
 export 'article_cart.dart';
+export 'basic_article_view.dart';
 export 'border_text_button.dart';
 export 'bottom_nav_bar.dart';
 export 'custom_list_tile.dart';
 export 'custom_text_form_field.dart';
+export 'duration_article_cart.dart';
 export 'login_button.dart';
 export 'login_text_form_field.dart';
 export 'no_network_widget.dart';

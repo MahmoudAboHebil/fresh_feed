@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresh_feed/utils/extensions.dart';
+import 'package:fresh_feed/widgets/widgets.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../generated/l10n.dart';
-import '../../widgets/duration_article_cart.dart';
 
 // ToDO: font type
+// ToDO: enhance the images widgets
+// ToDO: creating the loading screen and Refresh button
 
+// note: basic article cart / recommend Article cart/ channel cart
+// there are not article pagination here
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
@@ -58,8 +63,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
             // indicatorPadding: EdgeInsetsGeometry.(bottom: 0, top: 40),
             labelPadding: EdgeInsetsDirectional.only(
-              start: context.setMinSize(16),
-              end: context.setMinSize(16),
+              start: context.setWidth(16),
+              end: context.setWidth(16),
             ),
             tabAlignment: TabAlignment.start,
             overlayColor: WidgetStatePropertyAll(Colors.transparent),
@@ -117,13 +122,50 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 vertical: context.setWidth(10),
                 horizontal: context.setHeight(15),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  DurationArticleCarts(
-                    data: articleCartData,
-                  )
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DurationArticleCarts(
+                      data: articleCartData,
+                    ),
+                    Gap(context.setHeight(15)),
+                    // Popular News
+                    Padding(
+                      padding: EdgeInsetsDirectional.symmetric(
+                          horizontal: context.setMinSize(10),
+                          vertical: context.setMinSize(15)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Popular News',
+                            style: TextStyle(
+                                color: context.textTheme.bodyLarge?.color
+                                    ?.withOpacity(0.9),
+                                fontSize: context.setSp(16),
+                                fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            'See all',
+                            style: TextStyle(
+                                color: context.colorScheme.tertiary
+                                    .withOpacity(0.9),
+                                fontSize: context.setSp(14)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ...List.generate(
+                      4,
+                      (index) => Padding(
+                        padding: EdgeInsetsDirectional.only(
+                            bottom: context.setHeight(14)),
+                        child: BasicArticleView(),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Icon(Icons.directions_transit),

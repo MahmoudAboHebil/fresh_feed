@@ -65,7 +65,7 @@ class AnimatedBottomNavTap extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(activeTapIcon,
-                color: textColor, size: context.setMinSize(iconSize)),
+                color: textColor, size: context.setSp(iconSize)),
             AnimatedSize(
               duration: const Duration(milliseconds: 650),
               curve: Curves.easeOutQuart,

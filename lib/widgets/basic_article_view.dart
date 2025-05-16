@@ -17,11 +17,10 @@ class BasicArticleView extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            spreadRadius: 0.5,
-            blurRadius: 3,
-            offset: Offset(1, 1),
-          ),
+              color: Colors.black.withOpacity(0.08),
+              spreadRadius: 4,
+              blurRadius: 8,
+              offset: Offset(0, 0)),
         ],
         color: context.colorScheme.secondary,
         borderRadius: BorderRadius.circular(context.setSp(10)),
@@ -30,11 +29,11 @@ class BasicArticleView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: context.setWidth(80),
-                width: context.setWidth(120),
+                height: context.setWidth(85),
+                width: context.setWidth(125),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(context.setMinSize(10)),
                   image: DecorationImage(
@@ -52,7 +51,7 @@ class BasicArticleView extends StatelessWidget {
                   children: [
                     Text(
                       'Kasehatan Paus Fransisku dsadfsdf',
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
@@ -70,13 +69,18 @@ class BasicArticleView extends StatelessWidget {
               )
             ],
           ),
-          Gap(context.setHeight(10)),
+          Gap(context.setHeight(5)),
+          Divider(
+            thickness: 1,
+          ),
+          Gap(context.setHeight(3)),
           Row(
             children: [
               Container(
-                height: context.setHeight(21),
-                width: context.setHeight(35),
-                decoration: BoxDecoration(color: Colors.red
+                height: context.setWidth(21),
+                width: context.setWidth(35),
+                decoration: BoxDecoration(
+                    color: Colors.red, borderRadius: BorderRadius.circular(4)
                     // image: DecorationImage(
                     //   fit: BoxFit.cover,
                     //   image: NetworkImage(

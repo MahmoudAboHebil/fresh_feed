@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/utils/extensions.dart';
+import 'package:fresh_feed/utils/general_functions.dart';
 import 'package:gap/gap.dart';
 
 class ArticleCart extends StatelessWidget {
-  const ArticleCart({super.key, required this.image});
-  final String image;
+  const ArticleCart({super.key, required this.article});
+  final Article article;
 
   @override
   Widget build(BuildContext context) {
+    final functions = GeneralFunctions(context);
     return InkWell(
       onTap: () {},
       overlayColor: WidgetStateProperty.all(Colors.transparent),
@@ -19,7 +22,7 @@ class ArticleCart extends StatelessWidget {
           borderRadius: BorderRadius.circular(context.setWidth(12)),
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: NetworkImage(image),
+            image: NetworkImage(article.urlToImage!),
           ),
         ),
         child: Stack(
@@ -57,7 +60,7 @@ class ArticleCart extends StatelessWidget {
                             BorderRadius.circular(context.setWidth(6)),
                         color: context.colorScheme.primary),
                     child: Text(
-                      'Topstory',
+                      article.source?.name ?? "",
                       style: TextStyle(
                           color: Colors.white, fontSize: context.setSp(12)),
                     ),
@@ -66,7 +69,9 @@ class ArticleCart extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'istana pastikan Danauntara siapkan investasi di bidang teknologi',
+                        article.title!,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
                         style: TextStyle(
                             color: Colors.white, fontSize: context.setSp(15)),
                       ),
@@ -80,7 +85,7 @@ class ArticleCart extends StatelessWidget {
                           ),
                           Gap(context.setWidth(10)),
                           Text(
-                            '1 day ago',
+                            functions.timeAgo(article.publishedAt!),
                             style: TextStyle(
                               fontSize: context.setSp(12),
                               color: Colors.white,

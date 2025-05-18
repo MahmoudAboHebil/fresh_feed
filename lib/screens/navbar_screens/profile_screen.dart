@@ -352,6 +352,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       color: context.colorScheme.onPrimary,
                       backgroundColor: context.colorScheme.primary,
                       callback: () async {
+                        ref.invalidate(forYouScreenDataProvider);
+
                         context.goNamed(RouteName.signIn);
 
                         await Future.delayed(Duration.zero, () async {

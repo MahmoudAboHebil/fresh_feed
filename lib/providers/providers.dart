@@ -1,5 +1,6 @@
 export 'article_comment_provider.dart';
 export 'article_view_provider.dart';
+export 'for_you_data_provider.dart';
 export 'language_provider.dart';
 export 'nav_bar_provider.dart';
 export 'network_inf_provider.dart';

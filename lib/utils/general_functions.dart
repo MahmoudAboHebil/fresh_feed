@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -11,6 +12,41 @@ class GeneralFunctions {
   final BuildContext context;
 
   const GeneralFunctions(this.context);
+
+  static List<T> getRandomItems<T>(List<T> originalList, int count) {
+    final random = Random();
+
+    // Make a copy of the list to avoid modifying the original
+    final listCopy = List<T>.from(originalList);
+
+    // Shuffle the copy
+    listCopy.shuffle(random);
+
+    // Take up to `count` items
+    return listCopy.take(count).toList();
+  }
+
+  String timeAgo(String dateTimeString) {
+    final dateTime = DateTime.parse(dateTimeString).toLocal();
+    final now = DateTime.now();
+    final difference = now.difference(dateTime);
+
+    if (difference.inSeconds < 60) {
+      return '${difference.inSeconds} seconds ago';
+    } else if (difference.inMinutes < 60) {
+      return '${difference.inMinutes} minutes ago';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours} hours ago';
+    } else if (difference.inDays < 7) {
+      return '${difference.inDays} days ago';
+    } else if (difference.inDays < 30) {
+      return '${(difference.inDays / 7).floor()} weeks ago';
+    } else if (difference.inDays < 365) {
+      return '${(difference.inDays / 30).floor()} months ago';
+    } else {
+      return '${(difference.inDays / 365).floor()} years ago';
+    }
+  }
 
   String? emailValidator(String? value) {
     if (value == null || value.isEmpty) {

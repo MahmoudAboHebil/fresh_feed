@@ -80,6 +80,8 @@ class _ShellScreenState extends ConsumerState<ShellScreen> {
         print(
             'userListenerProvider (SignInUp) about user followed-channels=====> shell');
         await userFollowedChannelsProv.loadDataIfStateIsNull(now?.uid);
+        final dataProv =
+            ref.read(forYouScreenDataProvider.notifier).clearData();
       } catch (e) {
         print(e);
       }

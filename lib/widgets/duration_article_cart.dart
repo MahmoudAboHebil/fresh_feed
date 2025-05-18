@@ -5,13 +5,15 @@ import 'package:fresh_feed/utils/extensions.dart';
 import 'package:fresh_feed/widgets/article_cart.dart';
 import 'package:gap/gap.dart';
 
+import '../data/models/news_models/news_article.dart';
+
 class DurationArticleCarts extends StatefulWidget {
   const DurationArticleCarts({
     super.key,
-    required this.data,
+    required this.articles,
     this.duration = const Duration(milliseconds: 500),
   });
-  final List<Map<String, String>> data;
+  final List<Article> articles;
   final Duration duration;
 
   @override
@@ -27,7 +29,7 @@ class _DurationArticleCartsState extends State<DurationArticleCarts> {
   @override
   void initState() {
     super.initState();
-    _totalPages = widget.data.length;
+    _totalPages = widget.articles.isEmpty ? 5 : widget.articles.length;
     _startAutoScroll();
   }
 
@@ -79,9 +81,9 @@ class _DurationArticleCartsState extends State<DurationArticleCarts> {
                 });
               },
               children: List.generate(
-                widget.data.length,
+                widget.articles.length,
                 (index) {
-                  return ArticleCart(image: widget.data[index]["image"]!);
+                  return ArticleCart(article: widget.articles[index]);
                 },
               )),
         ),

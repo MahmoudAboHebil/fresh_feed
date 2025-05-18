@@ -37,6 +37,32 @@ class NewsApiRepository {
     }
   }
 
+  Future<List<Article>> fetchFullTopHeadlinesArticles({
+    int count = 5,
+    NewsCountry? country = NewsCountry.us,
+    Language? language = Language.en,
+    NewsCategory? category,
+    String? query,
+    List<String>? sources,
+  }) async {
+    try {
+      final articleResponse = await _dataSource.fetchFullTopHeadlinesArticles(
+        language: language,
+        category: category,
+        country: country,
+        query: query,
+        sources: sources,
+      );
+      return articleResponse.map((art) => Article.fromJson(art)).toList();
+    } catch (e) {
+      throw FreshFeedException(
+        message: 'Oops! Something went wrong. Please try again later',
+        methodInFile: 'fetchFullTopHeadlinesArticles()/NewsApiRepository',
+        details: e.toString(),
+      );
+    }
+  }
+
   Future<ArticleResponse> fetchEverything({
     String? query,
     String? from,

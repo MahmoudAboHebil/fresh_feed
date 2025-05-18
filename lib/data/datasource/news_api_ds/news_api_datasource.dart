@@ -70,6 +70,56 @@ class NewsApiDataSource {
     }
   }
 
+  // this method to get full specific numbers  of article details
+  Future<List<Map<String, dynamic>>> fetchFullTopHeadlinesArticles({
+    int count = 5,
+    NewsCountry? country = NewsCountry.us,
+    Language? language = Language.en,
+    NewsCategory? category,
+    String? query,
+    List<String>? sources,
+  }) async {
+    List<Map<String, dynamic>> collectedArticles = [];
+    int allCount = 15 + count;
+    int page = 1;
+    const int pageSize = 20;
+
+    while (collectedArticles.length < allCount) {
+      final Map<String, dynamic> result = await fetchTopHeadlines(
+        country: country,
+        language: language,
+        category: category,
+        query: query,
+        pageSize: pageSize,
+        page: page,
+        sources: sources,
+      );
+
+      final List<dynamic> articles = result['articles'] ?? [];
+
+      for (var article in articles) {
+        if (article is Map<String, dynamic> &&
+            article['title'] != null &&
+            article['source']['name'] != null &&
+            article['content'] != null &&
+            article['urlToImage'] != null &&
+            article['publishedAt'] != null &&
+            article['description'] != null) {
+          collectedArticles.add(article);
+        }
+
+        if (collectedArticles.length == allCount) break;
+      }
+
+      if (articles.isEmpty || page >= 8) break;
+      page++;
+    }
+
+    final list = GeneralFunctions.getRandomItems(collectedArticles, count);
+    print('xxxxxxxxxxxxxxxxxxx${list.length}');
+    return list;
+  }
+
   //This endpoint suits article discovery and analysis.
   Future<Map<String, dynamic>> fetchEverything({
     String? query,

@@ -122,18 +122,18 @@ class ArticleComp extends ConsumerStatefulWidget {
 class _ArticleCompState extends ConsumerState<ArticleComp> {
   @override
   Widget build(BuildContext context) {
-    final isExist = ref
-            .watch(articleViewNotifierProvider)
-            ?.any((mode) => mode.articleId == widget.articleID) ??
-        false;
-    final viewModel = isExist
-        ? ref
-            .watch(articleViewNotifierProvider)
-            ?.firstWhere((mode) => mode.articleId == widget.articleID)
-        : null;
+    // final isExist = ref
+    //         .watch(articleViewNotifierProvider)
+    //         ?.any((mode) => mode.articleId == widget.articleID) ??
+    //     false;
+    // final viewModel = isExist
+    //     ? ref
+    //         .watch(articleViewNotifierProvider)
+    //         ?.firstWhere((mode) => mode.articleId == widget.articleID)
+    //     : null;
     return Column(
       children: [
-        Text(viewModel.toString()),
+        // Text(viewModel.toString()),
         const SizedBox(
           height: 10,
         ),
@@ -145,7 +145,9 @@ class _ArticleCompState extends ConsumerState<ArticleComp> {
               final viewNotifier =
                   ref.read(articleViewNotifierProvider.notifier);
               await viewNotifier.addArticleView(
-                  widget.articleID, widget.userId, viewModel);
+                widget.articleID,
+                widget.userId,
+              );
             } catch (e) {
               AppAlerts.displaySnackBar(e.toString(), context);
             }

@@ -6,3 +6,4 @@ export 'navbar_screens/navbar_screens.dart';
 export 'shell_screen.dart';
 export 'splash_screen.dart';
 export 'user_screen.dart';
+export 'web_view_article_page.dart';

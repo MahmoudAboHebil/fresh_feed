@@ -55,7 +55,13 @@ class NewsApiDataSource {
       }
       final uri =
           Uri.parse(topHeadBaseUrl).replace(queryParameters: queryParams);
+
       final response = await http.get(uri);
+      if (query != null) {
+        print('///////////////////');
+        print(query);
+        print(uri);
+      }
       if (response.statusCode == 200) {
         print('ok=================================> ');
 
@@ -117,6 +123,10 @@ class NewsApiDataSource {
     }
 
     final list = GeneralFunctions.getRandomItems(collectedArticles, count);
+    if (query != null) {
+      print('sssssssssssssssssssssssssssssssss');
+      print(list);
+    }
     return list;
   }
 

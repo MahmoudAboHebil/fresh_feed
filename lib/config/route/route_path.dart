@@ -9,6 +9,7 @@ class RoutePath {
   static String get articlePage => '/article_page';
   static String get createAccount => '/create_account';
   static String get forgotPassword => '/forgot_password';
+  static String get webViewArticlePage => '/web_view_article_page';
   static String get splashScreen => '/splash_screen';
   static String get followedChannels => '/profile/followed_channels';
   static String get aboutUS => '/profile/about_us';

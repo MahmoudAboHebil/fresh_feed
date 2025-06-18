@@ -163,6 +163,19 @@ final appRoute = [
     },
   ),
   GoRoute(
+    name: RouteName.webViewArticlePage,
+    path: RoutePath.webViewArticlePage,
+    pageBuilder: (context, state) {
+      final myArticle = state.extra as Article;
+      return NoTransitionPage(
+        name: state.fullPath,
+        child: WebViewArticlePage(
+          article: myArticle,
+        ),
+      );
+    },
+  ),
+  GoRoute(
     name: RouteName.splashScreen,
     path: RoutePath.splashScreen,
     pageBuilder: (context, state) {

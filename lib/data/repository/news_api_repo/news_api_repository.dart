@@ -56,6 +56,7 @@ class NewsApiRepository {
         query: query,
         sources: sources,
       );
+
       return articleResponse.map((art) => Article.fromJson(art)).toList();
     } catch (e) {
       throw FreshFeedException(

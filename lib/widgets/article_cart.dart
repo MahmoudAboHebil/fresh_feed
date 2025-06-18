@@ -89,14 +89,17 @@ class ArticleCart extends StatelessWidget {
                             size: context.setWidth(20),
                           ),
                           Gap(context.setWidth(10)),
-                          Text(
-                            functions.timeAgo(article.publishedAt!),
-                            style: TextStyle(
-                              fontSize: context.setSp(12),
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          )
+                          article.publishedAt != null
+                              ? Text(
+                                  GeneralFunctions.timeAgo(
+                                      article.publishedAt!),
+                                  style: TextStyle(
+                                    fontSize: context.setSp(12),
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
+                              : SizedBox()
                         ],
                       )
                     ],

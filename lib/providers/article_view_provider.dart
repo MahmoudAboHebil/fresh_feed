@@ -100,14 +100,13 @@ class ArticleViewNotifier extends Notifier<List<ViewModel>?> {
       } else {
         state = [...views];
       }
-      return views;
+      return state ?? [];
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<void> addArticleView(
-      String articleId, String userId, ViewModel? oldModel) async {
+  Future<void> addArticleView(String articleId, String userId) async {
     /*
 
       if state is is not include this user view model
@@ -120,6 +119,12 @@ class ArticleViewNotifier extends Notifier<List<ViewModel>?> {
       why i am using oldModel argument
      */
     try {
+      final isExist =
+          state?.any((mode) => mode.articleId == articleId) ?? false;
+      final oldView = isExist
+          ? state?.firstWhere((mode) => mode.articleId == articleId)
+          : null;
+
       final viewProv = ref.read(articleViewRepoProvider);
       final isArticleExist =
           state?.any((mod) => mod.articleId == articleId) ?? false;
@@ -138,10 +143,10 @@ class ArticleViewNotifier extends Notifier<List<ViewModel>?> {
       await viewProv.addArticleView(articleId, userId);
 
       if (state == null) {
-        if (oldModel != null) {
+        if (oldView != null) {
           state = [
             ViewModel(
-                articleId: articleId, usersId: [...oldModel.usersId, userId])
+                articleId: articleId, usersId: [...oldView.usersId, userId])
           ];
         } else {
           final model = await viewProv.getArticlesViews(articleId);
@@ -150,11 +155,11 @@ class ArticleViewNotifier extends Notifier<List<ViewModel>?> {
         return;
       }
 
-      if (oldModel != null) {
+      if (oldView != null) {
         final excludeList =
-            state!.where((mod) => mod.articleId != oldModel.articleId).toList();
+            state!.where((mod) => mod.articleId != oldView.articleId).toList();
         final newModel = ViewModel(
-            articleId: articleId, usersId: [...oldModel.usersId, userId]);
+            articleId: articleId, usersId: [...oldView.usersId, userId]);
         state = [...excludeList, newModel];
         return;
       }

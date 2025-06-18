@@ -236,13 +236,10 @@ class _HomeContentScreenState extends ConsumerState<ForYouContent> {
 
          */
       },
-      error: (error, stack) {
-        return Container(
-          height: 50,
-          width: 50,
-          color: Colors.red,
-        );
-      },
+      error: (error, stackTrace) => const AppErrorWidget(
+        buttonText: null,
+        callBack: null,
+      ),
       loading: () => CircularProgressIndicator(),
     );
   }

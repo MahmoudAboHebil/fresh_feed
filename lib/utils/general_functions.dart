@@ -26,7 +26,39 @@ class GeneralFunctions {
     return listCopy.take(count).toList();
   }
 
-  String timeAgo(String dateTimeString) {
+  static String buildNewsQuery(String title) {
+    // Common stopwords to skip
+    final stopwords = {
+      'the',
+      'is',
+      'in',
+      'at',
+      'on',
+      'a',
+      'an',
+      'to',
+      'of',
+      'and',
+      'for'
+    };
+
+    // Split the title into words
+    final words = title
+        .toLowerCase()
+        .split(RegExp(r'\W+'))
+        .where((w) => w.isNotEmpty && !stopwords.contains(w))
+        .toList();
+
+    // Recombine important keywords into query terms
+    var queryTerms =
+        words.take(6).map((w) => w).toList(); // Limit to top 6 words
+    queryTerms = getRandomItems(queryTerms, 2);
+
+    final queryString = queryTerms.join(' ');
+    return queryString;
+  }
+
+  static String timeAgo(String dateTimeString) {
     final dateTime = DateTime.parse(dateTimeString).toLocal();
     final now = DateTime.now();
     final difference = now.difference(dateTime);

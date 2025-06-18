@@ -150,6 +150,19 @@ final appRoute = [
     },
   ),
   GoRoute(
+    name: RouteName.articlePage,
+    path: RoutePath.articlePage,
+    pageBuilder: (context, state) {
+      final myArticle = state.extra as Article;
+      return NoTransitionPage(
+        name: state.fullPath,
+        child: ArticlePage(
+          article: myArticle,
+        ),
+      );
+    },
+  ),
+  GoRoute(
     name: RouteName.splashScreen,
     path: RoutePath.splashScreen,
     pageBuilder: (context, state) {

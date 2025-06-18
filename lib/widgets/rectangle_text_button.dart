@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fresh_feed/utils/utlis.dart';
+import 'package:gap/gap.dart';
 
 class RectangleTextButton extends StatefulWidget {
   const RectangleTextButton({
@@ -7,15 +8,21 @@ class RectangleTextButton extends StatefulWidget {
     this.color,
     this.fontSize = 14,
     this.enable = true,
+    this.expanded = true,
+    this.icon,
     this.verticalPadding = 9.0,
+    this.horizontalPadding = 15.0,
     required this.backgroundColor,
     required this.callback,
     super.key,
   });
   final String text;
   final Color? color;
+  final bool expanded;
   final bool enable;
+  final Widget? icon;
   final double? verticalPadding;
+  final double horizontalPadding;
   final double? fontSize;
   final Color backgroundColor;
   final Function callback;
@@ -34,11 +41,11 @@ class _RectangleTextButtonState extends State<RectangleTextButton> {
         ? widget.backgroundColor
         : widget.backgroundColor.withOpacity(0.7);
     return SizedBox(
-      width: context.screenWidth,
+      width: widget.expanded ? context.screenWidth : null,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             padding: EdgeInsetsDirectional.symmetric(
-                horizontal: context.setMinSize(15),
+                horizontal: context.setMinSize(widget.horizontalPadding),
                 vertical: context.setMinSize(widget.verticalPadding!)),
             minimumSize: const Size(0, 0),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -52,13 +59,21 @@ class _RectangleTextButtonState extends State<RectangleTextButton> {
           children: [
             Opacity(
               opacity: isLoading ? 0.0 : 1.0,
-              child: Text(
-                widget.text,
-                style: TextStyle(
-                  color: color,
-                  fontWeight: FontWeight.bold,
-                  fontSize: context.setSp(widget.fontSize!),
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.text,
+                    style: TextStyle(
+                      color: color,
+                      fontWeight: FontWeight.bold,
+                      fontSize: context.setSp(widget.fontSize!),
+                    ),
+                  ),
+                  Gap(context.setWidth(8)),
+                  widget.icon ?? SizedBox(),
+                ],
               ),
             ),
             Opacity(

@@ -78,7 +78,7 @@ class UserFollowedChannelsNotifier extends Notifier<List<String>?> {
   }
 
   // testing loadDataIfStateIsNull() is done
-  Future<void> loadDataIfStateIsNull(String? userUid) async {
+  Future<List<String>?> loadDataIfStateIsNull(String? userUid) async {
     try {
       if (userUid != null) {
         if (state == null) {
@@ -88,6 +88,7 @@ class UserFollowedChannelsNotifier extends Notifier<List<String>?> {
         state = null;
       }
       print('FollowedChannels state: $state');
+      return state;
     } catch (e) {
       state = null;
       rethrow;

@@ -73,6 +73,7 @@ class NewsApiDataSource {
   // this method to get full specific numbers  of article details
   Future<List<Map<String, dynamic>>> fetchFullTopHeadlinesArticles({
     int count = 5,
+    int countWidth = 10,
     NewsCountry? country = NewsCountry.us,
     Language? language = Language.en,
     NewsCategory? category,
@@ -80,7 +81,7 @@ class NewsApiDataSource {
     List<String>? sources,
   }) async {
     List<Map<String, dynamic>> collectedArticles = [];
-    int allCount = 15 + count;
+    int allCount = countWidth + count;
     int page = 1;
     const int pageSize = 20;
 
@@ -111,12 +112,11 @@ class NewsApiDataSource {
         if (collectedArticles.length == allCount) break;
       }
 
-      if (articles.isEmpty || page >= 8) break;
+      if (articles.isEmpty || page >= 10) break;
       page++;
     }
 
     final list = GeneralFunctions.getRandomItems(collectedArticles, count);
-    print('xxxxxxxxxxxxxxxxxxx${list.length}');
     return list;
   }
 

@@ -3,6 +3,9 @@ import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/utils/extensions.dart';
 import 'package:fresh_feed/utils/general_functions.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+
+import '../config/route/route_name.dart';
 
 class ArticleCart extends StatelessWidget {
   const ArticleCart({super.key, required this.article});
@@ -12,7 +15,9 @@ class ArticleCart extends StatelessWidget {
   Widget build(BuildContext context) {
     final functions = GeneralFunctions(context);
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        context.pushNamed(RouteName.articlePage, extra: article);
+      },
       overlayColor: WidgetStateProperty.all(Colors.transparent),
       child: Container(
         height: context.setWidth(205),

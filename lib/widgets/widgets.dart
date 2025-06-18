@@ -1,6 +1,7 @@
 export 'animated_bottom_nav_tap.dart';
 export 'app_error_widget.dart';
 export 'article_cart.dart';
+export 'article_page_cart.dart';
 export 'basic_article_view.dart';
 export 'border_text_button.dart';
 export 'bottom_nav_bar.dart';

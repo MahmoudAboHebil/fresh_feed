@@ -39,6 +39,7 @@ class NewsApiRepository {
 
   Future<List<Article>> fetchFullTopHeadlinesArticles({
     int count = 5,
+    int countWidth = 10,
     NewsCountry? country = NewsCountry.us,
     Language? language = Language.en,
     NewsCategory? category,
@@ -50,6 +51,8 @@ class NewsApiRepository {
         language: language,
         category: category,
         country: country,
+        count: count,
+        countWidth: countWidth,
         query: query,
         sources: sources,
       );

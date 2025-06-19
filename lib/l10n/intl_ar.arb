@@ -82,6 +82,13 @@
   "Health": "صحة",
   "Technology": "تكنولوجيا",
   "Entertainment": "ترفيه",
+  "SelectFontSize": "اختر حجم الخط",
+  "ExtraSmall": "صغير جدًا",
+  "Small": "صغير",
+  "Medium": "متوسط",
+  "Large": "كبير",
+  "ExtraLarge": "كبير جدًا",
+
   "SeeAll": "عرض الكل"
 
 

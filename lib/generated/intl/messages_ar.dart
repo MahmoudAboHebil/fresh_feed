@@ -40,6 +40,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "English": MessageLookupByLibrary.simpleMessage("الإنجليزية"),
     "Entertainment": MessageLookupByLibrary.simpleMessage("ترفيه"),
+    "ExtraLarge": MessageLookupByLibrary.simpleMessage("كبير جدًا"),
+    "ExtraSmall": MessageLookupByLibrary.simpleMessage("صغير جدًا"),
     "FollowedChannels": MessageLookupByLibrary.simpleMessage(
       "القنوات المتابعة",
     ),
@@ -49,8 +51,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "Health": MessageLookupByLibrary.simpleMessage("صحة"),
     "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
     "Language": MessageLookupByLibrary.simpleMessage("اللغة"),
+    "Large": MessageLookupByLibrary.simpleMessage("كبير"),
     "LightMode": MessageLookupByLibrary.simpleMessage("الوضع الفاتح"),
     "LogOut": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
+    "Medium": MessageLookupByLibrary.simpleMessage("متوسط"),
     "PasswordMustBAtLeast8": MessageLookupByLibrary.simpleMessage(
       "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
     ),
@@ -72,12 +76,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "Profile": MessageLookupByLibrary.simpleMessage("الملف الشخصي"),
     "SearchCountry": MessageLookupByLibrary.simpleMessage("البحث عن دولة"),
     "SeeAll": MessageLookupByLibrary.simpleMessage("عرض الكل"),
+    "SelectFontSize": MessageLookupByLibrary.simpleMessage("اختر حجم الخط"),
     "SelectImageSource": MessageLookupByLibrary.simpleMessage(
       "اختر مصدر الصورة",
     ),
     "SendEmailVerify": MessageLookupByLibrary.simpleMessage(
       "تم إرسال رابط التحقق إلى بريدك الإلكتروني",
     ),
+    "Small": MessageLookupByLibrary.simpleMessage("صغير"),
     "Spanish": MessageLookupByLibrary.simpleMessage("الإسبانية"),
     "Sports": MessageLookupByLibrary.simpleMessage("رياضة"),
     "SystemMode": MessageLookupByLibrary.simpleMessage("وضع النظام"),

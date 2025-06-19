@@ -3,6 +3,7 @@ export 'app_exception.dart';
 export 'auth_provider_type.dart';
 export 'device_utils.dart';
 export 'extensions.dart';
+export 'font_size.dart';
 export 'general_functions.dart';
 export 'languages.dart';
 export 'navbar_item.dart';

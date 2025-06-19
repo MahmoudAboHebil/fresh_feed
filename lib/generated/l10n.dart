@@ -700,6 +700,41 @@ class S {
     );
   }
 
+  /// `Select Font Size`
+  String get SelectFontSize {
+    return Intl.message(
+      'Select Font Size',
+      name: 'SelectFontSize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extra Small`
+  String get ExtraSmall {
+    return Intl.message('Extra Small', name: 'ExtraSmall', desc: '', args: []);
+  }
+
+  /// `Small`
+  String get Small {
+    return Intl.message('Small', name: 'Small', desc: '', args: []);
+  }
+
+  /// `Medium`
+  String get Medium {
+    return Intl.message('Medium', name: 'Medium', desc: '', args: []);
+  }
+
+  /// `Large`
+  String get Large {
+    return Intl.message('Large', name: 'Large', desc: '', args: []);
+  }
+
+  /// `Extra Large`
+  String get ExtraLarge {
+    return Intl.message('Extra Large', name: 'ExtraLarge', desc: '', args: []);
+  }
+
   /// `See all`
   String get SeeAll {
     return Intl.message('See all', name: 'SeeAll', desc: '', args: []);

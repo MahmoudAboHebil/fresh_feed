@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fresh_feed/data/data.dart';
 import 'package:fresh_feed/loading_components/loading_components.dart';
+import 'package:fresh_feed/providers/font_size_provider.dart';
 import 'package:fresh_feed/utils/extensions.dart';
 import 'package:fresh_feed/utils/general_functions.dart';
 import 'package:fresh_feed/widgets/article_page_cart.dart';
@@ -14,6 +15,7 @@ import '../config/route/route_name.dart';
 import '../providers/article_view_provider.dart';
 import '../providers/user_provider.dart';
 import '../utils/app_alerts.dart';
+import '../utils/font_size.dart';
 
 class FollowIconButton extends StatefulWidget {
   const FollowIconButton({super.key});
@@ -22,6 +24,7 @@ class FollowIconButton extends StatefulWidget {
   State<FollowIconButton> createState() => _FollowIconButtonState();
 }
 
+/// todo: you need handling lost network connection
 class _FollowIconButtonState extends State<FollowIconButton> {
   bool isActive = false;
   @override
@@ -96,6 +99,7 @@ class _ArticlePageState extends ConsumerState<ArticlePage> {
 
   @override
   Widget build(BuildContext context) {
+    final fontValue = ref.watch(fontSizeProvider);
     final isExist = ref
             .watch(articleViewNotifierProvider)
             ?.any((mode) => mode.articleId == widget.article.id) ??
@@ -131,8 +135,9 @@ class _ArticlePageState extends ConsumerState<ArticlePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
+                      alignment: Alignment.center,
                       height: context.setWidth(220),
-                      width: context.setWidth(420),
+                      width: context.screenWidth,
                       // width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius:
@@ -237,28 +242,66 @@ class _ArticlePageState extends ConsumerState<ArticlePage> {
                             ),
                           ],
                         ),
-                        Column(
-                          children: [
-                            Icon(
-                              Icons.text_fields_outlined,
-                              size: context.setSp(22),
-                            ),
-                            Text(
-                              'Text size',
-                              style: TextStyle(
-                                fontSize: context.setSp(12),
+                        InkWell(
+                          onTap: () {
+                            final fontProv =
+                                ref.read(fontSizeProvider.notifier);
+
+                            AppAlerts.displayTextSizing(
+                                context,
+                                ref.read(fontSizeProvider).value ??
+                                    FontSize.medium, (font) async {
+                              try {
+                                await fontProv.toggleFontSize(font);
+                              } catch (e) {
+                                AppAlerts.displaySnackBar(
+                                    e.toString(), context);
+                              }
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.text_fields_outlined,
+                                size: context.setSp(22),
                               ),
-                            ),
-                          ],
+                              Text(
+                                'Text size',
+                                style: TextStyle(
+                                  fontSize: context.setSp(12),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                     Gap(context.setHeight(20)),
-                    Text(
-                      widget.article.content ?? '',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: context.setSp(15)),
+                    fontValue.when(
+                      data: (data) {
+                        return Text(
+                          widget.article.content ?? '',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: context.setSp(data.size)),
+                        );
+                      },
+                      error: (e, stc) {
+                        return Text(
+                          widget.article.content ?? '',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: context.setSp(15)),
+                        );
+                      },
+                      loading: () {
+                        return Text(
+                          widget.article.content ?? '',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: context.setSp(15)),
+                        );
+                      },
                     ),
                     Gap(context.setHeight(18)),
                     Row(
@@ -304,7 +347,7 @@ class _ArticlePageState extends ConsumerState<ArticlePage> {
                     Gap(context.setHeight(12)),
                     relatedArticles.isNotEmpty
                         ? Container(
-                            height: context.setSp(285),
+                            height: context.setSp(288),
                             child: ListView.builder(
                               shrinkWrap: true,
                               itemBuilder: (context, index) {

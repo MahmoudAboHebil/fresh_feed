@@ -82,6 +82,12 @@
   "Health": "Salud",
   "Technology": "Tecnología",
   "Entertainment": "Entretenimiento",
+  "SelectFontSize": "Seleccionar tamaño de fuente",
+  "ExtraSmall": "Extra pequeño",
+  "Small": "Pequeño",
+  "Medium": "Mediano",
+  "Large": "Grande",
+  "ExtraLarge": "Extra grande",
   "SeeAll": "Ver todo"
 
 

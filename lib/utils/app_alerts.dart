@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fresh_feed/utils/font_size.dart';
 import 'package:fresh_feed/utils/general_functions.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -243,6 +244,166 @@ class AppAlerts {
                     color: context.colorScheme.primary,
                     fontWeight: FontWeight.w600,
                     fontSize: context.setSp(15)),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  static void displayTextSizing(BuildContext context, FontSize initialFontSize,
+      Function(FontSize font) callBack) {
+    int selectedFontIndex = initialFontSize.index;
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          contentPadding: const EdgeInsetsDirectional.only(
+            top: 15,
+            bottom: 5,
+            start: 30,
+            end: 30,
+          ),
+          actionsPadding: const EdgeInsetsDirectional.only(
+            top: 0,
+            bottom: 10,
+            start: 15,
+            end: 15,
+          ),
+          title: Text(
+            S.of(context).SelectFontSize,
+            style: GoogleFonts.inter(
+              fontSize: context.setSp(22),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          backgroundColor: context.colorScheme.secondary,
+          content: StatefulBuilder(builder: (context, setDialogState) {
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RadioListTile(
+                    title: Text(
+                      S.of(context).ExtraSmall,
+                      style: TextStyle(
+                          color: context.textTheme.bodyLarge?.color,
+                          fontSize: context.setSp(17)),
+                    ),
+                    value: FontSize.extraSmall.index,
+                    groupValue: selectedFontIndex,
+                    activeColor: context.colorScheme.primary,
+                    onChanged: (value) {
+                      setDialogState(() {
+                        selectedFontIndex = value!;
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(
+                      S.of(context).Small,
+                      style: TextStyle(
+                          color: context.textTheme.bodyLarge?.color,
+                          fontSize: context.setSp(17)),
+                    ),
+                    value: FontSize.small.index,
+                    groupValue: selectedFontIndex,
+                    activeColor: context.colorScheme.primary,
+                    onChanged: (value) {
+                      setDialogState(() {
+                        selectedFontIndex = value!;
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(
+                      S.of(context).Medium,
+                      style: TextStyle(
+                          color: context.textTheme.bodyLarge?.color,
+                          fontSize: context.setSp(17)),
+                    ),
+                    value: FontSize.medium.index,
+                    groupValue: selectedFontIndex,
+                    activeColor: context.colorScheme.primary,
+                    onChanged: (value) {
+                      setDialogState(() {
+                        selectedFontIndex = value!;
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(
+                      S.of(context).Large,
+                      style: TextStyle(
+                          color: context.textTheme.bodyLarge?.color,
+                          fontSize: context.setSp(17)),
+                    ),
+                    value: FontSize.large.index,
+                    groupValue: selectedFontIndex,
+                    activeColor: context.colorScheme.primary,
+                    onChanged: (value) {
+                      setDialogState(() {
+                        selectedFontIndex = value!;
+                      });
+                    },
+                  ),
+                  RadioListTile(
+                    title: Text(
+                      S.of(context).ExtraLarge,
+                      style: TextStyle(
+                          color: context.textTheme.bodyLarge?.color,
+                          fontSize: context.setSp(17)),
+                    ),
+                    value: FontSize.extraLarger.index,
+                    groupValue: selectedFontIndex,
+                    activeColor: context.colorScheme.primary,
+                    onChanged: (value) {
+                      setDialogState(() {
+                        selectedFontIndex = value!;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            );
+          }),
+          actions: [
+            TextButton(
+              onPressed: () {
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
+              },
+              child: Text(
+                S.of(context).Cancel,
+                style: GoogleFonts.inter(
+                    color: context.colorScheme.primary,
+                    fontWeight: FontWeight.w600,
+                    fontSize: context.setSp(14)),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                await callBack(FontSize.values[selectedFontIndex]);
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
+              },
+              child: Container(
+                padding: EdgeInsetsDirectional.symmetric(
+                    horizontal: context.setMinSize(14),
+                    vertical: context.setMinSize(6)),
+                decoration: BoxDecoration(
+                    color: context.colorScheme.primary,
+                    borderRadius: BorderRadius.circular(6)),
+                child: Text(
+                  S.of(context).Apply,
+                  style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: context.setSp(14)),
+                ),
               ),
             ),
           ],

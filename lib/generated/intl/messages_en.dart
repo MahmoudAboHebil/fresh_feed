@@ -40,6 +40,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "English": MessageLookupByLibrary.simpleMessage("English"),
     "Entertainment": MessageLookupByLibrary.simpleMessage("Entertainment"),
+    "ExtraLarge": MessageLookupByLibrary.simpleMessage("Extra Large"),
+    "ExtraSmall": MessageLookupByLibrary.simpleMessage("Extra Small"),
     "FollowedChannels": MessageLookupByLibrary.simpleMessage(
       "Followed Channels",
     ),
@@ -49,8 +51,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "Health": MessageLookupByLibrary.simpleMessage("Health"),
     "Home": MessageLookupByLibrary.simpleMessage("Home"),
     "Language": MessageLookupByLibrary.simpleMessage("Language"),
+    "Large": MessageLookupByLibrary.simpleMessage("Large"),
     "LightMode": MessageLookupByLibrary.simpleMessage("Light Mode"),
     "LogOut": MessageLookupByLibrary.simpleMessage("Log Out"),
+    "Medium": MessageLookupByLibrary.simpleMessage("Medium"),
     "PasswordMustBAtLeast8": MessageLookupByLibrary.simpleMessage(
       "Password must be at least 8",
     ),
@@ -74,12 +78,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "Profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "SearchCountry": MessageLookupByLibrary.simpleMessage("Search country"),
     "SeeAll": MessageLookupByLibrary.simpleMessage("See all"),
+    "SelectFontSize": MessageLookupByLibrary.simpleMessage("Select Font Size"),
     "SelectImageSource": MessageLookupByLibrary.simpleMessage(
       "Select Image Source",
     ),
     "SendEmailVerify": MessageLookupByLibrary.simpleMessage(
       "A verification link has been sent to your email",
     ),
+    "Small": MessageLookupByLibrary.simpleMessage("Small"),
     "Spanish": MessageLookupByLibrary.simpleMessage("Spanish"),
     "Sports": MessageLookupByLibrary.simpleMessage("Sports"),
     "SystemMode": MessageLookupByLibrary.simpleMessage("System Mode"),

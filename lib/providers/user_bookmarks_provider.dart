@@ -41,19 +41,25 @@ class UserBookmarksNotifier extends Notifier<List<Article>?> {
   //    toggleBookmarkFromDataBase() will be called at the toggle button
   //testing toggleBookmarksFromState() is done
   void toggleBookmarksFromState(Article article, bool add) {
-    if (state == null) return;
     if (!add) {
+      if (state == null) return;
+
       //remove
       final updateState = state!.where((art) => art.id != article.id).toList();
       state = [...updateState];
     } else {
       //add
-      final isExists = state!.any((art) => art.id == article.id);
+      final isExists = state?.any((art) => art.id == article.id) ?? false;
       if (!isExists) {
-        state = [...state!, article];
+        if (state != null) {
+          state = [...state!, article];
+        } else {
+          state = [article];
+        }
       }
     }
-    print('toggleBookmarksFromState success====================>');
+
+    print('toggleBookmarksFromState success====================>$add');
   }
 
   // you need call this function at the top level of articles

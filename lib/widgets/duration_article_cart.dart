@@ -29,7 +29,7 @@ class _DurationArticleCartsState extends State<DurationArticleCarts> {
   @override
   void initState() {
     super.initState();
-    _totalPages = widget.articles.isEmpty ? 5 : widget.articles.length;
+    _totalPages = widget.articles.isEmpty ? 0 : widget.articles.length;
     _startAutoScroll();
   }
 
@@ -69,6 +69,8 @@ class _DurationArticleCartsState extends State<DurationArticleCarts> {
 
   @override
   Widget build(BuildContext context) {
+    print('ttttttttttt {duration} ${widget.articles.length}');
+
     return Column(
       children: [
         Container(

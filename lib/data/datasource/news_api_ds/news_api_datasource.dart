@@ -57,11 +57,10 @@ class NewsApiDataSource {
           Uri.parse(topHeadBaseUrl).replace(queryParameters: queryParams);
 
       final response = await http.get(uri);
-      if (query != null) {
-        print('///////////////////');
-        print(query);
-        print(uri);
-      }
+
+      print('ssssssssssssssssssssdddddddddddddddd');
+      print(uri);
+
       if (response.statusCode == 200) {
         print('ok=================================> ');
 
@@ -86,48 +85,52 @@ class NewsApiDataSource {
     String? query,
     List<String>? sources,
   }) async {
-    List<Map<String, dynamic>> collectedArticles = [];
-    int allCount = countWidth + count;
-    int page = 1;
-    const int pageSize = 20;
+    try {
+      List<Map<String, dynamic>> collectedArticles = [];
+      int allCount = countWidth + count;
+      int page = 1;
+      const int pageSize = 20;
 
-    while (collectedArticles.length < allCount) {
-      final Map<String, dynamic> result = await fetchTopHeadlines(
-        country: country,
-        language: language,
-        category: category,
-        query: query,
-        pageSize: pageSize,
-        page: page,
-        sources: sources,
-      );
+      while (collectedArticles.length < allCount) {
+        final Map<String, dynamic> result = await fetchTopHeadlines(
+          country: country,
+          language: language,
+          category: category,
+          query: query,
+          pageSize: pageSize,
+          page: page,
+          sources: sources,
+        );
 
-      final List<dynamic> articles = result['articles'] ?? [];
+        final List<dynamic> articles = result['articles'] ?? [];
 
-      for (var article in articles) {
-        if (article is Map<String, dynamic> &&
-            article['title'] != null &&
-            article['source']['name'] != null &&
-            article['content'] != null &&
-            article['urlToImage'] != null &&
-            article['publishedAt'] != null &&
-            article['description'] != null) {
-          collectedArticles.add(article);
+        for (var article in articles) {
+          if (article is Map<String, dynamic> &&
+              article['title'] != null &&
+              article['source']['name'] != null &&
+              article['content'] != null &&
+              article['urlToImage'] != null &&
+              article['publishedAt'] != null &&
+              article['description'] != null) {
+            collectedArticles.add(article);
+          }
+
+          if (collectedArticles.length == allCount) break;
         }
 
-        if (collectedArticles.length == allCount) break;
+        if (articles.isEmpty || page >= 10) break;
+        page++;
       }
 
-      if (articles.isEmpty || page >= 10) break;
-      page++;
+      final list = GeneralFunctions.getRandomItems(collectedArticles, count);
+      if (query != null) {
+        print('sssssssssssssssssssssssssssssssss');
+        print(list);
+      }
+      return list;
+    } catch (e) {
+      rethrow;
     }
-
-    final list = GeneralFunctions.getRandomItems(collectedArticles, count);
-    if (query != null) {
-      print('sssssssssssssssssssssssssssssssss');
-      print(list);
-    }
-    return list;
   }
 
   //This endpoint suits article discovery and analysis.

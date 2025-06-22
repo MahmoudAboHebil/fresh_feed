@@ -1,19 +1,53 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../data/datasource/firebase_ds/firestor_ds_provider.dart';
 import '../data/models/comment_model.dart';
-import '../data/repository/firebase_repo/article_comment_repo_provider.dart';
 
+class ReplayCommentsParams extends Equatable {
+  final String articleId;
+  final String parentId;
+
+  const ReplayCommentsParams({
+    required this.articleId,
+    required this.parentId,
+  });
+
+  @override
+  List<Object> get props => [articleId, parentId];
+}
+
+final articleCommentsProvider = StreamProvider.autoDispose
+    .family<List<CommentModel>, String>((ref, articleId) {
+  final _firestoreDS = ref.watch(firestorDSProvider);
+  return _firestoreDS.streamArticleComments(articleId);
+});
+
+final articleReplayCommentsProvider = StreamProvider.autoDispose
+    .family<List<CommentModel>, ReplayCommentsParams>((
+  ref,
+  replayParams,
+) {
+  final _firestoreDS = ref.watch(firestorDSProvider);
+  return _firestoreDS.streamArticleReplayComments(
+      replayParams.articleId, replayParams.parentId);
+});
+
+/*
 /// is not best practicing  to load all the article that a lot  of them that user
 /// will not use so it can be lead to overloading data .so, i will get each article
 /// comment that user visited it and cashed on this ArticleCommentNotifier provider
 
-/*
+
+
+
+
   Errors scenarios:
   1.Error in getArticlesCommentsWhereInByIds(), getArticleComments(),
     addArticleComment(), deleteArtComment() && updateArtComment()
      i. throw an error to the user
     ii. the state will not be effected
- */
+
 
 class ArticleCommentNotifier extends Notifier<List<Map<String, Object>>?> {
   @override
@@ -166,3 +200,5 @@ final articleCommentProvider =
     NotifierProvider<ArticleCommentNotifier, List<Map<String, Object>>?>(() {
   return ArticleCommentNotifier();
 });
+
+ */

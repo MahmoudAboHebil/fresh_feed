@@ -18,6 +18,7 @@ No Race Conditions:
 Transactions lock the document while they are running, preventing other processes from modifying the same document until the transaction completes.
 */
 
+/// todo: need to connect the view stream
 class FirestoreDatasource {
   FirestoreDatasource(this._firebaseService);
   final FirebaseService _firebaseService;
@@ -269,126 +270,212 @@ class FirestoreDatasource {
     }
   }
 
-  Future<List<Map<String, Object>>> getArticlesCommentsWhereInByIds(
-      List<String> articlesIds) async {
+  // version2 done
+  Future<void> addArticleComment(CommentModel model) async {
     try {
-      List<Map<String, Object>> allDocuments = [];
+      String commentId = model.id ??
+          FirebaseFirestore.instance
+              .collection('artComments')
+              .doc(model.articleId)
+              .collection('comments')
+              .doc()
+              .id;
 
-      for (int i = 0; i < articlesIds.length; i += 10) {
-        List<String> articlesBatch = articlesIds.sublist(
-            i, i + 10 > articlesIds.length ? articlesIds.length : i + 10);
-
-        QuerySnapshot querySnapshot = await _firebaseService.firestore
-            .collection('artComments')
-            .where(FieldPath.documentId, whereIn: articlesBatch)
-            .get();
-
-        List<Map<String, Object>> batchData = querySnapshot.docs
-            .map(
-              (snap) {
-                final data = snap.data() as Map<String, dynamic>?;
-
-                List<dynamic>? articleComments =
-                    snap.exists ? (data?['comments']) : null;
-
-                if (articleComments != null) {
-                  final listOfCommentsModel = articleComments
-                      .cast<String>()
-                      .map((String letter) =>
-                          CommentModel.fromJson(letter, snap.id))
-                      .toList();
-                  // ascending order
-                  listOfCommentsModel
-                      .sort((a, b) => a.dateTime.compareTo(b.dateTime));
-
-                  return {
-                    'articleId': snap.id,
-                    'comments': listOfCommentsModel
-                  };
-                }
-                return null;
-              },
-            )
-            .whereType<Map<String, Object>>()
-            .toList();
-        allDocuments.addAll(batchData);
-      }
-      List<Map<String, Object>> uniqueDocuments = [];
-      Set<String> seenArticleIDs = {};
-
-      for (var article in allDocuments) {
-        if (!seenArticleIDs.contains(article['articleId'])) {
-          seenArticleIDs.add(article['articleId'] as String);
-          uniqueDocuments.add(article);
-        }
-      }
-
-      return uniqueDocuments;
+      await _firebaseService.firestore
+          .collection('artComments')
+          .doc(model.articleId)
+          .collection('comments')
+          .doc(commentId)
+          .set(
+            model.copyWith(id: commentId).toJson(),
+            SetOptions(merge: true),
+          );
     } catch (e) {
       rethrow;
     }
   }
 
+  // version2 done
   Future<List<CommentModel>> getArticleComments(String articleId) async {
     try {
       final snap = await _firebaseService.firestore
           .collection('artComments')
           .doc(articleId)
+          .collection('comments')
+          .orderBy('dateTime', descending: true)
           .get();
 
-      List<dynamic>? list = snap.exists ? (snap.data()?['comments']) : null;
-      if (list != null) {
-        return list
-            .cast<String>()
-            .map((String letter) => CommentModel.fromJson(letter, articleId))
-            .toList();
-      } else {
-        return <CommentModel>[];
+      List<CommentModel> comments = [];
+
+      for (var doc in snap.docs) {
+        if (doc.exists) {
+          final model = CommentModel.fromJson(doc.data());
+          comments.add(model);
+        }
       }
+
+      return comments;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<void> addArticleComment(CommentModel model) async {
-    String letter = model.toJson(model);
+  // version2 done
+  Future<List<Map<String, Object>>> getArticlesCommentsWhereInByIds(
+      List<String> articlesIds) async {
     try {
-      await _firebaseService.firestore
-          .collection('artComments')
-          .doc(model.articleId)
-          .set(
-        {
-          'comments': FieldValue.arrayUnion([letter])
+      List<Map<String, Object>> allDocuments = [];
+
+      allDocuments = await Future.wait(articlesIds.map(
+        (id) async {
+          final comments = await getArticleComments(id);
+          return {'articleId': id, "comments": comments};
         },
-        SetOptions(merge: true),
-      );
+      ).toList());
+      return allDocuments;
     } catch (e) {
       rethrow;
     }
   }
 
+  // version2 done
+  Stream<List<CommentModel>> streamArticleComments(String articleId) {
+    return _firebaseService.firestore
+        .collection('artComments')
+        .doc(articleId)
+        .collection('comments')
+        .orderBy('dateTime', descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .where((doc) => doc.exists)
+          .map((doc) => CommentModel.fromJson(doc.data()))
+          .toList();
+    });
+  }
+
+  // version2 done
   Future<void> deleteArtComment(CommentModel model) async {
-    String letter = model.toJson(model);
     try {
       await _firebaseService.firestore
           .collection('artComments')
           .doc(model.articleId)
-          .set(
-        {
-          'comments': FieldValue.arrayRemove([letter])
-        },
-        SetOptions(merge: true),
-      );
+          .collection('comments')
+          .doc(model.id)
+          .delete();
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<void> updateArtComment(
-      String newMessage, CommentModel oldModel) async {
+  // version2 done
+  Future<void> updateArtComment({
+    String? newMessage,
+    required CommentModel oldModel,
+  }) async {
     try {
-      await deleteArtComment(oldModel);
-      await addArticleComment(oldModel.copyWith(comment: newMessage));
+      await addArticleComment(oldModel.copyWith(
+          comment: newMessage, modifiedDateTime: DateTime.now()));
+    } catch (e) {
+      rethrow;
+    }
+  }
+  //todo: you need to add methods about reply comments
+
+  // version2 done
+  Future<void> addArticleReplayComment(
+      String parentId, CommentModel replayCom) async {
+    try {
+      String commentId = replayCom.id ??
+          FirebaseFirestore.instance
+              .collection('replayComments')
+              .doc(replayCom.articleId)
+              .collection(parentId)
+              .doc()
+              .id;
+      await _firebaseService.firestore
+          .collection('replayComments')
+          .doc(replayCom.articleId)
+          .collection(parentId)
+          .doc(commentId)
+          .set(
+            replayCom.copyWith(id: commentId).toJson(),
+            SetOptions(merge: true),
+          );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // version2 done
+  Stream<List<CommentModel>> streamArticleReplayComments(
+      String articleId, String parentId) {
+    return _firebaseService.firestore
+        .collection('replayComments')
+        .doc(articleId)
+        .collection(parentId)
+        .orderBy('dateTime', descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .where((doc) => doc.exists)
+          .map((doc) => CommentModel.fromJson(doc.data()))
+          .toList();
+    });
+  }
+
+  // version2 done
+  Future<List<CommentModel>> getArticleReplayComments(
+      String articleId, String parentId) async {
+    try {
+      final snap = await _firebaseService.firestore
+          .collection('replayComments')
+          .doc(articleId)
+          .collection(parentId)
+          .orderBy('dateTime', descending: true)
+          .get();
+
+      List<CommentModel> comments = [];
+
+      for (var doc in snap.docs) {
+        if (doc.exists) {
+          final model = CommentModel.fromJson(doc.data());
+          comments.add(model);
+        }
+      }
+
+      return comments;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // version2 done
+  Future<void> deleteArtReplayComment(
+      CommentModel model, String parentId) async {
+    try {
+      await _firebaseService.firestore
+          .collection('replayComments')
+          .doc(model.articleId)
+          .collection(parentId)
+          .doc(model.id)
+          .delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // version2 done
+  Future<void> updateArtReplayComment({
+    String? newMessage,
+    required String parentId,
+    required CommentModel oldModel,
+  }) async {
+    try {
+      await addArticleReplayComment(
+          parentId,
+          oldModel.copyWith(
+              comment: newMessage, modifiedDateTime: DateTime.now()));
     } catch (e) {
       rethrow;
     }

@@ -35,11 +35,9 @@ class ForYouScreenData {
 class ForYouScreenDataNotifier extends AsyncNotifier<ForYouScreenData> {
   @override
   Future<ForYouScreenData> build() async {
-    print('ttttttttttt {build}');
     try {
       return await _fetchData();
     } catch (e, stc) {
-      print('ssssssssss');
       throw AsyncError(e, stc);
     }
   }
@@ -63,7 +61,6 @@ class ForYouScreenDataNotifier extends AsyncNotifier<ForYouScreenData> {
 
   Future<ForYouScreenData> _fetchData() async {
     try {
-      print('ttttttttttt {_fetchData}');
       throw AsyncError('s', StackTrace.current);
 
       List<Article> data;
@@ -94,12 +91,10 @@ class ForYouScreenDataNotifier extends AsyncNotifier<ForYouScreenData> {
   }
 
   void clearData() {
-    print('dddddddddddddddddddd c');
     state = const AsyncValue.data(ForYouScreenData.init());
   }
 
   Future<void> refreshData() async {
-    print('ttttttttttt {refreshData}');
     state = const AsyncValue.loading();
     try {
       final data = await _fetchData();

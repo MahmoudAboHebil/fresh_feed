@@ -1,4 +1,5 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -31,8 +32,8 @@ class FreshFeedApp extends ConsumerWidget {
  */
 
     return DevicePreview(
-      // enabled: !kReleaseMode,
-      enabled: false,
+      enabled: !kReleaseMode,
+      // enabled: false,
       builder: (context) {
         return AnnotatedRegion<SystemUiOverlayStyle>(
           value: SystemUiOverlayStyle(

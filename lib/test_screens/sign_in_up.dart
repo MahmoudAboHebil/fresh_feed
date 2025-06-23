@@ -5,7 +5,6 @@ import 'package:fresh_feed/providers/providers.dart';
 
 import '../generated/l10n.dart';
 import '../utils/app_alerts.dart';
-import 'articles_comment_page.dart';
 
 class SignInUp extends ConsumerStatefulWidget {
   const SignInUp({super.key});
@@ -234,6 +233,7 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                         onPressed: () async {
                           try {
                             if (articleID != null) {
+                              /*
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -243,6 +243,8 @@ class _SignInUpState extends ConsumerState<SignInUp> {
                                   ),
                                 ),
                               );
+
+                               */
                             }
                           } catch (e) {
                             print(e.toString());

@@ -6,7 +6,7 @@ import '../data/models/comment_model.dart';
 import '../data/models/news_models/news_article.dart';
 import '../providers/article_comment_provider.dart';
 import '../utils/app_alerts.dart';
-
+/*
 class ArticlesCommentPage extends ConsumerStatefulWidget {
   final String? userId;
   final List<Article> articles;
@@ -218,3 +218,6 @@ class _ArticleCompState extends ConsumerState<ArticleCommentComp> {
     );
   }
 }
+
+
+ */

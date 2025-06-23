@@ -4,10 +4,9 @@ import 'package:fresh_feed/utils/utlis.dart';
 import 'package:fresh_feed/widgets/widgets.dart';
 import 'package:gap/gap.dart';
 
-import '../../../data/models/news_models/news_article.dart';
 import '../../../providers/for_you_data_provider.dart';
 
-//todo: implement the clicking DurationArticleCarts widget to go to the article details page
+//todo: you must handling missing data at duration cart,....
 
 class ForYouContent extends ConsumerStatefulWidget {
   const ForYouContent({super.key});
@@ -18,7 +17,6 @@ class ForYouContent extends ConsumerStatefulWidget {
 
 class _HomeContentScreenState extends ConsumerState<ForYouContent> {
   bool isLoading = true;
-  List<Article> durationArticles = [];
   @override
   void initState() {
     super.initState();
@@ -236,10 +234,12 @@ class _HomeContentScreenState extends ConsumerState<ForYouContent> {
 
          */
       },
-      error: (error, stackTrace) => const AppErrorWidget(
-        buttonText: null,
-        callBack: null,
-      ),
+      error: (error, stackTrace) {
+        return const AppErrorWidget(
+          buttonText: null,
+          callBack: null,
+        );
+      },
       loading: () => CircularProgressIndicator(),
     );
   }

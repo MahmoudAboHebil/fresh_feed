@@ -3,13 +3,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fresh_feed/utils/extensions.dart';
 import 'package:gap/gap.dart';
 
-import '../data/models/models.dart';
-import '../utils/general_functions.dart';
+import '../../data/models/models.dart';
+import '../../utils/general_functions.dart';
 
 class UserReplayCommentListTile extends StatefulWidget {
-  const UserReplayCommentListTile(
-      {required this.user, required this.commentModel, super.key});
-  final UserModel user;
+  const UserReplayCommentListTile({required this.commentModel, super.key});
+
   final CommentModel commentModel;
 
   @override
@@ -24,12 +23,12 @@ class _UserReplayCommentListTileState extends State<UserReplayCommentListTile> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.user.profileImageUrl != null
+        widget.commentModel.userImageUrl != null
             ? CircleAvatar(
                 backgroundColor: Colors.transparent,
                 radius: context.setMinSize(14),
                 backgroundImage: NetworkImage(
-                  widget.user.profileImageUrl!,
+                  widget.commentModel.userImageUrl!,
                 ),
               )
             : Container(
@@ -60,7 +59,7 @@ class _UserReplayCommentListTileState extends State<UserReplayCommentListTile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.user.name,
+                          widget.commentModel.userName,
                           style: TextStyle(
                             color: context.textTheme.bodyLarge?.color,
                             fontWeight: FontWeight.w600,
@@ -105,7 +104,7 @@ class _UserReplayCommentListTileState extends State<UserReplayCommentListTile> {
                 children: [
                   StreamBuilder<DateTime>(
                     stream: Stream.periodic(
-                        Duration(minutes: 1), (_) => DateTime.now()),
+                        const Duration(minutes: 1), (_) => DateTime.now()),
                     initialData: DateTime.now(),
                     builder: (context, snapshot) {
                       return Text(

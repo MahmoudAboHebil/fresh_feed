@@ -2,11 +2,15 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:fresh_feed/utils/extensions.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
+import '../data/models/comment_model.dart';
+import '../data/models/user_model.dart';
 import '../generated/l10n.dart';
+import '../widgets/comment_feature_components/add_comment_bottom_sheet.dart';
 
 class GeneralFunctions {
   final BuildContext context;
@@ -164,6 +168,93 @@ class GeneralFunctions {
     } catch (e) {
       rethrow;
     }
+  }
+
+  static void showAddCommentBottomSheet(BuildContext context, UserModel user) {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      constraints: BoxConstraints(
+          minWidth: context.screenWidth, maxWidth: context.screenWidth),
+
+      isScrollControlled: true, // To push the sheet above the keyboard
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return StatefulBuilder(builder: (context, setDialogState) {
+          return AddCommentBottomSheet(
+            user: user,
+          );
+        });
+      },
+    );
+  }
+
+  Future<void> showEditeCommentMenu({
+    required CommentModel comment,
+    required BuildContext buttonContext,
+    required void Function(CommentModel) editCallBack,
+    required void Function(CommentModel) deleteCallBack,
+    required VoidCallback reportCallBack,
+  }) async {
+    /// todo: you need handle the language and the responsive
+
+    final RenderBox button = buttonContext.findRenderObject() as RenderBox;
+    final RenderBox overlay =
+        Overlay.of(buttonContext).context.findRenderObject() as RenderBox;
+
+    final Offset position =
+        button.localToGlobal(Offset.zero, ancestor: overlay);
+
+    await showMenu(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      context: buttonContext,
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy,
+        overlay.size.width,
+        overlay.size.height - position.dy,
+      ),
+      items: [
+        PopupMenuItem(
+          value: 'edit',
+          onTap: () {
+            editCallBack(comment);
+          },
+          child: Row(
+            children: [
+              Icon(Icons.edit, size: 18),
+              SizedBox(width: 8),
+              Text("Edit"),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'delete',
+          onTap: () {
+            deleteCallBack(comment);
+          },
+          child: Row(
+            children: [
+              Icon(Icons.delete, size: 18),
+              SizedBox(width: 8),
+              Text("Delete"),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'report',
+          child: Row(
+            children: [
+              Icon(Icons.flag, size: 18),
+              SizedBox(width: 8),
+              Text("Report"),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   Future<File?> cropImage(File imageFile) async {

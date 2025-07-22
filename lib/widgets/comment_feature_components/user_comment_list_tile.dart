@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fresh_feed/utils/extensions.dart';
-import 'package:fresh_feed/widgets/user_replay_comment_list_tile.dart';
+import 'package:fresh_feed/widgets/comment_feature_components/user_replay_comment_list_tile.dart';
 import 'package:gap/gap.dart';
 
-import '../data/models/models.dart';
-import '../utils/general_functions.dart';
+import '../../data/models/models.dart';
+import '../../utils/general_functions.dart';
 
 class UserCommentListTile extends StatefulWidget {
   const UserCommentListTile(
-      {required this.user, required this.commentModel, super.key});
-  final UserModel user;
+      {required this.commentModel,
+      required this.replayCallBack,
+      required this.editCallBack,
+      required this.deleteCallBack,
+      super.key});
+
   final CommentModel commentModel;
+  final void Function(CommentModel) replayCallBack;
+  final void Function(CommentModel) editCallBack;
+  final void Function(CommentModel) deleteCallBack;
 
   @override
   State<UserCommentListTile> createState() => _UserCommentListTileState();
@@ -26,35 +33,38 @@ class _UserCommentListTileState extends State<UserCommentListTile> {
       dateTime: DateTime.now(),
       articleId: "articleId",
       userId: "userId",
+      userName: 'ahmed',
     ),
     CommentModel(
-      id: "id",
-      comment:
-          "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaini",
-      dateTime: DateTime.now(),
-      articleId: "articleId",
-      userId: "userId",
-    ),
+        id: "id",
+        comment:
+            "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaini",
+        dateTime: DateTime.now(),
+        articleId: "articleId",
+        userId: "userId",
+        userName: 'mahmoud'),
     CommentModel(
-      id: "id",
-      comment: 'replay 3',
-      dateTime: DateTime.now(),
-      articleId: "articleId",
-      userId: "userId",
-    ),
+        id: "id",
+        comment: 'replay 3',
+        dateTime: DateTime.now(),
+        articleId: "articleId",
+        userId: "userId",
+        userName: 'Mohammed'),
   ];
+
   @override
   Widget build(BuildContext context) {
+    final generalFunction = GeneralFunctions(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.user.profileImageUrl != null
+        widget.commentModel.userImageUrl != null
             ? CircleAvatar(
                 backgroundColor: Colors.transparent,
                 radius: context.setMinSize(16),
                 backgroundImage: NetworkImage(
-                  widget.user.profileImageUrl!,
+                  widget.commentModel.userImageUrl!,
                 ),
               )
             : Container(
@@ -85,7 +95,7 @@ class _UserCommentListTileState extends State<UserCommentListTile> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.user.name,
+                          widget.commentModel.userName,
                           style: TextStyle(
                             color: context.textTheme.bodyLarge?.color,
                             fontWeight: FontWeight.w600,
@@ -106,14 +116,24 @@ class _UserCommentListTileState extends State<UserCommentListTile> {
                       ],
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: FaIcon(
-                      FontAwesomeIcons.ellipsisVertical,
-                      color: context.textTheme.bodyLarge?.color,
-                      size: context.setMinSize(18),
-                    ),
-                  ),
+                  Builder(builder: (buttonContext) {
+                    return IconButton(
+                      onPressed: () async {
+                        await generalFunction.showEditeCommentMenu(
+                          comment: widget.commentModel,
+                          buttonContext: buttonContext,
+                          editCallBack: widget.editCallBack,
+                          deleteCallBack: widget.deleteCallBack,
+                          reportCallBack: () {},
+                        );
+                      },
+                      icon: FaIcon(
+                        FontAwesomeIcons.ellipsisVertical,
+                        color: context.textTheme.bodyLarge?.color,
+                        size: context.setMinSize(18),
+                      ),
+                    );
+                  }),
                 ],
               ),
               Padding(
@@ -130,7 +150,7 @@ class _UserCommentListTileState extends State<UserCommentListTile> {
                 children: [
                   StreamBuilder<DateTime>(
                     stream: Stream.periodic(
-                        Duration(minutes: 1), (_) => DateTime.now()),
+                        const Duration(minutes: 1), (_) => DateTime.now()),
                     initialData: DateTime.now(),
                     builder: (context, snapshot) {
                       return Text(
@@ -149,13 +169,15 @@ class _UserCommentListTileState extends State<UserCommentListTile> {
                   Container(
                     margin: EdgeInsetsDirectional.symmetric(
                         horizontal: context.setWidth(8)),
-                    decoration: BoxDecoration(
-                        color: const Color(0xff9b9b9b), shape: BoxShape.circle),
+                    decoration: const BoxDecoration(
+                        color: Color(0xff9b9b9b), shape: BoxShape.circle),
                     width: 6,
                     height: 6,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      widget.replayCallBack(widget.commentModel);
+                    },
                     child: Text(
                       'Replay',
                       style: TextStyle(
@@ -172,8 +194,8 @@ class _UserCommentListTileState extends State<UserCommentListTile> {
                               Container(
                                 margin: EdgeInsetsDirectional.symmetric(
                                     horizontal: context.setWidth(8)),
-                                decoration: BoxDecoration(
-                                    color: const Color(0xff9b9b9b),
+                                decoration: const BoxDecoration(
+                                    color: Color(0xff9b9b9b),
                                     shape: BoxShape.circle),
                                 width: 6,
                                 height: 6,
@@ -212,7 +234,6 @@ class _UserCommentListTileState extends State<UserCommentListTile> {
                           ),
                           child: UserReplayCommentListTile(
                             key: UniqueKey(),
-                            user: widget.user,
                             commentModel: list[index],
                           ),
                         );

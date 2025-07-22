@@ -7,6 +7,8 @@ class CommentModel extends Equatable {
   final DateTime dateTime;
   final String? articleId;
   final String userId;
+  final String userName;
+  final String? userImageUrl;
   final DateTime? modifiedDateTime;
 
   const CommentModel({
@@ -16,6 +18,8 @@ class CommentModel extends Equatable {
     this.modifiedDateTime,
     required this.articleId,
     required this.userId,
+    required this.userName,
+    this.userImageUrl,
   });
 
   factory CommentModel.fromJson(dynamic json) {
@@ -30,6 +34,8 @@ class CommentModel extends Equatable {
         id: json['id'],
         articleId: json['articleId'],
         userId: json['userId'],
+        userName: json['userName'],
+        userImageUrl: json['userImageUrl'],
       );
     } catch (e) {
       rethrow;
@@ -43,6 +49,8 @@ class CommentModel extends Equatable {
       "comment": comment,
       "articleId": articleId,
       "userId": userId,
+      "userName": userName,
+      "userImageUrl": userImageUrl,
     };
   }
 
@@ -53,6 +61,8 @@ class CommentModel extends Equatable {
     DateTime? modifiedDateTime,
     String? articleId,
     String? userId,
+    String? userName,
+    String? userImageUrl,
   }) {
     return CommentModel(
       id: id ?? this.id,
@@ -61,6 +71,8 @@ class CommentModel extends Equatable {
       comment: comment ?? this.comment,
       articleId: articleId ?? this.articleId,
       userId: userId ?? this.userId,
+      userName: userName ?? this.userName,
+      userImageUrl: userImageUrl ?? this.userImageUrl,
     );
   }
 
@@ -69,6 +81,8 @@ class CommentModel extends Equatable {
   List<Object?> get props => [
         id,
         userId,
+        userName,
+        userImageUrl,
         articleId,
         dateTime,
         comment,
